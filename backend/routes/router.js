@@ -3,7 +3,10 @@ const app           =   express();
 const cors          =   require("cors");
 
 
-//BODY PARSER PRESET
+const CollectiveToken = require('./lib/Blockchain/CollectiveToken');
+
+
+//EXPRESS PRESET
 
 app.use(express.json());
 
@@ -30,6 +33,6 @@ app.use((req, res, next) => {
     }
 });
 
-
+app.use('/api',CollectiveToken);
 
 module.exports = app;
