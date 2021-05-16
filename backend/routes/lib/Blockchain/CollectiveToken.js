@@ -10,7 +10,7 @@ require('dotenv').config();
 //Web3 and contract setup
 ///////////////////////////
 
-const rpcURL = process.env.rpcUrl;
+const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 
 const web3 = new Web3(rpcURL);
 
@@ -31,21 +31,21 @@ const contract = new web3.eth.Contract(abi,contract_address)
 
 const account_address_1 = process.env.account_1;
 
-// Testing accounts
+// // Testing accounts
 
-const account_address_2 = process.env.account_2;
+// const account_address_2 = process.env.account_2;
 
-const account_address_3 = process.env.account_3;
+// const account_address_3 = process.env.account_3;
 
-const account_address_4 = process.env.account_4;
+// const account_address_4 = process.env.account_4;
 
-const account_address_5 = process.env.account_5;
+// const account_address_5 = process.env.account_5;
 
-// Trial account 
+// // Trial account 
 
-const account_address_6 = process.env.trial_account_1;
+// const account_address_6 = process.env.trial_account_1;
 
-const account_address_7 = process.env.trial_account_2;
+// const account_address_7 = process.env.trial_account_2;
 
 
 
@@ -57,21 +57,21 @@ const account_address_7 = process.env.trial_account_2;
 
 const privateKey1 = Buffer.from(process.env.privatekey_1,'hex');
 
-// Testing private key
+// // Testing private key
 
-const privateKey2 = Buffer.from(process.env.privatekey_2,'hex');
+// const privateKey2 = Buffer.from(process.env.privatekey_2,'hex');
 
-const privateKey3 = Buffer.from(process.env.privatekey_3,'hex');
+// const privateKey3 = Buffer.from(process.env.privatekey_3,'hex');
 
-const privateKey4 = Buffer.from(process.env.privatekey_4,'hex');
+// const privateKey4 = Buffer.from(process.env.privatekey_4,'hex');
 
-const privateKey5 = Buffer.from(process.env.privatekey_5,'hex');
+// const privateKey5 = Buffer.from(process.env.privatekey_5,'hex');
 
-// Trial accout private key 
+// // Trial accout private key 
 
-const privateKey6 = Buffer.from(process.env.trial_privatekey_1,'hex');
+// const privateKey6 = Buffer.from(process.env.trial_privatekey_1,'hex');
 
-const privateKey7 = Buffer.from(process.env.trial_privatekey_2,'hex');
+// const privateKey7 = Buffer.from(process.env.trial_privatekey_2,'hex');
 
 
 
