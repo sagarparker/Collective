@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:collective/screens/RegisterScreen.dart';
+import 'package:collective/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
-  static const routeName = '/loginScreen';
+class RegisterScreen extends StatelessWidget {
+  static const routeName = '/registerScreen';
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +53,19 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 250,
-                padding: const EdgeInsets.only(top: 35, left: 40, right: 40),
+                height: 280,
+                padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
                 child: Form(
                   child: ListView(
                     children: [
                       TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'Email / Username',
+                          labelText: 'Email',
+                        ),
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Username',
                         ),
                       ),
                       TextFormField(
@@ -81,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                             minimumSize: Size(double.infinity, 45),
                           ),
                           child: Text(
-                            'LOGIN',
+                            'REGISTER',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
@@ -94,13 +99,13 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 40),
+                margin: EdgeInsets.only(top: 15),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(RegisterScreen.routeName);
+                    Navigator.of(context).pushNamed(LoginScreen.routeName);
                   },
                   child: Text(
-                    'New User ? register here',
+                    'Existing user ? Login here',
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontSize: 16,

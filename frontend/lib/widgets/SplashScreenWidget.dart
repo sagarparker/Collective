@@ -5,13 +5,19 @@ import 'package:splashscreen/splashscreen.dart';
 class SplashScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SplashScreen(
-      seconds: 2,
-      navigateAfterSeconds: LoginScreen(),
-      image: Image.asset('assets/images/Logo.png'),
-      backgroundColor: Theme.of(context).backgroundColor,
-      photoSize: 60.0,
-      useLoader: false,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        padding: EdgeInsets.only(top: 230),
+        child: SplashScreen(
+          seconds: 1,
+          navigateAfterSeconds: LoginScreen(),
+          image: Image.asset('assets/images/Logo.png'),
+          backgroundColor: Theme.of(context).backgroundColor,
+          photoSize: 50.0,
+          useLoader: false,
+        ),
+      ),
     );
   }
 }

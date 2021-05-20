@@ -1,3 +1,5 @@
+import 'package:collective/screens/LoginScreen.dart';
+import 'package:collective/screens/RegisterScreen.dart';
 import 'package:collective/widgets/SplashScreenWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -14,13 +16,11 @@ class MyApp extends StatelessWidget {
           primaryColor: Color.fromRGBO(24, 119, 242, 1.0),
           backgroundColor: Colors.white,
           fontFamily: 'Avenir'),
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          margin: EdgeInsets.only(top: 220),
-          child: SplashScreenWidget(),
-        ),
-      ),
+      home: SplashScreenWidget(),
+      routes: {
+        LoginScreen.routeName: (ctx) => LoginScreen(),
+        RegisterScreen.routeName: (ctx) => RegisterScreen()
+      },
     );
   }
 }
