@@ -1,13 +1,16 @@
-import 'dart:ui';
-
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class RegisterScreen extends StatelessWidget {
   static const routeName = '/registerScreen';
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Theme.of(context).primaryColor,
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
@@ -16,7 +19,7 @@ class RegisterScreen extends StatelessWidget {
             children: [
               Container(
                 height: 80,
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 5),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                 ),
