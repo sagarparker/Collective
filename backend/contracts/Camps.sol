@@ -23,8 +23,11 @@ contract Camps {
     //Create a new camp on Collective
     
     function createCamp(string memory _camp, uint _target) public {
-         camps[_camp].campExists = true;
-         camps[_camp].target = _target;
+        require(camps[_camp].campExists == false,'Camp already exists');
+        require(_target > camps[_camp].target,'Target cannot be smaller than or equal to the target already issued');
+        camps[_camp].campExists = true;
+        camps[_camp].target = _target;
+        camps[_camp].targetReached = false;
     }
     
     
