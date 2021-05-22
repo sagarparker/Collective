@@ -16,17 +16,19 @@ contract Camps {
         uint fundingRaised;
         string[] angelList;
         uint target;
+        uint equity;
         bool targetReached;
     }
     
     
     //Create a new camp on Collective
     
-    function createCamp(string memory _camp, uint _target) public {
+    function createCamp(string memory _camp, uint _target, uint _equity) public {
         require(camps[_camp].campExists == false,'Camp already exists');
         require(_target > camps[_camp].target,'Target cannot be smaller than or equal to the target already issued');
         camps[_camp].campExists = true;
         camps[_camp].target = _target;
+        camps[_camp].equity = _equity;
         camps[_camp].targetReached = false;
     }
     
