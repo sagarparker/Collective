@@ -16,7 +16,7 @@ const web3 = new Web3(rpcURL);
 
 const CollectiveToken = require('../../../build/contracts/CollectiveToken.json');
 
-const contract_address = process.env.contract_address;
+const contract_address = process.env.ctv_contract_address;
 
 const abi = CollectiveToken.abi;
 

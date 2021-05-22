@@ -3,8 +3,8 @@ const app           =   express();
 const cors          =   require("cors");
 
 
-const CollectiveToken = require('./lib/Blockchain/CollectiveToken');
-
+const CollectiveToken   =   require('./lib/Blockchain/CollectiveToken');
+const Camps             =   require('./lib/Blockchain/Camps');
 
 //EXPRESS PRESET
 
@@ -33,6 +33,12 @@ app.use((req, res, next) => {
     }
 });
 
+
+// Blockchain APIs
+
 app.use('/api',CollectiveToken);
+
+app.use('/api',Camps);
+
 
 module.exports = app;
