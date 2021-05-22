@@ -37,6 +37,8 @@ const account_address_1 = process.env.account_1;
 const privateKey1 = Buffer.from(process.env.privatekey_1,'hex');
 
 
+// GET CAMP DETAILS
+
 router.post('/getCampDetails',
     body('camp_address').not().isEmpty(),
     async(req,res)=>{
@@ -75,6 +77,92 @@ router.post('/getCampDetails',
             })
         }
 });
+
+
+// GET NUMBERS OF ANGELS WHO INVESTED IN A CAMP
+
+router.post('/getCampsAngelInvestorsCount',
+    body('camp_address').not().isEmpty(),
+    async(req,res)=>{
+        try{
+            //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],   
+                });
+            }
+
+            const camp_address = req.body.camp_address;
+
+            const campAngelsList = await contract.methods.getAngelListLength(camp_address).call();
+
+            if(!campAngelsList){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching the count of angels'
+                })
+            }
+
+            return res.status(400).json({
+                result:true,
+                msg:'Camps Angels count fetched',
+                count:campAngelsList
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem fetching the count of angels '
+            })
+        }
+});
+
+
+// GET LIST OF ANGEL INVESTORS FOR A CAMP
+
+router.post('/getCampsAngelInvestors',
+    body('camp_address').not().isEmpty(),
+    async(req,res)=>{
+        try{
+            //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],   
+                });
+            }
+
+            const camp_address = req.body.camp_address;
+
+            const campAngelsList = await contract.methods.getAngelList(camp_address).call();
+
+            if(!campAngelsList){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching the list of angels'
+                })
+            }
+
+            return res.status(400).json({
+                result:true,
+                msg:'Camps Angels list fetched',
+                list:campAngelsList
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem fetching the list of angels '
+            })
+        }
+});
+
+
 
 
 
