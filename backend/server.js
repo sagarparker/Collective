@@ -5,7 +5,7 @@ const mongoose  = require("mongoose");
 
 // MongoDB connection
 
-mongoose.connect("mongodb+srv://sagarparker:hihellohi8@sagarparker.ccy2e.mongodb.net/collective?retryWrites=true&w=majority",
+mongoose.connect("mongodb+srv://sagarparker:hihellohi8@sagarparker.ccy2e.mongodb.net/collectiveDB?retryWrites=true&w=majority",
 { useNewUrlParser: true,
   useCreateIndex:true,
   useFindAndModify:false,
