@@ -9,6 +9,7 @@ const UserDetailsModel = require("../../../models/userDetailsModel");
 const { body, validationResult } = require("express-validator");
 const {generateToken,validateApiSecret,isAuthenticated}=require("./authHelper");
 
+require('dotenv').config();
 
 const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 
@@ -62,7 +63,7 @@ router.post('/userRegister',[
 
             // Using AES to encrypt the Ethereum private key
 
-            let ciphertext = CryptoJS.AES.encrypt(ethAccount.privateKey,req.body.password).toString();
+            let ciphertext = CryptoJS.AES.encrypt(ethAccount.privateKey,process.env.master_key).toString();
 
             //Saving user's auth details
 
@@ -89,7 +90,8 @@ router.post('/userRegister',[
               let payload = {
                 email     : newUserDetails.email,
                 username  : newUserDetails.username,
-                id        : newUserDetails._id
+                id        : newUserDetails._id,
+                eth_address : ethAccount.address
               };
 
               const token = generateToken(payload);
@@ -184,8 +186,7 @@ router.post('/userLogin',[
         email: userDetails[0].email,
         username:userDetails[0].username,
         id:userDetails[0]._id,
-        eth_address:userAuth[0].eth_address,
-        password:password
+        eth_address:userAuth[0].eth_address
       };
 
       // Create a JWT token

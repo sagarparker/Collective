@@ -3,8 +3,8 @@ const app           =   express();
 const cors          =   require("cors");
 
 
-const CollectiveToken   =   require('./lib/Blockchain/CollectiveToken');
-const Camps             =   require('./lib/Blockchain/Camps');
+const CollectiveToken   =   require('./lib/blockchain/CollectiveToken');
+const Camps             =   require('./lib/blockchain/Camps');
 const Auth              =   require('./lib/auth/userAuth');
 
 //EXPRESS PRESET
