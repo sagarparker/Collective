@@ -56,7 +56,7 @@ const account_address_1 = process.env.account_1;
 
 // Main private key - token generation
 
-const privateKey1 = Buffer.from(process.env.privatekey_1,'hex');
+const privateKey1 = Buffer.from(process.env.privateKey_1,'hex');
 
 // // Testing private key
 
