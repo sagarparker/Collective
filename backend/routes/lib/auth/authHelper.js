@@ -3,7 +3,9 @@ const jwt     = require("jsonwebtoken");
 const bcrypt  = require("bcryptjs");
 require("dotenv").config();
 
-//Validate Joyn API secret key
+
+
+//Validate Collective API secret key
 
 exports.validateApiSecret = (req,res,next) =>{
 
@@ -19,16 +21,18 @@ exports.validateApiSecret = (req,res,next) =>{
 
   bcrypt.compare(api_secret_key,process.env.api_secret_key, function(err, result) {
     if(err){
-      return res.status(401).json({error:err,msg:"Invalid Joyn API secret key"});
+      return res.status(401).json({error:err,msg:"Invalid Collective API secret key"});
     }
     if(!result){
-      return res.status(401).json({error:"Invalid Joyn API secret key"});
+      return res.status(401).json({error:"Invalid Collective API secret key"});
     }
     else{
      next(); 
     }
   });
 } 
+
+
 
 
 //Generate token
@@ -38,6 +42,8 @@ exports.generateToken = (payload) => {
     expiresIn: "90d",
   });
 };
+
+
 
 
 //Check for authentication

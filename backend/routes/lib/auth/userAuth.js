@@ -8,7 +8,6 @@ const UserAuthModel = require("../../../models/userAuthModel");
 const UserDetailsModel = require("../../../models/userDetailsModel");
 const { body, validationResult } = require("express-validator");
 const {generateToken,validateApiSecret,isAuthenticated}=require("./authHelper");
-const { result, stubFalse } = require('lodash');
 
 
 const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
@@ -185,6 +184,7 @@ router.post('/userLogin',[
         email: userDetails[0].email,
         username:userDetails[0].username,
         id:userDetails[0]._id,
+        eth_address:userAuth[0].eth_address,
         password:password
       };
 
@@ -212,7 +212,7 @@ router.post('/userLogin',[
 
 
 
-//Verify if the user is a verified user with a valid token.
+//Verify if the user is a registered user with a valid token.
 
 router.post('/verifyUser',
   validateApiSecret,
@@ -221,6 +221,7 @@ router.post('/verifyUser',
     try{
       const userData = await UserAuthModel.find({ $or:[ {email:req.decoded.email},{username:req.decoded.username}]});
       if(userData.length>0){
+        console.log(req.decoded);
         res.status(200).json({
           msg:"User is a valid registered Collective user",
           result:true

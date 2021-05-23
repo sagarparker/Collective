@@ -3,6 +3,7 @@ const router    =   express.Router();
 const Tx        =   require('ethereumjs-tx').Transaction;
 const Web3      =   require('web3');
 const { body, validationResult } = require("express-validator");
+const { generateToken,validateApiSecret,isAuthenticated }   =   require("../auth/authHelper");
 require('dotenv').config();
 
 
@@ -77,33 +78,36 @@ const privateKey1 = Buffer.from(process.env.privatekey_1,'hex');
 
 // Get users account balance
 
-router.get('/getAccountBalance',async(req,res)=>{
-    try{
-        const ctvBalance = await contract.methods.balanceOf(account_address_1).call();
-        const ethBalance = await web3.eth.getBalance(account_address_1);
+router.get('/getAccountBalance',
+    validateApiSecret,
+    isAuthenticated,
+    async(req,res)=>{
+        try{
+            const ctvBalance = await contract.methods.balanceOf(req.decoded.eth_address).call();
+            const ethBalance = await web3.eth.getBalance(req.decoded.eth_address);
 
-        if(!ctvBalance || !ethBalance){
-            return res.status(500).json({
+            if(!ctvBalance || !ethBalance){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching the users account balance'
+                })
+            }
+
+            return res.status(400).json({
+                result:true,
+                msg:'Account balance fetched',
+                CTV_balance:ctvBalance+" CTV",
+                ETH_balance:ethBalance+" wei"
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
                 result:false,
                 msg:'There was a problem fetching the users account balance'
             })
         }
-
-        return res.status(400).json({
-            result:true,
-            msg:'Account balance fetched',
-            CTV_balance:ctvBalance+" CTV",
-            ETH_balance:ethBalance+" wei"
-        });
-        
-    }
-    catch(err){
-        console.log(err);
-        res.status(500).json({
-            result:false,
-            msg:'There was a problem fetching the users account balance'
-        })
-    }
 });
 
 

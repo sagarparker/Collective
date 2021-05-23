@@ -13,6 +13,10 @@ profile_picture         :   {
                                 type:String,
                                 default:'NA'
                             },        
+camps_owned             :   [{
+                                type:mongoose.Schema.Types.ObjectId,
+                                ref:'CampDetails'
+                            }]
 });
 
 module.exports = mongoose.model("UserDetails",userDetailsSchema);
