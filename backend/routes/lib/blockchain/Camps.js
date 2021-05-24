@@ -18,6 +18,8 @@ const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 
 const web3 = new Web3(rpcURL);
 
+
+
 const Camps = require('../../../build/contracts/Camps.json');
 
 const contract_address = process.env.camps_contract_address;
@@ -25,6 +27,7 @@ const contract_address = process.env.camps_contract_address;
 const abi = Camps.abi;
 
 const contract = new web3.eth.Contract(abi,contract_address);
+
 
 
 ////////////////////////////////////
@@ -52,6 +55,9 @@ router.post('/createCamp',
     isAuthenticated,
     async(req,res)=>{
         try{
+
+            web3.eth.handleRevert = true;
+
             //Input field validation
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -77,7 +83,7 @@ router.post('/createCamp',
                 to:       contract_address,
                 gasLimit: web3.utils.toHex(500000),
                 gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
-                data: contract.methods.createCamp(camp_name,camp_target,camp_equity).catch((e)=>{console.log(e)}).encodeABI()
+                data: contract.methods.createCamp(camp_name,camp_target,camp_equity).encodeABI()
             }
         
             // Sign the transaction
@@ -86,28 +92,20 @@ router.post('/createCamp',
         
             const serializedTx = tx.serialize()
             const raw = '0x' + serializedTx.toString('hex')
-        
+
+
             // Broadcast the transaction
-            await web3.eth.sendSignedTransaction(raw).on('revert',(revert)=>{
-                console.log(revert);
-            });
-            // console.log(sendTransaction);
-            // if(!sendTransaction){
-                
-            //     return res.status(500).json({
-            //         result:false,
-            //         msg:'There was a problem creating the camp'
-            //     })
-            // }
+            await web3.eth.sendSignedTransaction(raw);
 
             return res.status(200).json({
                 result:true,
-                msg:'Camp created',
-                // camp: sendTransaction
+                msg:'Camp created'
             });
             
         }
         catch(err){
+            console.log(err);
+            // console.log(web3.utils.hexToAscii(err.receipt.logsBloom));
             res.status(500).json({
                 result:false,
                 msg:'There was a problem creating a camp'
