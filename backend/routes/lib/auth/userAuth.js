@@ -91,7 +91,8 @@ router.post('/userRegister',[
                 email     : newUserDetails.email,
                 username  : newUserDetails.username,
                 id        : newUserDetails._id,
-                eth_address : ethAccount.address
+                eth_address:ethAccount.address,
+                eth_private_key:ciphertext
               };
 
               const token = generateToken(payload);
@@ -186,7 +187,8 @@ router.post('/userLogin',[
         email: userDetails[0].email,
         username:userDetails[0].username,
         id:userDetails[0]._id,
-        eth_address:userAuth[0].eth_address
+        eth_address:userAuth[0].eth_address,
+        eth_private_key:userAuth[0].eth_private_key
       };
 
       // Create a JWT token
