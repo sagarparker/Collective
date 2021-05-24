@@ -3,7 +3,7 @@ const router    =   express.Router();
 const Tx        =   require('ethereumjs-tx').Transaction;
 const Web3      =   require('web3');
 const { body, validationResult } = require("express-validator");
-const { generateToken,validateApiSecret,isAuthenticated }   =   require("../auth/authHelper");
+const { validateApiSecret,isAuthenticated }   =   require("../auth/authHelper");
 require('dotenv').config();
 
 
@@ -93,7 +93,7 @@ router.get('/getAccountBalance',
                 })
             }
 
-            return res.status(400).json({
+            return res.status(200).json({
                 result:true,
                 msg:'Account balance fetched',
                 CTV_balance:ctvBalance+" CTV",
@@ -273,7 +273,7 @@ router.post('/getAllowance',
                 })
             }
 
-            return res.status(400).json({
+            return res.status(200).json({
                 result:true,
                 msg:'Allowance for account fetched',
                 allowance:allowance

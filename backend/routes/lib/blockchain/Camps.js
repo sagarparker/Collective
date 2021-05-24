@@ -2,8 +2,12 @@ const express   =   require('express');
 const router    =   express.Router();
 const Tx        =   require('ethereumjs-tx').Transaction;
 const Web3      =   require('web3');
-const { body, validationResult } = require("express-validator");
+const { body, validationResult }    =   require("express-validator");
+const { validateApiSecret,isAuthenticated }   =   require("../auth/authHelper");
+
 require('dotenv').config();
+
+const CampModel =   require('../../../models/campDetailsMode');
 
 
 ///////////////////////////
@@ -30,17 +34,22 @@ const contract = new web3.eth.Contract(abi,contract_address);
 
 //Main account with which contract is deployed
 
-const account_address_1 = process.env.account_1;
+const account_address = process.env.account_1;
 
 // Main private key - token generation
 
-const privateKey1 = Buffer.from(process.env.privateKey_1,'hex');
+const privateKey = Buffer.from(process.env.privateKey_1,'hex');
 
 
-// GET CAMP DETAILS
 
-router.post('/getCampDetails',
-    body('camp_address').not().isEmpty(),
+// GET LIST OF ANGEL INVESTORS FOR A CAMP
+
+router.post('/createCamp',
+    body('camp_name').not().isEmpty(),
+    body('camp_target').not().isEmpty(),
+    body('camp_equity').not().isEmpty(),
+    validateApiSecret,
+    isAuthenticated,
     async(req,res)=>{
         try{
             //Input field validation
@@ -51,9 +60,80 @@ router.post('/getCampDetails',
                 });
             }
 
-            const camp_address = req.body.camp_address;
+            const camp_name     =   req.body.camp_name;
+            const camp_target   =   req.body.camp_target;
+            const camp_equity   =   req.body.camp_equity;
 
-            const campDetails = await contract.methods.camps(camp_address).call();
+            const txCount = await web3.eth.getTransactionCount(account_address);
+            if(!txCount){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem creating a Camp'
+                })
+            }
+            // Build the transaction
+            const txObject = {
+                nonce:    web3.utils.toHex(txCount),
+                to:       contract_address,
+                gasLimit: web3.utils.toHex(500000),
+                gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
+                data: contract.methods.createCamp(camp_name,camp_target,camp_equity).catch((e)=>{console.log(e)}).encodeABI()
+            }
+        
+            // Sign the transaction
+            const tx = new Tx(txObject,{chain:42})
+            tx.sign(privateKey)
+        
+            const serializedTx = tx.serialize()
+            const raw = '0x' + serializedTx.toString('hex')
+        
+            // Broadcast the transaction
+            await web3.eth.sendSignedTransaction(raw).on('revert',(revert)=>{
+                console.log(revert);
+            });
+            // console.log(sendTransaction);
+            // if(!sendTransaction){
+                
+            //     return res.status(500).json({
+            //         result:false,
+            //         msg:'There was a problem creating the camp'
+            //     })
+            // }
+
+            return res.status(200).json({
+                result:true,
+                msg:'Camp created',
+                // camp: sendTransaction
+            });
+            
+        }
+        catch(err){
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem creating a camp'
+            })
+        }
+});
+
+
+
+// GET CAMP DETAILS
+
+router.post('/getCampDetails',
+    body('camp_name').not().isEmpty(),
+    async(req,res)=>{
+        try{
+            //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],   
+                });
+            }
+
+            const camp_name = req.body.camp_name;
+
+            const campDetails = await contract.methods.camps(camp_name).call();
 
             if(!campDetails){
                 return res.status(500).json({
@@ -62,7 +142,7 @@ router.post('/getCampDetails',
                 })
             }
 
-            return res.status(400).json({
+            return res.status(200).json({
                 result:true,
                 msg:'Camp details fetched',
                 details:campDetails
@@ -104,7 +184,7 @@ router.post('/getCampsAngelInvestorsCount',
                 })
             }
 
-            return res.status(400).json({
+            return res.status(200).json({
                 result:true,
                 msg:'Camps Angels count fetched',
                 count:campAngelsList
@@ -146,7 +226,7 @@ router.post('/getCampsAngelInvestors',
                 })
             }
 
-            return res.status(400).json({
+            return res.status(200).json({
                 result:true,
                 msg:'Camps Angels list fetched',
                 list:campAngelsList
@@ -161,7 +241,6 @@ router.post('/getCampsAngelInvestors',
             })
         }
 });
-
 
 
 
