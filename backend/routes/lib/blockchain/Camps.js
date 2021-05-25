@@ -47,7 +47,7 @@ const privateKey = Buffer.from(process.env.privateKey_1,'hex');
 
 
 
-// GET LIST OF ANGEL INVESTORS FOR A CAMP
+// CREATE A NEW CROWFUNDING CAMP ON COLLECTIVE
 
 router.post('/createCamp',
     body('camp_name').not().isEmpty(),
@@ -148,6 +148,81 @@ router.post('/createCamp',
             res.status(500).json({
                 result:false,
                 msg:'There was a problem creating the camp - Camp name needs to be unique and the target cannot be lower or equal to the one alreay set'
+            })
+        }
+});
+
+
+
+// BUY EQUITY IN CAMP
+
+router.post('/buyEquity',
+    body('camp_name').not().isEmpty(),
+    body('amount').not().isEmpty(),
+    validateApiSecret,
+    isAuthenticated,
+    async(req,res)=>{
+        try{
+
+            //web3.eth.handleRevert = true;
+
+            //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],   
+                });
+            }
+
+            const angel_address =   req.decoded.eth_address;
+            const camp_name     =   req.body.camp_name;
+            const amount        =   req.body.amount
+
+
+            const txCount = await web3.eth.getTransactionCount(account_address);
+            if(!txCount){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem creating a Camp'
+                })
+            }
+            // Build the transaction
+            const txObject = {
+                nonce:    web3.utils.toHex(txCount),
+                to:       contract_address,
+                gasLimit: web3.utils.toHex(500000),
+                gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
+                data: contract.methods.buyEquity(angel_address,camp_name,amount).encodeABI()
+            }
+        
+            // Sign the transaction
+            const tx = new Tx(txObject,{chain:42})
+            tx.sign(privateKey)
+        
+            const serializedTx = tx.serialize()
+            const raw = '0x' + serializedTx.toString('hex')
+
+
+            // Broadcast the transaction
+
+            const transactionDetails = await web3.eth.sendSignedTransaction(raw);
+            if(transactionDetails.logs.length>0){
+                console.log("Camp's target reached");
+            }
+
+            return res.status(200).json({
+                result:true,
+                msg:'Equity bought',
+                camp:transactionDetails
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            // console.log(web3.utils.hexToAscii(err.receipt.logsBloom));
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem buying equity in the camp'
             })
         }
 });
