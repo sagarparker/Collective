@@ -4,7 +4,9 @@ var campDetailsSchema = new mongoose.Schema({
 name            :   {
                         type:String,
                         default:'NA',
-                        required:true
+                        required:true,
+                        unique:true,
+                        index:true
                     },
 owner           :   {
                         type:String,

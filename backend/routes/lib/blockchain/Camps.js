@@ -2,12 +2,15 @@ const express   =   require('express');
 const router    =   express.Router();
 const Tx        =   require('ethereumjs-tx').Transaction;
 const Web3      =   require('web3');
+const moment    =   require('moment-timezone');
 const { body, validationResult }    =   require("express-validator");
 const { validateApiSecret,isAuthenticated }   =   require("../auth/authHelper");
 
 require('dotenv').config();
 
-const CampModel =   require('../../../models/campDetailsMode');
+const CampModel         =   require('../../../models/campDetailsMode');
+const UserDetailsModel  =   require("../../../models/userDetailsModel");
+
 
 
 ///////////////////////////
@@ -17,7 +20,6 @@ const CampModel =   require('../../../models/campDetailsMode');
 const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 
 const web3 = new Web3(rpcURL);
-
 
 
 const Camps = require('../../../build/contracts/Camps.json');
@@ -56,7 +58,7 @@ router.post('/createCamp',
     async(req,res)=>{
         try{
 
-            web3.eth.handleRevert = true;
+            //web3.eth.handleRevert = true;
 
             //Input field validation
             const errors = validationResult(req);
@@ -95,11 +97,48 @@ router.post('/createCamp',
 
 
             // Broadcast the transaction
-            await web3.eth.sendSignedTransaction(raw);
+
+            const camp = await web3.eth.sendSignedTransaction(raw);
+
+
+            // Saving camp details to the database
+
+            const campDetails = new CampModel({
+                name        :   req.body.camp_name,  
+                owner       :   req.decoded.username,
+                createdOn   :   moment().format('MMMM Do YYYY, h:mm:ss a'),
+                target      :   req.body.camp_target,
+                equity      :   req.body.camp_equity
+            });
+            
+
+            const newCampDetails = await CampModel.create(campDetails);
+
+            if(!newCampDetails){
+                return res.status(400).json({
+                    result:false,
+                    msg:'There was a problem creating the camp',
+                });
+            }
+
+
+            // Saving the camp id to userdetails
+
+            const userDetailsUpdate = await UserDetailsModel.findOneAndUpdate({username:req.decoded.username},{
+                $addToSet:{camps_owned:newCampDetails.id}
+            })
+
+            if(!userDetailsUpdate){
+                return res.status(400).json({
+                    result:false,
+                    msg:'There was a problem creating the camp',
+                });
+            }
 
             return res.status(200).json({
                 result:true,
-                msg:'Camp created'
+                msg:'Camp created',
+                camp:newCampDetails
             });
             
         }
@@ -108,7 +147,7 @@ router.post('/createCamp',
             // console.log(web3.utils.hexToAscii(err.receipt.logsBloom));
             res.status(500).json({
                 result:false,
-                msg:'There was a problem creating a camp'
+                msg:'There was a problem creating the camp - Camp name needs to be unique and the target cannot be lower or equal to the one alreay set'
             })
         }
 });
@@ -155,6 +194,7 @@ router.post('/getCampDetails',
             })
         }
 });
+
 
 
 // GET NUMBERS OF ANGELS WHO INVESTED IN A CAMP
