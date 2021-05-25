@@ -25,7 +25,6 @@ contract Camps {
     
     function createCamp(string memory _camp, uint _target, uint _equity) public {
         require(camps[_camp].campExists == false,"Camp already exists");
-        require(_target > camps[_camp].target,"Target cannot be smaller than or equal to the target already issued");
         camps[_camp].campExists = true;
         camps[_camp].target = _target;
         camps[_camp].equity = _equity;
@@ -41,9 +40,8 @@ contract Camps {
     // Buying equity in the camp
     
     function buyEquity(string memory _angel,string memory _camp,uint _amount) public {
-        require(camps[_camp].campExists == true,'Camp not found');
+        require(camps[_camp].campExists == true && camps[_camp].targetReached == false,'Camp not found');
         if(camps[_camp].fundingRaised + _amount >= camps[_camp].target){
-            camps[_camp].campExists = false;
             camps[_camp].targetReached = true;
         }
         funding[_camp][_angel] = funding[_camp][_angel] + _amount;

@@ -80,11 +80,20 @@ const privateKey1 = Buffer.from(process.env.privateKey_1,'hex');
 
 router.get('/getAccountBalance',
     validateApiSecret,
-    isAuthenticated,
+    body('account_address').not().isEmpty(),
     async(req,res)=>{
         try{
-            const ctvBalance = await contract.methods.balanceOf(req.decoded.eth_address).call();
-            const ethBalance = await web3.eth.getBalance(req.decoded.eth_address);
+
+             //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],   
+                });
+            }
+
+            const ctvBalance = await contract.methods.balanceOf(req.body.account_address).call();
+            const ethBalance = await web3.eth.getBalance(req.body.account_address);
 
             if(!ctvBalance || !ethBalance){
                 return res.status(500).json({

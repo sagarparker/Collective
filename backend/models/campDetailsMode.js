@@ -27,7 +27,18 @@ equity          :   {
                         type:String,
                         default:'NA',
                         required:true
-                    }
+                    },
+address         :   {
+                        type:String,
+                        default:'NA',
+                        required:true
+                    },
+privatekey      :   {
+                        type:String,
+                        default:'NA',
+                        required:true
+                    },
+
 });
 
 module.exports = mongoose.model("CampDetails",campDetailsSchema);

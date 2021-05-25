@@ -3,6 +3,8 @@ const router    =   express.Router();
 const Tx        =   require('ethereumjs-tx').Transaction;
 const Web3      =   require('web3');
 const moment    =   require('moment-timezone');
+const CryptoJS  =   require("crypto-js");
+const axios     =   require('axios');
 const { body, validationResult }    =   require("express-validator");
 const { validateApiSecret,isAuthenticated }   =   require("../auth/authHelper");
 
@@ -61,6 +63,7 @@ router.post('/createCamp',
             //web3.eth.handleRevert = true;
 
             //Input field validation
+
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
@@ -71,6 +74,36 @@ router.post('/createCamp',
             const camp_name     =   req.body.camp_name;
             const camp_target   =   req.body.camp_target;
             const camp_equity   =   req.body.camp_equity;
+
+
+            // Checking if the camp name already exists
+
+            const campExists    =   await CampModel.findOne({name:camp_name});
+
+            if(campExists){
+                return res.status(400).json({
+                    result:false,
+                    msg:'Camp already exists'
+                })
+            }
+
+            // Create a eth account for camp
+
+            const ethAccount    =   await web3.eth.accounts.create();
+
+            if(!ethAccount){
+              return res.status(400).json({
+                msg:"There was a problem creating ETH account for the user",
+                result:false
+              });
+            }
+
+            // Using AES to encrypt the Ethereum private key
+
+            let ciphertext = CryptoJS.AES.encrypt(ethAccount.privateKey,process.env.master_key).toString();
+
+
+            // Saving the camp on Ethereum SC.
 
             const txCount = await web3.eth.getTransactionCount(account_address);
             if(!txCount){
@@ -85,7 +118,7 @@ router.post('/createCamp',
                 to:       contract_address,
                 gasLimit: web3.utils.toHex(500000),
                 gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
-                data: contract.methods.createCamp(camp_name,camp_target,camp_equity).encodeABI()
+                data: contract.methods.createCamp(ethAccount.address,camp_target,camp_equity).encodeABI()
             }
         
             // Sign the transaction
@@ -98,17 +131,20 @@ router.post('/createCamp',
 
             // Broadcast the transaction
 
-            const camp = await web3.eth.sendSignedTransaction(raw);
+            await web3.eth.sendSignedTransaction(raw);
+
 
 
             // Saving camp details to the database
 
             const campDetails = new CampModel({
-                name        :   req.body.camp_name,  
+                name        :   camp_name,  
                 owner       :   req.decoded.username,
                 createdOn   :   moment().format('MMMM Do YYYY, h:mm:ss a'),
-                target      :   req.body.camp_target,
-                equity      :   req.body.camp_equity
+                target      :   camp_target,
+                equity      :   camp_equity,
+                address     :   ethAccount.address,   
+                privatekey  :   ciphertext
             });
             
 
@@ -147,7 +183,7 @@ router.post('/createCamp',
             // console.log(web3.utils.hexToAscii(err.receipt.logsBloom));
             res.status(500).json({
                 result:false,
-                msg:'There was a problem creating the camp - Camp name needs to be unique and the target cannot be lower or equal to the one alreay set'
+                msg:'There was a problem creating the camp. Note - Camp name needs to be unique.'
             })
         }
 });
@@ -157,7 +193,7 @@ router.post('/createCamp',
 // BUY EQUITY IN CAMP
 
 router.post('/buyEquity',
-    body('camp_name').not().isEmpty(),
+    body('camp_address').not().isEmpty(),
     body('amount').not().isEmpty(),
     validateApiSecret,
     isAuthenticated,
@@ -174,9 +210,9 @@ router.post('/buyEquity',
                 });
             }
 
-            const angel_address =   req.decoded.eth_address;
-            const camp_name     =   req.body.camp_name;
-            const amount        =   req.body.amount
+            const angel_address     =   req.decoded.eth_address;
+            const camp_address      =   req.body.camp_address;
+            const amount            =   req.body.amount
 
 
             const txCount = await web3.eth.getTransactionCount(account_address);
@@ -192,7 +228,7 @@ router.post('/buyEquity',
                 to:       contract_address,
                 gasLimit: web3.utils.toHex(500000),
                 gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
-                data: contract.methods.buyEquity(angel_address,camp_name,amount).encodeABI()
+                data: contract.methods.buyEquity(angel_address,camp_address,amount).encodeABI()
             }
         
             // Sign the transaction
@@ -209,13 +245,38 @@ router.post('/buyEquity',
             if(transactionDetails.logs.length>0){
                 console.log("Camp's target reached");
             }
-
-            return res.status(200).json({
-                result:true,
-                msg:'Equity bought',
-                camp:transactionDetails
-            });
-            
+            if(transactionDetails){
+                var data = JSON.stringify({
+                    "transfer_address": camp_address,
+                    "amount": amount
+                });
+                  
+                var config = {
+                method: 'post',
+                url: 'http://localhost:8080/api/transferCTV',
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
+                data : data
+                };
+                
+                axios(config)
+                .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    return res.status(200).json({
+                        result:true,
+                        msg:'Equity bought',
+                        camp:transactionDetails
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    res.status(500).json({
+                        result:false,
+                        msg:'There was a problem transgering CTV token to the camp'
+                    })
+                });
+            }
         }
         catch(err){
             console.log(err);
@@ -232,7 +293,7 @@ router.post('/buyEquity',
 // GET CAMP DETAILS
 
 router.post('/getCampDetails',
-    body('camp_name').not().isEmpty(),
+    body('camp_address').not().isEmpty(),
     async(req,res)=>{
         try{
             //Input field validation
@@ -243,9 +304,9 @@ router.post('/getCampDetails',
                 });
             }
 
-            const camp_name = req.body.camp_name;
+            const camp_address = req.body.camp_address;
 
-            const campDetails = await contract.methods.camps(camp_name).call();
+            const campDetails = await contract.methods.camps(camp_address).call();
 
             if(!campDetails){
                 return res.status(500).json({
@@ -266,6 +327,51 @@ router.post('/getCampDetails',
             res.status(500).json({
                 result:false,
                 msg:'There was a problem fetching the camp details'
+            })
+        }
+});
+
+
+
+// GET FUNDING DETAILS
+
+router.post('/getFundingDetails',
+    body('camp_address').not().isEmpty(),
+    body('angel_address').not().isEmpty(),
+    async(req,res)=>{
+        try{
+            //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],   
+                });
+            }
+
+            const camp_address  =   req.body.camp_address;
+            const angel_address =   req.body.angel_address;
+
+            const fundingDetails = await contract.methods.funding(camp_address,angel_address).call();
+
+            if(!fundingDetails){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching the funding details for the camp'
+                })
+            }
+
+            return res.status(200).json({
+                result:true,
+                msg:"User's funding towards camp fetched",
+                details:fundingDetails
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem fetching the funding details for the camp'
             })
         }
 });
