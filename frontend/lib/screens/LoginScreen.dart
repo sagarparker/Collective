@@ -1,9 +1,29 @@
+import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/screens/RegisterScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class LoginScreen extends StatelessWidget {
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+class LoginScreen extends StatefulWidget {
   static const routeName = '/loginScreen';
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailUsernameController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
+  @override
+  void dispose() {
+    emailUsernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,17 +85,45 @@ class LoginScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'Email / Username',
                         ),
+                        controller: emailUsernameController,
                       ),
                       TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Password',
                         ),
                         obscureText: true,
+                        controller: passwordController,
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 25),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            userLogin(emailUsernameController.text,
+                                    passwordController.text)
+                                .then(
+                              (data) async {
+                                if (data['result'] == false) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                      "Invalid credentials",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ));
+                                } else {
+                                  Navigator.of(context).pushReplacementNamed(
+                                      HomeScreen.routeName);
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                      "Login successfull",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ));
+                                }
+                              },
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
                             primary: Theme.of(context).primaryColor,
@@ -117,4 +165,21 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<dynamic> userLogin(String emailusername, String password) async {
+  var headers = {
+    'x-api-key':
+        '8\$dsfsfgreb6&4w5fsdjdjkje#\$54757jdskjrekrm@#\$@\$%&8fdddg*&*ffdsds',
+    'Content-Type': 'application/json'
+  };
+  var request =
+      http.Request('POST', Uri.parse('http://3.15.217.59:8080/api/userLogin'));
+  request.body =
+      json.encode({"email_username": emailusername, "password": password});
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  return jsonDecode(await response.stream.bytesToString());
 }

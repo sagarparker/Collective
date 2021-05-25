@@ -1,3 +1,4 @@
+import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:collective/screens/RegisterScreen.dart';
 import 'package:collective/widgets/SplashScreenWidget.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       home: SplashScreenWidget(),
       routes: {
         LoginScreen.routeName: (ctx) => LoginScreen(),
-        RegisterScreen.routeName: (ctx) => RegisterScreen()
+        RegisterScreen.routeName: (ctx) => RegisterScreen(),
+        HomeScreen.routeName: (ctx) => HomeScreen()
       },
     );
   }
