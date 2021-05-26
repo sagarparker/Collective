@@ -345,7 +345,7 @@ router.post('/transferCTVbetweenUsers',
         const txObject1 = {
             nonce:    web3.utils.toHex(txCount),
             to:       owner_address,
-            value:    web3.utils.toHex(web3.utils.toWei('100000', 'gwei')),
+            value:    web3.utils.toHex(web3.utils.toWei('200000', 'gwei')),
             gasLimit: web3.utils.toHex(21000),
             gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
         }
@@ -376,12 +376,6 @@ router.post('/transferCTVbetweenUsers',
         //////////////////////////////////////////////////////////////
     
         const ownertxCount = await web3.eth.getTransactionCount(owner_address);
-        if(!ownertxCount){
-            return res.status(500).json({
-                result:false,
-                msg:'There was a problem getting approval for transaction'
-            })
-        }
 
         // Build the transaction
         const txObject2 = {
@@ -420,21 +414,16 @@ router.post('/transferCTVbetweenUsers',
 
         const ownertxCountUpdated = await  web3.eth.getTransactionCount(owner_address);
 
-        if(!ownertxCountUpdated){
-            return res.status(500).json({
-                result:false,
-                msg:'There was a problem transferring CTV'
-            })
-        }
      
         // Build the transaction
         const txObject3 = {  
             nonce:    web3.utils.toHex(ownertxCountUpdated),
             to:       contract_address,
-            gasLimit: web3.utils.toHex(50000),
+            gasLimit: web3.utils.toHex(100000),
             gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
             data: contract.methods.transferFrom(owner_address,transfer_address,amount).encodeABI()
         }
+
         
         // Sign the transaction2
         const tx3 = new Tx(txObject3,{chain:42})

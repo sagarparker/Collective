@@ -246,36 +246,43 @@ router.post('/buyEquity',
                 console.log("Camp's target reached");
             }
             if(transactionDetails){
+                const buyer_private_key = req.decoded.eth_private_key;
+                let bytes  = CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
+                let bytes_key = bytes.toString(CryptoJS.enc.Utf8).slice(2);
+                let original_private_key = Buffer.from(bytes_key,'hex');
+                
+
                 var data = JSON.stringify({
+                    "owner_address": angel_address,
+                    "owner_private_key": original_private_key,
                     "transfer_address": camp_address,
                     "amount": amount
-                });
+                  });
                   
-                var config = {
-                method: 'post',
-                url: 'http://localhost:8080/api/transferCTV',
-                headers: { 
-                    'Content-Type': 'application/json'
-                },
-                data : data
-                };
-                
-                axios(config)
-                .then(function (response) {
+                  var config = {
+                    method: 'post',
+                    url: 'http://localhost:8080/api/transferCTVbetweenUsers',
+                    headers: { 
+                      'Content-Type': 'application/json'
+                    },
+                    data : data
+                  };
+                  
+                  axios(config)
+                  .then(function (response) {
                     console.log(JSON.stringify(response.data));
-                    return res.status(200).json({
+                    res.status(200).json({
                         result:true,
-                        msg:'Equity bought',
-                        camp:transactionDetails
-                    });
-                })
-                .catch(function (error) {
+                        msg:'Equity bought in the camp'
+                    })
+                  })
+                  .catch(function (error) {
                     console.log(error);
                     res.status(500).json({
                         result:false,
-                        msg:'There was a problem transgering CTV token to the camp'
+                        msg:'There was a problem transfering CTV'
                     })
-                });
+                  });
             }
         }
         catch(err){
