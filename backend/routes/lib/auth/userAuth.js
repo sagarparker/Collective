@@ -29,21 +29,24 @@ router.post('/userRegister',[
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(422).json({
-          error: errors.array()[0],result:false
+          error: errors.array()[0],
+          result:false
         });
       }
       
       //Check if the username is within the length bracket
       if(req.body.username.length>50 || req.body.username.length<5){
         return res.status(401).json({
-          error:'Username cannot be more than 50 characters and smaller than 5 characters'
+          error:'Username cannot be more than 50 characters and smaller than 5 characters',
+          result:false
         });
       }
     
       //Check if the password is smaller than 5
       if(req.body.password.length<5){
         return res.status(401).json({
-          error:'Password cannot be smaller than 5 characters'
+          error:'Password cannot be smaller than 5 characters',
+          result:false
         });
       }
     
@@ -151,7 +154,8 @@ router.post('/userLogin',[
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(422).json({
-          error: errors.array()[0],result:false
+          error: errors.array()[0],
+          result:false
         });
       }
 
@@ -199,7 +203,8 @@ router.post('/userLogin',[
         email: userDetails[0].email,
         username:userDetails[0].username,
         id:userDetails[0]._id,
-        token:token
+        token:token,
+        result:true
       });
 
     }
