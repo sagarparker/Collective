@@ -67,7 +67,7 @@ router.post('/createCamp',
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
-                    error: errors.array()[0],   
+                    error: errors.array()[0],result:false   
                 });
             }
 
@@ -206,7 +206,7 @@ router.post('/buyEquity',
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
-                    error: errors.array()[0],   
+                    error: errors.array()[0],result:false   
                 });
             }
 
@@ -307,7 +307,7 @@ router.post('/getCampDetails',
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
-                    error: errors.array()[0],   
+                    error: errors.array()[0],result:false   
                 });
             }
 
@@ -351,7 +351,7 @@ router.post('/getFundingDetails',
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
-                    error: errors.array()[0],   
+                    error: errors.array()[0],result:false   
                 });
             }
 
@@ -395,7 +395,7 @@ router.post('/getCampsAngelInvestorsCount',
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
-                    error: errors.array()[0],   
+                    error: errors.array()[0],result:false   
                 });
             }
 
@@ -437,7 +437,7 @@ router.post('/getCampsAngelInvestors',
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
-                    error: errors.array()[0],   
+                    error: errors.array()[0],result:false   
                 });
             }
 

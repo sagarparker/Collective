@@ -88,7 +88,7 @@ router.get('/getAccountBalance',
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
-                    error: errors.array()[0],   
+                    error: errors.array()[0],result:false   
                 });
             }
 
@@ -132,7 +132,7 @@ router.post('/transferETH',
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({
-                error: errors.array()[0],   
+                error: errors.array()[0],result:false   
             });
         }
 
@@ -199,7 +199,7 @@ router.post('/transferCTV',
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({
-                error: errors.array()[0],   
+                error: errors.array()[0],result:false   
             });
         }
 
@@ -266,7 +266,7 @@ router.post('/getAllowance',
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
-                    error: errors.array()[0],   
+                    error: errors.array()[0],result:false   
                 });
             }
 
@@ -318,7 +318,7 @@ router.post('/transferCTVbetweenUsers',
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({
-                error: errors.array()[0],   
+                error: errors.array()[0],result:false   
             });
         }
 
