@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/loginScreen';
@@ -17,6 +19,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailUsernameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -76,9 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                height: 250,
+                height: 287,
                 padding: const EdgeInsets.only(top: 35, left: 40, right: 40),
                 child: Form(
+                  key: _formKey,
                   child: ListView(
                     children: [
                       TextFormField(
@@ -86,6 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           labelText: 'Email / Username',
                         ),
                         controller: emailUsernameController,
+                        validator: RequiredValidator(
+                            errorText: 'Please provide a username or email'),
                       ),
                       TextFormField(
                         decoration: InputDecoration(
@@ -93,36 +100,49 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         obscureText: true,
                         controller: passwordController,
+                        validator: RequiredValidator(
+                            errorText: 'Please provide a password'),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 25),
                         child: ElevatedButton(
                           onPressed: () {
-                            userLogin(emailUsernameController.text,
-                                    passwordController.text)
-                                .then(
-                              (data) async {
-                                if (data['result'] == false) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                      "Invalid credentials",
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ));
-                                } else {
-                                  Navigator.of(context).pushReplacementNamed(
-                                      HomeScreen.routeName);
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                      "Login successfull",
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ));
-                                }
-                              },
-                            );
+                            _formKey.currentState.validate()
+                                ? userLogin(emailUsernameController.text,
+                                        passwordController.text)
+                                    .then(
+                                    (data) async {
+                                      if (data['result'] == false) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                            "Invalid credentials",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ));
+                                      } else if (data['result'] == true) {
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        prefs.setString('email', data['email']);
+                                        prefs.setString(
+                                            'username', data['username']);
+                                        prefs.setString('id', data['id']);
+                                        prefs.setString('token', data['token']);
+                                        Navigator.of(context)
+                                            .pushReplacementNamed(
+                                                HomeScreen.routeName);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                            "Welcome to Collective",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ));
+                                      }
+                                    },
+                                  )
+                                : print('Invalid credentials in from field');
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
@@ -145,7 +165,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 40),
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed(RegisterScreen.routeName);
