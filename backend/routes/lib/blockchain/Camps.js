@@ -5,6 +5,9 @@ const Web3      =   require('web3');
 const moment    =   require('moment-timezone');
 const CryptoJS  =   require("crypto-js");
 const axios     =   require('axios');
+const multer    =   require('multer');
+const path      =   require('path');
+const { v4: uuidv4 } = require('uuid');
 const { body, validationResult }    =   require("express-validator");
 const { validateApiSecret,isAuthenticated }   =   require("../auth/authHelper");
 
@@ -22,7 +25,6 @@ const UserDetailsModel  =   require("../../../models/userDetailsModel");
 const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 
 const web3 = new Web3(rpcURL);
-
 
 const Camps = require('../../../build/contracts/Camps.json');
 
@@ -48,32 +50,70 @@ const account_address = process.env.account_1;
 const privateKey = Buffer.from(process.env.privateKey_1,'hex');
 
 
+// Multer setup for Camp image upload
+
+const storage = multer.diskStorage({
+    destination: function(req,file,cb){
+        cb(null,(path.join(__dirname,'../../../../../CollectiveMedia/camp')));
+    },
+    filename:function(req,file,cb){
+        const file_name = uuidv4() +".jpg";
+        cb(null,file_name)
+    }
+});
+
+const upload = multer({storage:storage});
+
 
 // CREATE A NEW CROWFUNDING CAMP ON COLLECTIVE
 
 router.post('/createCamp',
-    body('camp_name').not().isEmpty(),
-    body('camp_target').not().isEmpty(),
-    body('camp_equity').not().isEmpty(),
     validateApiSecret,
     isAuthenticated,
+    upload.single('image'),
     async(req,res)=>{
         try{
 
             //web3.eth.handleRevert = true;
 
-            //Input field validation
+            // INput field validation
 
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return res.status(422).json({
-                    error: errors.array()[0],result:false   
-                });
+            if(req.file == undefined || req.file.size == 0){
+                return res.status(401).json({
+                    error:"No valid image is provided",
+                    result:false
+                })
+            }
+            if(req.body.camp_name == "" || req.body.camp_name == undefined){
+                return res.status(401).json({
+                    error:"Input field camp_name is not valid",
+                    result:false
+                })
+            }
+            if(req.body.camp_target == "" || req.body.camp_target == undefined){
+                return res.status(401).json({
+                    error:"Input field camp_target is not valid",
+                    result:false
+                })
+            }
+            if(req.body.camp_equity == "" || req.body.camp_equity == undefined){
+                return res.status(401).json({
+                    error:"Input field camp_equity is not valid",
+                    result:false
+                })
+            }
+            if(req.body.camp_description == "" || req.body.camp_description == undefined){
+                return res.status(401).json({
+                    error:"Input field camp_description is not valid",
+                    result:false
+                })
             }
 
-            const camp_name     =   req.body.camp_name;
-            const camp_target   =   req.body.camp_target;
-            const camp_equity   =   req.body.camp_equity;
+            const image_url = `http://3.15.217.59:8080/media/camp/${req.file.filename}`;
+            const camp_name         =   req.body.camp_name;
+            const camp_target       =   req.body.camp_target;
+            const camp_equity       =   req.body.camp_equity;
+            const camp_description  =   req.body.camp_description
 
 
             // Checking if the camp name already exists
@@ -138,13 +178,15 @@ router.post('/createCamp',
             // Saving camp details to the database
 
             const campDetails = new CampModel({
-                name        :   camp_name,  
-                owner       :   req.decoded.username,
-                createdOn   :   moment().format('MMMM Do YYYY, h:mm:ss a'),
-                target      :   camp_target,
-                equity      :   camp_equity,
-                address     :   ethAccount.address,   
-                privatekey  :   ciphertext
+                name                :   camp_name,  
+                owner               :   req.decoded.username,
+                createdOn           :   moment().format('MMMM Do YYYY, h:mm:ss a'),
+                target              :   camp_target,
+                equity              :   camp_equity,
+                address             :   ethAccount.address,   
+                privatekey          :   ciphertext,
+                camp_image          :   image_url,
+                camp_description    :   camp_description
             });
             
 
@@ -189,14 +231,70 @@ router.post('/createCamp',
 });
 
 
+// GET CAMP LIST
+
+router.post('/getCampList',
+    validateApiSecret,
+    isAuthenticated,
+    body('sort_by').not().isEmpty(),
+    async(req,res)=>{
+        try{
+
+            //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],result:false   
+                });
+            }
+
+            const sort_by   =   req.body.sort_by;
+
+            let campList;
+
+            if(sort_by == "Latest"){
+                 campList = (await CampModel.find({})).reverse();
+            }
+            else if(sort_by == "High target"){
+                campList = await CampModel.find({}).sort({target:-1});
+            }
+            else if(sort_by == "Low target"){
+                campList = await CampModel.find({}).sort({target:1});
+            }
+            
+            if(campList.length == 0){
+                return res.status(500).json({
+                    result:false,
+                    msg:'No camps found'
+                })
+            }
+
+            return res.status(200).json({
+                result:true,
+                msg:'Camp list fetched',
+                details:campList
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem fetching the camp list'
+            })
+        }
+});
+
+
+
 
 // BUY EQUITY IN CAMP
 
 router.post('/buyEquity',
-    body('camp_address').not().isEmpty(),
-    body('amount').not().isEmpty(),
     validateApiSecret,
     isAuthenticated,
+    body('camp_address').not().isEmpty(),
+    body('amount').not().isEmpty(),
     async(req,res)=>{
         try{
 

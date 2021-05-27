@@ -120,6 +120,40 @@ router.get('/getAccountBalance',
 });
 
 
+router.get('/getUsersAccountBalance',
+    validateApiSecret,
+    isAuthenticated,
+    async(req,res)=>{
+        try{
+
+            const ctvBalance = await contract.methods.balanceOf(req.decoded.eth_address).call();
+            const ethBalance = await web3.eth.getBalance(req.decoded.eth_address);
+
+            if(!ctvBalance || !ethBalance){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching the users account balance'
+                })
+            }
+
+            return res.status(200).json({
+                result:true,
+                msg:'Account balance fetched',
+                CTV_balance:ctvBalance+" CTV",
+                ETH_balance:ethBalance+" wei"
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem fetching the users account balance'
+            })
+        }
+});
+
+
 
 // Sending ETH to users
 

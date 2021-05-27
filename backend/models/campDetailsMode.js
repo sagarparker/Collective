@@ -13,18 +13,26 @@ owner           :   {
                         default:'NA',
                         required:true
                     },
+camp_image      :   {
+                        type:String,
+                        default:'NA',
+                    },
+camp_description:   {
+                        type:String,
+                        default:'NA',
+                    },
 createdOn       :   {
                         type:String,
                         default:'NA',
                         required:true
                     },
 target          :   {
-                        type:String,
+                        type:Number,
                         default:'NA',
                         required:true
                     },
 equity          :   {
-                        type:String,
+                        type:Number,
                         default:'NA',
                         required:true
                     },

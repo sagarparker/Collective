@@ -1,6 +1,7 @@
 const express       =   require('express');
 const app           =   express();
 const cors          =   require("cors");
+const path          =   require('path');
 
 
 const CollectiveToken   =   require('./lib/blockchain/CollectiveToken');
@@ -16,6 +17,11 @@ app.use(express.urlencoded({
 }));
 
 app.use(express.text({ limit: '200mb' }));
+
+// EXPRESS STATIC FILE SERVER
+
+// Media uploaded by the users
+app.use('/media',express.static(path.join(__dirname,'/../../../CollectiveMedia')))
 
 
 // CORS PRESETS
