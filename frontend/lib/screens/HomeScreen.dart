@@ -1,9 +1,8 @@
-import 'dart:collection';
-
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:progressive_image/progressive_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -83,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 margin: EdgeInsets.only(left: 16, right: 16, top: 20),
                 height: 100,
-                width: 330,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(245, 245, 245, 1),
                   borderRadius: BorderRadius.circular(15),
@@ -99,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 topRight: Radius.circular(15)),
                             color: Theme.of(context).primaryColor,
                           ),
-                          width: 328,
+                          width: MediaQuery.of(context).size.width - 32,
                           height: 40,
                           child: Row(
                             children: [
@@ -133,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(15),
                                   bottomRight: Radius.circular(15))),
-                          width: 320,
+                          width: MediaQuery.of(context).size.width - 32,
                           height: 60,
                           child: FutureBuilder<dynamic>(
                             future: getUserBalance(token),
@@ -179,23 +178,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ],
                                       ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            primary:
-                                                Theme.of(context).primaryColor,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(60)),
-                                            minimumSize: Size(90, 35)),
-                                        onPressed: () {},
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 2),
-                                          child: Text(
-                                            'BUY',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 0,
+                                              primary: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          60)),
+                                              minimumSize: Size(90, 35)),
+                                          onPressed: () {},
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 2),
+                                            child: Text(
+                                              'Buy CTV',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -214,8 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 height: 60,
-                padding: EdgeInsets.only(left: 18, right: 18, top: 19),
-                width: double.infinity,
+                padding: EdgeInsets.only(left: 16, right: 16, top: 19),
+                width: MediaQuery.of(context).size.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -231,8 +236,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                height: 490,
-                padding: EdgeInsets.all(17),
+                height: 500,
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(16),
                 child: FutureBuilder<dynamic>(
                     future: getCamps(token),
                     builder: (BuildContext context,
@@ -253,25 +259,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(15),
                                   color: Color.fromRGBO(245, 245, 245, 1),
                                 ),
-                                height: 365,
-                                width: 330,
+                                height: 360,
+                                width: MediaQuery.of(context).size.width,
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
                                         Container(
                                           height: 180,
-                                          width: 326,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              32,
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(15),
-                                                topRight: Radius.circular(15)),
-                                            child: Image.network(
-                                              snapshot.data['details'][index]
-                                                  ['camp_image'],
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(15),
+                                                  topRight:
+                                                      Radius.circular(15)),
+                                              child: ProgressiveImage(
+                                                thumbnail: AssetImage(
+                                                    'assets/images/placeholder.jpg'),
+                                                image: NetworkImage(
+                                                    snapshot.data['details']
+                                                        [index]['camp_image']),
+                                                fit: BoxFit.fill,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    32,
+                                              )),
                                         ),
                                       ],
                                     ),
@@ -280,7 +296,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Container(
                                           padding: EdgeInsets.all(15),
                                           height: 180,
-                                          width: 326,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              32,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               bottomLeft: Radius.circular(15),
@@ -358,7 +377,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                  .only(top: 4),
+                                                                      .only(
+                                                                  top: 4,
+                                                                  left: 3),
                                                           child: Text(
                                                             snapshot
                                                                 .data['details']
@@ -379,6 +400,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     ),
                                                     ElevatedButton(
                                                       style: ElevatedButton.styleFrom(
+                                                          elevation: 0,
                                                           primary:
                                                               Theme.of(context)
                                                                   .primaryColor,
@@ -452,6 +474,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
@@ -469,7 +497,6 @@ Future<dynamic> getUserBalance(String token) async {
 
   http.StreamedResponse response = await request.send();
 
-  // print(jsonDecode(await response.stream.bytesToString()));
   return await jsonDecode(await response.stream.bytesToString());
 }
 
@@ -487,6 +514,5 @@ Future<dynamic> getCamps(String token) async {
 
   http.StreamedResponse response = await request.send();
 
-  // print(jsonDecode(await response.stream.bytesToString()));
   return await jsonDecode(await response.stream.bytesToString());
 }

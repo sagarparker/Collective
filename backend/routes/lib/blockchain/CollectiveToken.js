@@ -289,6 +289,74 @@ router.post('/transferCTV',
 });
 
 
+// Transfer CTV to use - with AUTH
+
+router.post('/transferCTVToUser',
+    validateApiSecret,
+    isAuthenticated,
+    body('amount').not().isEmpty(),
+    async(req,res)=>{
+    try{
+        //Input field validation
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({
+                error: errors.array()[0],result:false   
+            });
+        }
+
+        const transfer_address = req.decoded.eth_address;
+        const amount    =   req.body.amount;
+
+        const txCount = await web3.eth.getTransactionCount(account_address_1);
+        if(!txCount){
+            return res.status(500).json({
+                result:false,
+                msg:'There was a problem transferring CTV'
+            })
+        }
+        // Build the transaction
+        const txObject = {
+            nonce:    web3.utils.toHex(txCount),
+            to:       contract_address,
+            gasLimit: web3.utils.toHex(500000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
+            data: contract.methods.transfer(transfer_address,amount).encodeABI()
+        }
+    
+        // Sign the transaction
+        const tx = new Tx(txObject,{chain:42})
+        tx.sign(privateKey1)
+    
+        const serializedTx = tx.serialize()
+        const raw = '0x' + serializedTx.toString('hex')
+    
+        // Broadcast the transaction
+        const sendTransaction = await web3.eth.sendSignedTransaction(raw);
+        if(!sendTransaction){
+            return res.status(500).json({
+                result:false,
+                msg:'There was a problem transferring CTV'
+            })
+        }
+
+        return res.status(200).json({
+            result:true,
+            msg:`CTV transfered : ${amount} CTV`
+        })
+
+      
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            result:false,
+            msg:'There was a problem transferring CTV'
+        })
+    }
+});
+
+
 // Get the allowance for a account;
 
 router.post('/getAllowance',
