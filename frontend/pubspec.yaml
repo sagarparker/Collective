@@ -28,6 +28,8 @@ dependencies:
   form_field_validator: ^1.1.0
   shared_preferences: ^2.0.6
   progressive_image: ^2.0.0
+  flutter_svg: ^0.22.0
+  pay: ^1.0.3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,6 +54,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/images/
+     - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

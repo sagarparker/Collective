@@ -1,3 +1,4 @@
+import 'package:collective/screens/BuyCtvScreen.dart';
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -191,7 +192,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       BorderRadius.circular(
                                                           60)),
                                               minimumSize: Size(90, 35)),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.of(context).pushNamed(
+                                                BuyCtvScreen.routeName);
+                                          },
                                           child: Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 2),
@@ -277,12 +281,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   topRight:
                                                       Radius.circular(15)),
                                               child: ProgressiveImage(
+                                                placeholder: AssetImage(
+                                                    'assets/images/placeholder.jpg'),
                                                 thumbnail: AssetImage(
                                                     'assets/images/placeholder.jpg'),
                                                 image: NetworkImage(
                                                     snapshot.data['details']
                                                         [index]['camp_image']),
                                                 fit: BoxFit.fill,
+                                                height: 180,
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width -
@@ -479,7 +486,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Icon(Icons.add),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }
 }

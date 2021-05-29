@@ -1,3 +1,4 @@
+import 'package:collective/screens/BuyCtvScreen.dart';
 import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:collective/screens/RegisterScreen.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (ctx) => LoginScreen(),
         RegisterScreen.routeName: (ctx) => RegisterScreen(),
-        HomeScreen.routeName: (ctx) => HomeScreen()
+        HomeScreen.routeName: (ctx) => HomeScreen(),
+        BuyCtvScreen.routeName: (ctx) => BuyCtvScreen()
       },
     );
   }
