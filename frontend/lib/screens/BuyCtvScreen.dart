@@ -68,11 +68,12 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
       content: Text(
         "Transaction in progress ...",
         style: TextStyle(
-          fontSize: 20,
+          fontSize: 14,
         ),
         textAlign: TextAlign.center,
       ),
     ));
+
     buyCTV(token, int.parse(amountController.text)).then((data) {
       if (data['result'] == true) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -84,7 +85,6 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
             "CTV added to your wallet",
             style: TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
           ),
@@ -153,56 +153,97 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
               Container(
-                // height: 165,
+                margin:
+                    EdgeInsets.only(left: 35, right: 35, top: 25, bottom: 10),
+                height: 100,
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(245, 245, 245, 1),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
                   children: [
-                    Container(
-                      child: Image.asset(
-                        'assets/images/LogoNoPadding.png',
-                        height: 100,
-                      ),
-                    ),
-                    Column(
+                    Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5, right: 20),
-                          child: Text(
-                            '1CTV',
-                            style: TextStyle(
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                            ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15)),
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          width: MediaQuery.of(context).size.width - 70,
+                          height: 40,
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 7),
+                                child: Icon(
+                                  Icons.shop,
+                                  color: Colors.white,
+                                  size: 22,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4, left: 5),
+                                child: Text(
+                                  "Collective store",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 19),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 58.0),
-                          child: Text(
-                            '1 INR',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  bottomRight: Radius.circular(15))),
+                          width: MediaQuery.of(context).size.width - 70,
+                          height: 60,
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  '1 Collective token ( CTV ) = 1 INR ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
               Container(
-                height: 90,
-                padding: EdgeInsets.only(right: 35, left: 35),
+                height: 270,
+                width: MediaQuery.of(context).size.width,
+                child: Image.asset(
+                  'assets/images/payment.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Container(
+                height: 100,
+                padding: EdgeInsets.only(top: 10, right: 35, left: 35),
                 child: Form(
                   key: _formKey,
                   child: TextFormField(
@@ -219,19 +260,18 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
                 height: 45,
                 width: MediaQuery.of(context).size.width - 70,
                 child: ElevatedButton(
-                  // child: Text('Buy CTV'),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'assets/images/LogoCrop.png',
-                        width: 30,
-                        height: 30,
+                        'assets/images/LogoNoPadding.png',
+                        width: 40,
+                        height: 40,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0, top: 3),
+                        padding: const EdgeInsets.only(top: 5),
                         child: Text(
-                          'Buy CTV',
+                          'BUY CTV',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -254,16 +294,10 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
                   },
                 ),
               ),
-              Container(
-                height: 270,
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  'assets/images/payment.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
               isFormValid
                   ? Container(
+                      height: 100,
+                      margin: EdgeInsets.only(top: 10),
                       width: MediaQuery.of(context).size.width,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -294,9 +328,10 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
                         ],
                       ),
                     )
-                  : Padding(
+                  : Container(
+                      height: 100,
                       padding:
-                          const EdgeInsets.only(top: 10, left: 50, right: 50),
+                          const EdgeInsets.only(top: 40, left: 65, right: 65),
                       child: Text(
                         'Please enter the amount of CTV you want to buy above.',
                         textAlign: TextAlign.center,
