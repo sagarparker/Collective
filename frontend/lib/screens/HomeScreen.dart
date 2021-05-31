@@ -1,4 +1,5 @@
 import 'package:collective/screens/BuyCtvScreen.dart';
+import 'package:collective/screens/CreateCampScreen.dart';
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 32,
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 4.0),
+                padding: const EdgeInsets.only(top: 4.5, left: 3),
                 child: Text(
                   'Collective',
                   style: TextStyle(
@@ -242,7 +243,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 height: 500,
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(16),
+                padding:
+                    EdgeInsets.only(left: 10, right: 10, bottom: 16, top: 5),
                 child: FutureBuilder<dynamic>(
                     future: getCamps(token),
                     builder: (BuildContext context,
@@ -256,13 +258,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Text('There was a problem fetching balance'));
                         } else {
                           return ListView.builder(
+                            padding:
+                                EdgeInsets.only(top: 10, left: 6, right: 6),
                             itemBuilder: (context, index) {
                               return Container(
-                                margin: EdgeInsets.only(bottom: 20),
+                                margin: EdgeInsets.only(bottom: 25),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Color.fromRGBO(245, 245, 245, 1),
-                                ),
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Color.fromRGBO(245, 245, 245, 1),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 4.0,
+                                      ),
+                                    ]),
                                 height: 360,
                                 width: MediaQuery.of(context).size.width,
                                 child: Column(
@@ -288,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 image: NetworkImage(
                                                     snapshot.data['details']
                                                         [index]['camp_image']),
-                                                fit: BoxFit.fill,
+                                                fit: BoxFit.cover,
                                                 height: 180,
                                                 width: MediaQuery.of(context)
                                                         .size
@@ -482,7 +491,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(CreateCampScreen.routeName);
+        },
         child: Icon(Icons.add),
         backgroundColor: Theme.of(context).primaryColor,
       ),

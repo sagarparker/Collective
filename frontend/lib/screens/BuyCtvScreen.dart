@@ -1,4 +1,5 @@
 import 'package:collective/screens/HomeScreen.dart';
+import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -121,41 +122,9 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 25,
-          onPressed: () {
-            Navigator.of(context).pop(BuyCtvScreen.routeName);
-          },
-        ),
-        elevation: 2,
-        centerTitle: true,
-        title: Container(
-          width: 150,
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/images/Logo.png',
-                width: 32,
-                height: 32,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Text(
-                  'Collective',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(55),
+        child: AppBarGoBack(),
       ),
       body: SingleChildScrollView(
         child: Container(
