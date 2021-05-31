@@ -2,9 +2,9 @@
     package="com.example.collective">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="collective"
+        android:label="Collective"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

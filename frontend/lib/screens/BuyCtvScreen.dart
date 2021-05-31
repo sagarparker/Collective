@@ -64,11 +64,17 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
     print(paymentResult);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: Duration(days: 1),
-      padding: EdgeInsets.all(20),
+      backgroundColor: Colors.white,
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 3.1,
+          bottom: MediaQuery.of(context).size.height / 3.1,
+          left: 20,
+          right: 20),
       content: Text(
         "Transaction in progress ...",
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 16,
+          color: Theme.of(context).primaryColor,
         ),
         textAlign: TextAlign.center,
       ),
@@ -235,9 +241,13 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
               ),
               Container(
                 height: 270,
+                padding: EdgeInsets.all(5),
+                margin: EdgeInsets.only(
+                  top: 10,
+                ),
                 width: MediaQuery.of(context).size.width,
                 child: Image.asset(
-                  'assets/images/payment.png',
+                  'assets/images/pay.png',
                   fit: BoxFit.contain,
                 ),
               ),
@@ -297,7 +307,6 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
               isFormValid
                   ? Container(
                       height: 100,
-                      margin: EdgeInsets.only(top: 10),
                       width: MediaQuery.of(context).size.width,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

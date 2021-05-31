@@ -1,5 +1,5 @@
 name: collective
-description: A new Flutter project.
+description: A equity crowdfunding platform.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.0
   splashscreen: ^1.3.5
   http: ^0.13.3
   form_field_validator: ^1.1.0
@@ -39,6 +40,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+flutter_icons:
+  android: "launcher_icon"
+  image_path: "assets/images/LauncherIcon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
