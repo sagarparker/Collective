@@ -108,12 +108,26 @@ router.post('/createCamp',
                     result:false
                 })
             }
+            if(req.body.long_description == "" || req.body.long_description == undefined){
+                return res.status(401).json({
+                    error:"Input field long_description is not valid",
+                    result:false
+                })
+            }
+            if(req.body.category == "" || req.body.category == undefined){
+                return res.status(401).json({
+                    error:"Input field category is not valid",
+                    result:false
+                })
+            }
 
             const image_url = `http://3.15.217.59:8080/media/camp/${req.file.filename}`;
             const camp_name         =   req.body.camp_name;
             const camp_target       =   req.body.camp_target;
             const camp_equity       =   req.body.camp_equity;
-            const camp_description  =   req.body.camp_description
+            const camp_description  =   req.body.camp_description;
+            const long_description  =   req.body.long_description;
+            const category          =   req.body.category
 
 
             // Checking if the camp name already exists
@@ -186,7 +200,9 @@ router.post('/createCamp',
                 address             :   ethAccount.address,   
                 privatekey          :   ciphertext,
                 camp_image          :   image_url,
-                camp_description    :   camp_description
+                camp_description    :   camp_description,
+                long_description    :   long_description,
+                category            :   category
             });
             
 
@@ -435,6 +451,55 @@ router.post('/getCampDetails',
             })
         }
 });
+
+
+// GET CAMP DETAILS
+
+router.post('/getCampMasterDetails',
+    body('camp_address').not().isEmpty(),
+    async(req,res)=>{
+        try{
+            //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],result:false   
+                });
+            }
+
+            const camp_address = req.body.camp_address;
+
+            const campDetailsSC =   await contract.methods.camps(camp_address).call();
+            const campDetailsDB =   await CampModel.findOne({address:camp_address},{target:0,equity:0});   
+            
+            const campDetailsMaster = {
+                ...campDetailsSC,
+                ...campDetailsDB._doc
+            }
+
+            if(!campDetailsSC || !campDetailsDB){
+                return res.status(404).json({
+                    result:false,
+                    msg:'Camp not found'
+                })
+            }
+
+            return res.status(200).json({
+                result:true,
+                msg:'Camp details fetched',
+                details:campDetailsMaster
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem fetching the camp details'
+            })
+        }
+});
+
 
 
 

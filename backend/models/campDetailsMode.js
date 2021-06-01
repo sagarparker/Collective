@@ -21,6 +21,10 @@ camp_description:   {
                         type:String,
                         default:'NA',
                     },
+long_description:   {
+                        type:String,
+                        default:'NA',
+                    },
 createdOn       :   {
                         type:String,
                         default:'NA',
@@ -46,6 +50,15 @@ privatekey      :   {
                         default:'NA',
                         required:true
                     },
+category        :   {
+                        type:String,
+                        default:'NA',
+                        required:true
+                    },
+targetReachedDB :   {
+                        type:Boolean,
+                        default:false
+                    }
 
 });
 
