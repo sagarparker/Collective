@@ -172,7 +172,12 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
             children: [
               Center(
                 child: _image == null
-                    ? Image.asset('assets/images/placeholder.jpg')
+                    ? Image.asset(
+                        'assets/images/Create.png',
+                        height: 230,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
                     : Image.file(
                         _image,
                         height: 220,
@@ -182,7 +187,10 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
               ),
               Container(
                 height: 445,
-                margin: EdgeInsets.only(top: 10, left: 32, right: 32),
+                margin: EdgeInsets.only(
+                  left: 32,
+                  right: 32,
+                ),
                 child: Form(
                   key: _formKey,
                   child: ListView(
@@ -235,7 +243,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 20, bottom: 8),
+                            margin: EdgeInsets.only(top: 20, bottom: 20),
                             child: _image == null
                                 ? Text(
                                     'Please select a camp image',
@@ -275,7 +283,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                                       ],
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(170, 45),
+                                      minimumSize: Size(180, 45),
                                       elevation: 0,
                                       primary: Theme.of(context).primaryColor,
                                       shape: RoundedRectangleBorder(
@@ -285,7 +293,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                                   ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 20, bottom: 8),
+                            margin: EdgeInsets.only(top: 20, bottom: 20),
                             child: ElevatedButton(
                               onPressed: getImage,
                               child: Row(
