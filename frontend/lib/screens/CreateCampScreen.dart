@@ -27,6 +27,8 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
   TextEditingController campEquityController = new TextEditingController();
   TextEditingController campTargetController = new TextEditingController();
   TextEditingController campDescriptionController = new TextEditingController();
+  TextEditingController longDescriptionController = new TextEditingController();
+  TextEditingController campCategoryController = new TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -42,6 +44,14 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
     RequiredValidator(errorText: 'Target is required'),
   ]);
 
+  final campCategoryValidator = MultiValidator([
+    RequiredValidator(errorText: 'Category is required'),
+  ]);
+
+  final longDescriptionValidator = MultiValidator([
+    RequiredValidator(errorText: 'Detailed description is required'),
+  ]);
+
   final campDescriptionValidator = MultiValidator([
     RequiredValidator(errorText: 'Description is required'),
     MaxLengthValidator(116,
@@ -54,6 +64,8 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
     campEquityController.dispose();
     campTargetController.dispose();
     campDescriptionController.dispose();
+    longDescriptionController.dispose();
+    campCategoryController.dispose();
     super.dispose();
   }
 
@@ -74,6 +86,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
   void createCampMethod() {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: Colors.white,
+      duration: Duration(days: 1),
       padding: EdgeInsets.only(
         top: 200,
         bottom: 200,
@@ -96,6 +109,8 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
             int.parse(campEquityController.text),
             int.parse(campTargetController.text),
             campDescriptionController.text,
+            longDescriptionController.text,
+            campCategoryController.text,
             _imagePath)
         .then(
       (data) {
@@ -166,7 +181,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                       ),
               ),
               Container(
-                height: 440,
+                height: 445,
                 margin: EdgeInsets.only(top: 10, left: 32, right: 32),
                 child: Form(
                   key: _formKey,
@@ -181,12 +196,17 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'Description',
+                          labelText: 'Catergory',
+                        ),
+                        controller: campCategoryController,
+                        validator: campCategoryValidator,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Short Description',
                         ),
                         controller: campDescriptionController,
                         validator: campDescriptionValidator,
-                        minLines: 2,
-                        maxLines: 2,
                       ),
                       TextFormField(
                         decoration: InputDecoration(
@@ -204,11 +224,18 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                         validator: campTargetValidator,
                         keyboardType: TextInputType.number,
                       ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Detailed description',
+                        ),
+                        controller: longDescriptionController,
+                        validator: longDescriptionValidator,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 30),
+                            margin: EdgeInsets.only(top: 20, bottom: 8),
                             child: _image == null
                                 ? Text(
                                     'Please select a camp image',
@@ -248,7 +275,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                                       ],
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(200, 45),
+                                      minimumSize: Size(170, 45),
                                       elevation: 0,
                                       primary: Theme.of(context).primaryColor,
                                       shape: RoundedRectangleBorder(
@@ -258,7 +285,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                                   ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 25),
+                            margin: EdgeInsets.only(top: 20, bottom: 8),
                             child: ElevatedButton(
                               onPressed: getImage,
                               child: Row(
@@ -296,8 +323,16 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
   }
 }
 
-Future<dynamic> createCamp(String token, String campName, int equity,
-    int target, String description, String imagePath) async {
+Future<dynamic> createCamp(
+  String token,
+  String campName,
+  int equity,
+  int target,
+  String description,
+  String longDescription,
+  String category,
+  String imagePath,
+) async {
   var headers = {
     'x-api-key':
         '8\$dsfsfgreb6&4w5fsdjdjkje#\$54757jdskjrekrm@#\$@\$%&8fdddg*&*ffdsds',
@@ -309,7 +344,9 @@ Future<dynamic> createCamp(String token, String campName, int equity,
     'camp_name': campName,
     'camp_equity': equity.toString(),
     'camp_target': target.toString(),
-    'camp_description': description
+    'camp_description': description,
+    'long_description': longDescription,
+    'category': category,
   });
   request.files.add(await http.MultipartFile.fromPath('image', imagePath));
   request.headers.addAll(headers);

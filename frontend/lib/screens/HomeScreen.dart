@@ -348,7 +348,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           const EdgeInsets.only(
                                                               right: 3),
                                                       child: Text(
-                                                        '- Tech',
+                                                        '- ' +
+                                                            snapshot.data[
+                                                                        'details']
+                                                                    [index]
+                                                                ['category'],
                                                         style: TextStyle(
                                                             fontSize: 15,
                                                             color: Theme.of(
