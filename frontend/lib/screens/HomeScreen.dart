@@ -1,4 +1,5 @@
 import 'package:collective/screens/BuyCtvScreen.dart';
+import 'package:collective/screens/CampScreen.dart';
 import 'package:collective/screens/CreateCampScreen.dart';
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
@@ -431,7 +432,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           60)),
                                                           minimumSize:
                                                               Size(100, 45)),
-                                                      onPressed: () {},
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pushNamed(
+                                                                CampScreen
+                                                                    .routeName,
+                                                                arguments: {
+                                                              'campAddress': snapshot
+                                                                          .data[
+                                                                      'details']
+                                                                  [
+                                                                  index]['address']
+                                                            });
+                                                      },
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
