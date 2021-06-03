@@ -286,25 +286,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .width -
                                               32,
                                           child: ClipRRect(
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(15),
-                                                  topRight:
-                                                      Radius.circular(15)),
-                                              child: ProgressiveImage(
-                                                placeholder: AssetImage(
-                                                    'assets/images/placeholder.jpg'),
-                                                thumbnail: AssetImage(
-                                                    'assets/images/placeholder.jpg'),
-                                                image: NetworkImage(
-                                                    snapshot.data['details']
-                                                        [index]['camp_image']),
-                                                fit: BoxFit.cover,
-                                                height: 180,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    32,
-                                              )),
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15),
+                                                topRight: Radius.circular(15)),
+                                            child: ProgressiveImage(
+                                              placeholder: AssetImage(
+                                                  'assets/images/placeholder.jpg'),
+                                              thumbnail: AssetImage(
+                                                  'assets/images/placeholder.jpg'),
+                                              image: NetworkImage(
+                                                  snapshot.data['details']
+                                                      [index]['camp_image']),
+                                              fit: BoxFit.cover,
+                                              height: 180,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  32,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
