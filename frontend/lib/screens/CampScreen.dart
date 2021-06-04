@@ -1,3 +1,4 @@
+import 'package:collective/screens/InvestInCamp.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_image/progressive_image.dart';
@@ -206,7 +207,9 @@ class _CampScreenState extends State<CampScreen> {
                                       ),
                                     ),
                                     Text(
-                                      "Collected",
+                                      "Equity : " +
+                                          snapshot.data['details']['equity'] +
+                                          " %",
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.grey,
@@ -220,7 +223,7 @@ class _CampScreenState extends State<CampScreen> {
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(top: 12, bottom: 20),
+                                    const EdgeInsets.only(top: 12, bottom: 10),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -238,10 +241,7 @@ class _CampScreenState extends State<CampScreen> {
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width - 40,
-                                height: 100,
-                                padding: const EdgeInsets.only(
-                                  bottom: 20,
-                                ),
+                                height: 60,
                                 child: Text(
                                   snapshot.data["details"]["camp_description"],
                                   style: TextStyle(
@@ -249,6 +249,26 @@ class _CampScreenState extends State<CampScreen> {
                                     color: Colors.black,
                                   ),
                                 ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(bottom: 20),
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      style: TextButton.styleFrom(
+                                          padding: EdgeInsets.zero),
+                                      child: Text(
+                                        'Read more',
+                                        style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               ElevatedButton(
                                 child: Row(
@@ -277,7 +297,20 @@ class _CampScreenState extends State<CampScreen> {
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                     minimumSize: Size(100, 45)),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed(
+                                      InvestInCamp.routeName,
+                                      arguments: {
+                                        'campAddress':
+                                            selectedCamp['campAddress'],
+                                        'campName': snapshot.data['details']
+                                            ['name'],
+                                        'target': snapshot.data['details']
+                                            ['target'],
+                                        'equity': snapshot.data['details']
+                                            ['equity']
+                                      });
+                                },
                               )
                             ],
                           ),

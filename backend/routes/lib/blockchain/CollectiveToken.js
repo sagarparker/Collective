@@ -539,7 +539,7 @@ router.post('/transferCTVbetweenUsers',
         if(!finalTransactionHash){
             return res.status(500).json({
                 result:false,
-                msg:'There was a problem transferring CTV between users'
+                msg:'There was a problem transferring CTV between users.'
             })
         }
 
