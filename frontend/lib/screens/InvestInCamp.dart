@@ -15,6 +15,7 @@ class InvestInCamp extends StatefulWidget {
 }
 
 class _InvestInCampState extends State<InvestInCamp> {
+  Future balance;
   Map selectedCamp = {};
   String token;
 
@@ -24,14 +25,15 @@ class _InvestInCampState extends State<InvestInCamp> {
 
   @override
   void initState() {
+    setToken().then((value) => balance = getUserBalance(token));
     super.initState();
-    setToken();
   }
 
   Future setToken() async {
     SharedPreferences.getInstance().then((prefValue) {
-      token = prefValue.getString('token');
-      setState(() {});
+      setState(() {
+        token = prefValue.getString('token');
+      });
     });
   }
 
@@ -39,12 +41,15 @@ class _InvestInCampState extends State<InvestInCamp> {
 
   checkLength() {
     if (amountController.text.length == 0) {
-      isFormValid = false;
+      setState(() {
+        isFormValid = false;
+      });
     }
     if (amountController.text.length > 0) {
-      isFormValid = true;
+      setState(() {
+        isFormValid = true;
+      });
     }
-    setState(() {});
   }
 
   @override
@@ -61,7 +66,7 @@ class _InvestInCampState extends State<InvestInCamp> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 32, right: 32, top: 20),
+                margin: EdgeInsets.only(left: 16, right: 16, top: 20),
                 height: 100,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -79,7 +84,7 @@ class _InvestInCampState extends State<InvestInCamp> {
                                 topRight: Radius.circular(15)),
                             color: Theme.of(context).primaryColor,
                           ),
-                          width: MediaQuery.of(context).size.width - 64,
+                          width: MediaQuery.of(context).size.width - 32,
                           height: 40,
                           child: Row(
                             children: [
@@ -113,10 +118,10 @@ class _InvestInCampState extends State<InvestInCamp> {
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(15),
                                   bottomRight: Radius.circular(15))),
-                          width: MediaQuery.of(context).size.width - 64,
+                          width: MediaQuery.of(context).size.width - 32,
                           height: 60,
                           child: FutureBuilder<dynamic>(
-                            future: getUserBalance(token),
+                            future: balance,
                             builder: (BuildContext context,
                                 AsyncSnapshot<dynamic> snapshot) {
                               if (snapshot.connectionState ==
@@ -252,7 +257,7 @@ class _InvestInCampState extends State<InvestInCamp> {
                 ),
               ),
               Container(
-                height: 82,
+                height: 66,
                 margin: EdgeInsets.only(
                   top: 20,
                 ),
