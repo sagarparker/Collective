@@ -85,17 +85,19 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
       if (data['result'] == true) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          padding: EdgeInsets.all(20),
-          content: Text(
-            "CTV added to your wallet",
-            style: TextStyle(
-              fontSize: 18,
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            padding: EdgeInsets.all(20),
+            content: Text(
+              "CTV added to your wallet",
+              style: TextStyle(
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
-        ));
+        );
       } else if (data['result'] == false) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
@@ -236,7 +238,7 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
                 ),
               ),
               Container(
-                height: 45,
+                height: 42,
                 width: MediaQuery.of(context).size.width - 70,
                 child: ElevatedButton(
                   child: Row(
@@ -244,8 +246,8 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
                     children: [
                       Image.asset(
                         'assets/images/LogoNoPadding.png',
-                        width: 40,
-                        height: 40,
+                        width: 30,
+                        height: 30,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 5),

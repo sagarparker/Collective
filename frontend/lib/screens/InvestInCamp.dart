@@ -1,3 +1,4 @@
+import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class _InvestInCampState extends State<InvestInCamp> {
   Future balance;
   Map selectedCamp = {};
   String token;
+  int accountBalance = 0;
 
   TextEditingController amountController = new TextEditingController();
 
@@ -52,12 +54,71 @@ class _InvestInCampState extends State<InvestInCamp> {
     }
   }
 
+  void buyEquityMethod() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.white,
+      duration: Duration(days: 1),
+      padding: EdgeInsets.only(
+        top: 300,
+        bottom: 300,
+        left: 50,
+        right: 50,
+      ),
+      content: Text(
+        "Transaction in progress, this might take some time.",
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
+      ),
+    ));
+
+    buyEquity(token, selectedCamp['campAddress'],
+            int.parse(amountController.text))
+        .then(
+      (data) {
+        if (data['result'] == true) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).primaryColor,
+              padding: EdgeInsets.all(20),
+              content: Text(
+                "Investment successful",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 17,
+                ),
+              ),
+            ),
+          );
+        } else if (data['result'] == false) {
+          print(data);
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              padding: EdgeInsets.all(20),
+              content: Text(
+                "Investment failed",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 17,
+                ),
+              ),
+            ),
+          );
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     selectedCamp = ModalRoute.of(context).settings.arguments;
-
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(55),
           child: AppBarGoBack(),
@@ -128,12 +189,20 @@ class _InvestInCampState extends State<InvestInCamp> {
                                   ConnectionState.waiting) {
                                 return Center(
                                     child: Text('Fetching balance ....'));
+                              }
+                              if (snapshot.connectionState ==
+                                  ConnectionState.none) {
+                                return Center(
+                                    child: Text('Fetching balance ....'));
                               } else {
                                 if (snapshot.data['result'] == false) {
                                   return Center(
                                       child: Text(
                                           'There was a problem fetching balance'));
                                 } else {
+                                  accountBalance = int.parse(snapshot
+                                      .data['CTV_balance']
+                                      .split(" ")[0]);
                                   return Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -195,7 +264,7 @@ class _InvestInCampState extends State<InvestInCamp> {
                 padding: EdgeInsets.only(
                   left: 32,
                   right: 32,
-                  top: 15,
+                  top: 8,
                 ),
                 child: Image.asset(
                   'assets/images/InvestInCamp.png',
@@ -204,56 +273,134 @@ class _InvestInCampState extends State<InvestInCamp> {
                 ),
               ),
               Container(
+                height: 150,
+                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(
                   left: 32,
                   right: 32,
-                  top: 15,
                 ),
-                child: Form(
-                  key: _formKey,
-                  child: TextFormField(
-                    decoration: InputDecoration(labelText: 'CTV amount'),
-                    controller: amountController,
-                    keyboardType: TextInputType.number,
-                    onChanged: checkLength(),
-                    validator: RequiredValidator(
-                        errorText: 'Please enter a valid CTV amount'),
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                  top: 20,
-                  left: 30,
-                  right: 30,
-                ),
-                child: ElevatedButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 3,
-                          bottom: 0,
-                        ),
-                        child: Text(
-                          'Invest in ' + selectedCamp['campName'],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
+                child: Column(
+                  children: [
+                    Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        decoration: InputDecoration(labelText: 'CTV amount'),
+                        controller: amountController,
+                        keyboardType: TextInputType.number,
+                        onChanged: checkLength(),
+                        validator: RequiredValidator(
+                            errorText: 'Please enter a valid CTV amount'),
                       ),
-                    ],
-                  ),
-                  style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      primary: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: ElevatedButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 3,
+                                bottom: 0,
+                              ),
+                              child: Text(
+                                'Invest in ' + selectedCamp['campName'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            primary: Theme.of(context).primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            minimumSize: Size(100, 45)),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            if (int.parse(amountController.text) >
+                                accountBalance) {
+                              return ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  padding: EdgeInsets.all(20),
+                                  content: Text(
+                                    "Insufficient balance in your wallet",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                            }
+                            if (int.parse(amountController.text) >
+                                int.parse(selectedCamp['target'])) {
+                              return ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  padding: EdgeInsets.all(20),
+                                  content: Text(
+                                    "Amount cannot be greater than target",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                            }
+                            if (int.parse(amountController.text) == 0) {
+                              return ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  padding: EdgeInsets.all(20),
+                                  content: Text(
+                                    "Amount cannot be 0 CTV",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                            }
+                            if (int.parse(selectedCamp['target']) -
+                                    int.parse(selectedCamp['raised']) <
+                                int.parse(amountController.text)) {
+                              return ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  padding: EdgeInsets.all(20),
+                                  content: Text(
+                                    'Investment limit is upto ' +
+                                        (int.parse(selectedCamp['target']) -
+                                                int.parse(
+                                                    selectedCamp['raised']))
+                                            .toString() +
+                                        ' CTV.',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                            }
+                            buyEquityMethod();
+                          }
+                        },
                       ),
-                      minimumSize: Size(100, 45)),
-                  onPressed: () {},
+                    )
+                  ],
                 ),
               ),
               Container(
@@ -288,17 +435,16 @@ class _InvestInCampState extends State<InvestInCamp> {
                               fontWeight: FontWeight.bold,
                             ),
                           )
-                        : Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(
-                              left: 80,
-                              right: 80,
-                            ),
-                            child: Text(
-                              'Please enter the amount you want to invest above',
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 16),
+                        : Text(
+                            'You can invest upto ' +
+                                (int.parse(selectedCamp['target']) -
+                                        int.parse(selectedCamp['raised']))
+                                    .toString() +
+                                ' CTV.',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
                             ),
                           )
                   ],
@@ -321,6 +467,23 @@ Future<dynamic> getUserBalance(String token) async {
   };
   var request = http.Request(
       'GET', Uri.parse('http://3.15.217.59:8080/api/getUsersAccountBalance'));
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  return await jsonDecode(await response.stream.bytesToString());
+}
+
+Future<dynamic> buyEquity(String token, String address, int amount) async {
+  var headers = {
+    'x-api-key':
+        '8\$dsfsfgreb6&4w5fsdjdjkje#\$54757jdskjrekrm@#\$@\$%&8fdddg*&*ffdsds',
+    'Content-Type': 'application/json',
+    'Authorization': token
+  };
+  var request =
+      http.Request('POST', Uri.parse('http://3.15.217.59:8080/api/buyEquity'));
+  request.body = json.encode({"camp_address": address, "amount": amount});
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();

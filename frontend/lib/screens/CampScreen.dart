@@ -180,7 +180,13 @@ class _CampScreenState extends State<CampScreen> {
                                   animation: true,
                                   lineHeight: 18.0,
                                   animationDuration: 1000,
-                                  percent: 0.7,
+                                  percent: ((double.parse(
+                                              snapshot.data['details']
+                                                  ['fundingRaised']) *
+                                          100 /
+                                          double.parse(snapshot.data['details']
+                                              ['target'])) /
+                                      100),
                                   linearStrokeCap: LinearStrokeCap.roundAll,
                                   progressColor: Theme.of(context).primaryColor,
                                 ),
@@ -193,13 +199,14 @@ class _CampScreenState extends State<CampScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      (int.parse(snapshot.data['details']
-                                                      ['fundingRaised']) *
-                                                  100 /
-                                                  int.parse(
-                                                      snapshot.data['details']
-                                                          ['target']))
-                                              .toString() +
+                                      ((double.parse(snapshot.data['details']
+                                                          ['fundingRaised']) *
+                                                      100 /
+                                                      double.parse(snapshot
+                                                              .data['details']
+                                                          ['target'])) /
+                                                  1)
+                                              .toStringAsFixed(2) +
                                           " %",
                                       style: TextStyle(
                                         fontSize: 16,
@@ -254,7 +261,7 @@ class _CampScreenState extends State<CampScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.only(bottom: 20),
+                                    padding: EdgeInsets.only(bottom: 17),
                                     child: TextButton(
                                       onPressed: () {},
                                       style: TextButton.styleFrom(
@@ -308,7 +315,9 @@ class _CampScreenState extends State<CampScreen> {
                                         'target': snapshot.data['details']
                                             ['target'],
                                         'equity': snapshot.data['details']
-                                            ['equity']
+                                            ['equity'],
+                                        'raised': snapshot.data['details']
+                                            ['fundingRaised']
                                       });
                                 },
                               )
