@@ -265,14 +265,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               return Container(
                                 margin: EdgeInsets.only(bottom: 25),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Color.fromRGBO(245, 245, 245, 1),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        blurRadius: 4.0,
-                                      ),
-                                    ]),
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color.fromRGBO(245, 245, 245, 1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 0.0,
+                                    ),
+                                  ],
+                                ),
                                 height: 360,
                                 width: MediaQuery.of(context).size.width,
                                 child: Column(

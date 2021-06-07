@@ -306,7 +306,6 @@ class _InvestInCampState extends State<InvestInCamp> {
                               child: Text(
                                 'Invest in ' + selectedCamp['campName'],
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
                               ),
@@ -432,7 +431,6 @@ class _InvestInCampState extends State<InvestInCamp> {
                             style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontSize: 18,
-                              fontWeight: FontWeight.bold,
                             ),
                           )
                         : Text(
@@ -444,7 +442,6 @@ class _InvestInCampState extends State<InvestInCamp> {
                             style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontSize: 15,
-                              fontWeight: FontWeight.bold,
                             ),
                           )
                   ],

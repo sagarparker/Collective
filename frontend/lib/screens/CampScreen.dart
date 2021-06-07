@@ -290,7 +290,6 @@ class _CampScreenState extends State<CampScreen> {
                                         'Invest in ' +
                                             snapshot.data['details']['name'],
                                         style: TextStyle(
-                                          fontWeight: FontWeight.bold,
                                           fontSize: 20,
                                         ),
                                       ),
