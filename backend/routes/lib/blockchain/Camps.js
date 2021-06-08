@@ -14,6 +14,7 @@ const { validateApiSecret,isAuthenticated }   =   require("../auth/authHelper");
 require('dotenv').config();
 
 const CampModel         =   require('../../../models/campDetailsMode');
+const UserAuthModel     =   require('../../../models/userAuthModel');
 const UserDetailsModel  =   require("../../../models/userDetailsModel");
 
 
@@ -357,7 +358,11 @@ router.post('/buyEquity',
 
             const transactionDetails = await web3.eth.sendSignedTransaction(raw);
             if(transactionDetails.logs.length>0){
-                console.log("Camp's target reached");
+                const campUpdate = await CampModel.findOneAndUpdate({address:camp_address},{targetReachedDB:true});
+                if(!campUpdate){
+                    console.log('There was a problem updating the targetReached status');
+                }
+                console.log("Camp's target reached !!!!");
             }
             if(transactionDetails){
                 const buyer_private_key = req.decoded.eth_private_key;
@@ -606,6 +611,8 @@ router.post('/getCampsAngelInvestors',
 
             const camp_address = req.body.camp_address;
 
+            // Fetching data from SC - ethereum
+
             const campAngelsList = await contract.methods.getAngelList(camp_address).call();
 
             if(!campAngelsList){
@@ -614,11 +621,26 @@ router.post('/getCampsAngelInvestors',
                     msg:'There was a problem fetching the list of angels'
                 })
             }
+            
+            // Fetching user details with ETH address
+
+            const angelsUsername = await UserAuthModel.find({
+                eth_address : {
+                    $in : campAngelsList
+                }
+            },{eth_private_key:0,password:0});
+
+            if(!angelsUsername){
+                res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching the list of angels '
+                })
+            }
 
             return res.status(200).json({
                 result:true,
                 msg:'Camps Angels list fetched',
-                list:campAngelsList
+                list:angelsUsername
             });
             
         }
