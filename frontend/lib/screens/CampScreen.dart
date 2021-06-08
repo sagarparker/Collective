@@ -51,18 +51,28 @@ class _CampScreenState extends State<CampScreen> {
               ),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 60.0,
-                        right: 60.0,
-                        top: 320,
-                      ),
-                      child: Text(
-                        'Fetching camp details ...',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 180.0),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/images/loading.png',
+                          width: 300,
+                        ),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 10,
+                            ),
+                            child: Text(
+                              'Fetching Camp details...',
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }

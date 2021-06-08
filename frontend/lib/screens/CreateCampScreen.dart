@@ -96,10 +96,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
       content: Text(
         "Creating camp...",
         textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 18),
+        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
       ),
     ));
 

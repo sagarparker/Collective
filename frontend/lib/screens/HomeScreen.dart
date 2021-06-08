@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 100,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(245, 245, 245, 1),
+                  color: Color.fromRGBO(248, 248, 248, 1),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Column(
@@ -251,7 +251,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: Text('Fetching Camps'));
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 100.0),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                'assets/images/loading.png',
+                                width: 300,
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 10,
+                                  ),
+                                  child: Text(
+                                    'Fetching Camps...',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                       } else {
                         if (snapshot.data['result'] == false) {
                           return Center(
@@ -324,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               bottomRight: Radius.circular(15),
                                             ),
                                             color: Color.fromRGBO(
-                                                245, 245, 245, 1),
+                                                250, 250, 250, 1),
                                           ),
                                           child: Column(
                                             children: [
@@ -377,8 +400,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             [index]
                                                         ['camp_description'],
                                                     style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.black54),
+                                                      fontSize: 15,
+                                                      color: Colors.black54,
+                                                    ),
                                                   ),
                                                 ),
                                               ),

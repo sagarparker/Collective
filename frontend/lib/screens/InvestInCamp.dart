@@ -59,15 +59,35 @@ class _InvestInCampState extends State<InvestInCamp> {
       backgroundColor: Colors.white,
       duration: Duration(days: 1),
       padding: EdgeInsets.only(
-        top: 300,
-        bottom: 300,
-        left: 50,
-        right: 50,
+        top: 220,
+        left: 20,
+        right: 20,
       ),
-      content: Text(
-        "Transaction in progress, this might take some time.",
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
+      content: Padding(
+        padding: const EdgeInsets.only(top: 0.0),
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/images/loading.png',
+              width: 300,
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 40,
+                  right: 40,
+                ),
+                child: Text(
+                  'Transaction in progress, this might take some time ...',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor, fontSize: 18),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     ));
 
@@ -213,7 +233,7 @@ class _InvestInCampState extends State<InvestInCamp> {
                                         child: Text(
                                           'Current balance : ',
                                           style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 19,
                                             fontWeight: FontWeight.bold,
                                             color:
                                                 Theme.of(context).primaryColor,
@@ -227,8 +247,8 @@ class _InvestInCampState extends State<InvestInCamp> {
                                                 const EdgeInsets.only(right: 3),
                                             child: Image.asset(
                                               'assets/images/Logo.png',
-                                              width: 30,
-                                              height: 30,
+                                              width: 25,
+                                              height: 25,
                                             ),
                                           ),
                                           Padding(
@@ -239,7 +259,7 @@ class _InvestInCampState extends State<InvestInCamp> {
                                             child: Text(
                                               snapshot.data['CTV_balance'],
                                               style: TextStyle(
-                                                fontSize: 20,
+                                                fontSize: 19,
                                                 fontWeight: FontWeight.bold,
                                                 color: Theme.of(context)
                                                     .primaryColor,

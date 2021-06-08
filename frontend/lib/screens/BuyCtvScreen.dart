@@ -66,18 +66,30 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: Duration(days: 1),
       backgroundColor: Colors.white,
-      padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height / 3.1,
-          bottom: MediaQuery.of(context).size.height / 3.1,
-          left: 20,
-          right: 20),
-      content: Text(
-        "Transaction in progress ...",
-        style: TextStyle(
-          fontSize: 16,
-          color: Theme.of(context).primaryColor,
+      padding: EdgeInsets.only(top: 230, left: 20, right: 20),
+      content: Padding(
+        padding: const EdgeInsets.only(top: 0.0),
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/images/loading.png',
+              width: 300,
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                ),
+                child: Text(
+                  'Transaction in progress ...',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        textAlign: TextAlign.center,
       ),
     ));
 
