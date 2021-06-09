@@ -1,6 +1,7 @@
 import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,7 +60,7 @@ class _InvestInCampState extends State<InvestInCamp> {
       backgroundColor: Colors.white,
       duration: Duration(days: 1),
       padding: EdgeInsets.only(
-        top: 220,
+        top: 180,
         left: 20,
         right: 20,
       ),
@@ -75,17 +76,24 @@ class _InvestInCampState extends State<InvestInCamp> {
               child: Padding(
                 padding: const EdgeInsets.only(
                   top: 10,
-                  left: 40,
-                  right: 40,
+                  left: 45,
+                  right: 45,
+                  bottom: 30,
                 ),
                 child: Text(
                   'Transaction in progress, this might take some time ...',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Theme.of(context).primaryColor, fontSize: 18),
+                    fontSize: 15,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
+            SpinKitFadingCube(
+              color: Theme.of(context).primaryColor,
+              size: 30.0,
+            )
           ],
         ),
       ),
@@ -208,12 +216,20 @@ class _InvestInCampState extends State<InvestInCamp> {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
-                                    child: Text('Fetching balance ....'));
+                                  child: SpinKitThreeBounce(
+                                    color: Theme.of(context).primaryColor,
+                                    size: 20.0,
+                                  ),
+                                );
                               }
                               if (snapshot.connectionState ==
                                   ConnectionState.none) {
                                 return Center(
-                                    child: Text('Fetching balance ....'));
+                                  child: SpinKitThreeBounce(
+                                    color: Theme.of(context).primaryColor,
+                                    size: 20.0,
+                                  ),
+                                );
                               } else {
                                 if (snapshot.data['result'] == false) {
                                   return Center(

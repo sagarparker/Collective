@@ -3,6 +3,7 @@ import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,15 +89,27 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
       backgroundColor: Colors.white,
       duration: Duration(days: 1),
       padding: EdgeInsets.only(
-        top: 200,
-        bottom: 200,
+        top: 300,
+        bottom: 150,
         left: 30,
         right: 30,
       ),
-      content: Text(
-        "Creating camp...",
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
+      content: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Text(
+              "Creating camp",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor, fontSize: 20),
+            ),
+          ),
+          SpinKitFadingCube(
+            color: Theme.of(context).primaryColor,
+            size: 30.0,
+          )
+        ],
       ),
     ));
 

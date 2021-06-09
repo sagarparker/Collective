@@ -4,7 +4,7 @@ import 'package:collective/screens/CreateCampScreen.dart';
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -144,7 +144,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
-                                    child: Text('Fetching balance ....'));
+                                  child: SpinKitThreeBounce(
+                                    color: Theme.of(context).primaryColor,
+                                    size: 20.0,
+                                  ),
+                                );
                               } else {
                                 if (snapshot.data['result'] == false) {
                                   return Center(
@@ -252,25 +256,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         AsyncSnapshot<dynamic> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 100.0),
+                          padding: const EdgeInsets.only(top: 190.0),
                           child: Column(
                             children: [
-                              Image.asset(
-                                'assets/images/loading.png',
-                                width: 300,
-                              ),
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 10,
-                                  ),
-                                  child: Text(
-                                    'Fetching Camps...',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
+                              SpinKitThreeBounce(
+                                color: Theme.of(context).primaryColor,
+                                size: 35.0,
                               ),
                             ],
                           ),

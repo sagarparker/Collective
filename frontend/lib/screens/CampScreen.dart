@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 
 class CampScreen extends StatefulWidget {
@@ -52,25 +53,12 @@ class _CampScreenState extends State<CampScreen> {
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Padding(
-                    padding: const EdgeInsets.only(top: 180.0),
+                    padding: const EdgeInsets.only(top: 300.0),
                     child: Column(
                       children: [
-                        Image.asset(
-                          'assets/images/loading.png',
-                          width: 300,
-                        ),
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 10,
-                            ),
-                            child: Text(
-                              'Fetching Camp details...',
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
+                        SpinKitThreeBounce(
+                          color: Theme.of(context).primaryColor,
+                          size: 35.0,
                         ),
                       ],
                     ),
