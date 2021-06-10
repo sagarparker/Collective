@@ -16,14 +16,17 @@ class CampScreen extends StatefulWidget {
   _CampScreenState createState() => _CampScreenState();
 }
 
-class _CampScreenState extends State<CampScreen> {
+class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
   Map selectedCamp = {};
   String token;
+
+  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     setToken();
+    _tabController = new TabController(length: 3, vsync: this);
   }
 
   Future setToken() async {
@@ -31,6 +34,12 @@ class _CampScreenState extends State<CampScreen> {
       token = prefValue.getString('token');
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -226,98 +235,268 @@ class _CampScreenState extends State<CampScreen> {
                               Divider(
                                 color: Colors.grey,
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 12, bottom: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Description",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Theme.of(context).primaryColor,
-                                        fontWeight: FontWeight.bold,
+                              Container(
+                                height: 30,
+                                margin: EdgeInsets.only(bottom: 10, top: 5),
+                                width: MediaQuery.of(context).size.width - 40,
+                                child: TabBar(
+                                  indicatorColor:
+                                      Theme.of(context).primaryColor,
+                                  unselectedLabelColor: Colors.black38,
+                                  labelColor: Theme.of(context).primaryColor,
+                                  // labelPadding: EdgeInsets.only(right: 26),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    fontFamily: 'Avenir',
+                                  ),
+                                  unselectedLabelStyle: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    fontFamily: 'Avenir',
+                                  ),
+                                  tabs: [
+                                    Tab(
+                                      child: Text(
+                                        "Description",
                                       ),
-                                    )
+                                    ),
+                                    Tab(
+                                      child: Text(
+                                        "Angels",
+                                      ),
+                                    ),
+                                    Tab(
+                                      child: Text(
+                                        "More",
+                                      ),
+                                    ),
                                   ],
+                                  controller: _tabController,
                                 ),
                               ),
                               Container(
+                                height: 175,
                                 width: MediaQuery.of(context).size.width - 40,
-                                height: 60,
-                                child: Text(
-                                  snapshot.data["details"]["camp_description"],
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(bottom: 17),
-                                    child: TextButton(
-                                      onPressed: () {},
-                                      style: TextButton.styleFrom(
-                                          padding: EdgeInsets.zero),
+                                child: TabBarView(
+                                  controller: _tabController,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              40,
+                                          height: 60,
+                                          child: Text(
+                                            snapshot.data["details"]
+                                                ["camp_description"],
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 17),
+                                              child: TextButton(
+                                                onPressed: () {},
+                                                style: TextButton.styleFrom(
+                                                    padding: EdgeInsets.zero),
+                                                child: Text(
+                                                  'Read more',
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        ElevatedButton(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 3,
+                                                  bottom: 0,
+                                                ),
+                                                child: Text(
+                                                  'Invest in ' +
+                                                      snapshot.data['details']
+                                                          ['name'],
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 0,
+                                              primary: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                              ),
+                                              minimumSize: Size(100, 45)),
+                                          onPressed: () {
+                                            Navigator.of(context).pushNamed(
+                                                InvestInCamp.routeName,
+                                                arguments: {
+                                                  'campAddress': selectedCamp[
+                                                      'campAddress'],
+                                                  'campName': snapshot
+                                                      .data['details']['name'],
+                                                  'target':
+                                                      snapshot.data['details']
+                                                          ['target'],
+                                                  'equity':
+                                                      snapshot.data['details']
+                                                          ['equity'],
+                                                  'raised':
+                                                      snapshot.data['details']
+                                                          ['fundingRaised']
+                                                });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          40,
+                                      height: 60,
                                       child: Text(
-                                        'Read more',
+                                        "Coming soon...",
                                         style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 15,
+                                          fontSize: 17,
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              ElevatedButton(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 3,
-                                        bottom: 0,
-                                      ),
-                                      child: Text(
-                                        'Invest in ' +
-                                            snapshot.data['details']['name'],
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          40,
+                                      height: 60,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 3),
+                                            height: 20,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                40,
+                                            child: Text(
+                                              'Camp Owner',
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 14),
+                                            height: 20,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                40,
+                                            child: Text(
+                                              snapshot.data["details"]["owner"],
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 3),
+                                            height: 20,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                40,
+                                            child: Text(
+                                              'Created on',
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 14),
+                                            height: 20,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                40,
+                                            child: Text(
+                                              snapshot.data["details"]
+                                                  ["createdOn"],
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 3),
+                                            height: 20,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                40,
+                                            child: Text(
+                                              'ETH address',
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 34,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                40,
+                                            child: Text(
+                                              snapshot.data["details"]
+                                                  ["address"],
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                                style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    primary: Theme.of(context).primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    minimumSize: Size(100, 45)),
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed(
-                                      InvestInCamp.routeName,
-                                      arguments: {
-                                        'campAddress':
-                                            selectedCamp['campAddress'],
-                                        'campName': snapshot.data['details']
-                                            ['name'],
-                                        'target': snapshot.data['details']
-                                            ['target'],
-                                        'equity': snapshot.data['details']
-                                            ['equity'],
-                                        'raised': snapshot.data['details']
-                                            ['fundingRaised']
-                                      });
-                                },
-                              )
+                              ),
                             ],
                           ),
                         ),
