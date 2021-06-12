@@ -16,6 +16,10 @@ profile_picture         :   {
 camps_owned             :   [{
                                 type:mongoose.Schema.Types.ObjectId,
                                 ref:'CampDetails'
+                            }],
+camps_invested          :   [{
+                                type:mongoose.Schema.Types.ObjectId,
+                                ref:'CampDetails'
                             }]
 });
 

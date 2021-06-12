@@ -334,7 +334,7 @@ router.post('/buyEquity',
             if(!txCount){
                 return res.status(500).json({
                     result:false,
-                    msg:'There was a problem creating a Camp'
+                    msg:'There was a problem in transaction'
                 })
             }
             // Build the transaction
@@ -360,11 +360,13 @@ router.post('/buyEquity',
             if(transactionDetails.logs.length>0){
                 const campUpdate = await CampModel.findOneAndUpdate({address:camp_address},{targetReachedDB:true});
                 if(!campUpdate){
-                    console.log('There was a problem updating the targetReached status');
+                    console.log('\nThere was a problem updating the targetReached status');
                 }
-                console.log("Camp's target reached !!!!");
+                console.log("\nCamp's target reached !!!!");
             }
-            if(transactionDetails){
+            if(transactionDetails.status){
+
+
                 const buyer_private_key = req.decoded.eth_private_key;
                 let bytes  = CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
                 let bytes_key = bytes.toString(CryptoJS.enc.Utf8).slice(2);
@@ -388,12 +390,32 @@ router.post('/buyEquity',
                   };
                   
                   axios(config)
-                  .then(function (response) {
+                  .then(async function (response) {
+
                     console.log(JSON.stringify(response.data));
+                    
+                    // Saving the camp id to userdetails
+
+                    const campDetails = await CampModel.findOneAndUpdate({address:camp_address});
+                    if(!campDetails){
+                        console.log('\nCamp not found');
+                    }
+
+                    const userDetailsUpdate = await UserDetailsModel.findOneAndUpdate({username:req.decoded.username},{
+                        $addToSet:{camps_invested:campDetails.id}
+                    })
+
+                    if(!userDetailsUpdate){
+                        console.log('There was a problem updating your investment list');
+                    }
+
+                    console.log("\nCamp added to Users investment list");
+
                     res.status(200).json({
                         result:true,
                         msg:'Equity bought in the camp'
-                    })
+                    });
+                    
                   })
                   .catch(function (error) {
                     console.log(error);
@@ -402,6 +424,12 @@ router.post('/buyEquity',
                         msg:'There was a problem transfering CTV'
                     })
                   });
+            }
+            else if (transactionDetails.status == false){
+                res.status(500).json({
+                    result:false,
+                    msg:'There was a problem buying equity in the camp'
+                })
             }
         }
         catch(err){
@@ -458,7 +486,7 @@ router.post('/getCampDetails',
 });
 
 
-// GET CAMP DETAILS
+// GET CAMP MASTER DETAILS
 
 router.post('/getCampMasterDetails',
     body('camp_address').not().isEmpty(),
@@ -652,6 +680,76 @@ router.post('/getCampsAngelInvestors',
             })
         }
 });
+
+
+// GET CAMPS CREATED BY A USER
+
+router.get('/getCampsCreatedByUser',
+    validateApiSecret,
+    isAuthenticated,
+    async(req,res)=>{
+        try{
+  
+            const campList = await UserDetailsModel.findOne({username:req.decoded.username},{camps_owned:1}).populate("camps_owned"); 
+
+            if(!campList){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching camps'
+                })
+            }
+
+            return res.status(200).json({
+                result:true,
+                msg:'Camps fetched',
+                data:campList
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem fetching camps created by the user'
+            })
+        }
+});
+
+
+// GET CAMPS CREATED BY A USER
+
+router.get('/getCampsInvestedByUser',
+    validateApiSecret,
+    isAuthenticated,
+    async(req,res)=>{
+        try{
+  
+            const campList = await UserDetailsModel.findOne({username:req.decoded.username},{camps_invested:1}).populate("camps_invested"); 
+
+            if(!campList){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching camps'
+                })
+            }
+
+            return res.status(200).json({
+                result:true,
+                msg:'Camps fetched',
+                data:campList
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem fetching camps invested by the user'
+            })
+        }
+});
+
+
 
 
 
