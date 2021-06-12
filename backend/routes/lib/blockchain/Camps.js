@@ -396,7 +396,7 @@ router.post('/buyEquity',
                     
                     // Saving the camp id to userdetails
 
-                    const campDetails = await CampModel.findOneAndUpdate({address:camp_address});
+                    const campDetails = await CampModel.findOne({address:camp_address});
                     if(!campDetails){
                         console.log('\nCamp not found');
                     }
