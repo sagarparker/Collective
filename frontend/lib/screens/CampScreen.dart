@@ -291,6 +291,7 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                           child: Text(
                                             snapshot.data["details"]
                                                 ["camp_description"],
+                                            textAlign: TextAlign.start,
                                             style: TextStyle(
                                               fontSize: 17,
                                               color: Colors.black,
@@ -342,14 +343,15 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                             ],
                                           ),
                                           style: ElevatedButton.styleFrom(
-                                              elevation: 0,
-                                              primary: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                              ),
-                                              minimumSize: Size(100, 45)),
+                                            elevation: 0,
+                                            primary:
+                                                Theme.of(context).primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
+                                            minimumSize: Size(100, 45),
+                                          ),
                                           onPressed: () {
                                             Navigator.of(context).pushNamed(
                                                 InvestInCamp.routeName,
@@ -445,7 +447,7 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                                 padding: EdgeInsets.all(8),
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(15),
+                                                      BorderRadius.circular(25),
                                                   color: Color.fromRGBO(
                                                       245, 245, 245, 1),
                                                 ),
@@ -453,29 +455,139 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                                         .size
                                                         .width -
                                                     40,
-                                                height: 50,
+                                                height: 53,
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Text(
-                                                      snapshot.data['list']
-                                                          [index]['username'],
-                                                      style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .primaryColor,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 2.0),
+                                                      child: Text(
+                                                        snapshot.data['list']
+                                                            [index]['username'],
+                                                        style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      snapshot.data['list']
-                                                          [index]['timestamp'],
-                                                      style: TextStyle(
-                                                          color: Colors.black54,
-                                                          fontSize: 12),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        getAngelsFunding(
+                                                                selectedCamp[
+                                                                    'campAddress'],
+                                                                snapshot.data[
+                                                                            'list']
+                                                                        [index][
+                                                                    'eth_address'])
+                                                            .then(
+                                                          (data) {
+                                                            if (data[
+                                                                    'result'] ==
+                                                                true) {
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .hideCurrentSnackBar();
+
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  elevation:
+                                                                      20.0,
+                                                                  backgroundColor:
+                                                                      Color.fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1),
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              20),
+                                                                  content: Text(
+                                                                    'Investment : ' +
+                                                                        data[
+                                                                            'details'] +
+                                                                        ' CTV',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            17,
+                                                                        color: Theme.of(context)
+                                                                            .primaryColor),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            } else if (data[
+                                                                    'result'] ==
+                                                                false) {
+                                                              print(data);
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .hideCurrentSnackBar();
+
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              20),
+                                                                  content: Text(
+                                                                    "Please try again later",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          17,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                          },
+                                                        );
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 2.0),
+                                                        child: Text(
+                                                            'Check investment'),
+                                                      ),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        elevation: 0,
+                                                        primary:
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            25,
+                                                          ),
+                                                        ),
+                                                        minimumSize:
+                                                            Size(100, 70),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -485,134 +597,138 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                         },
                                       ),
                                     ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          40,
-                                      height: 60,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 38,
-                                            margin: EdgeInsets.only(
-                                              top: 5,
-                                              bottom: 10,
-                                            ),
-                                            padding: EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              color: Color.fromRGBO(
-                                                  245, 245, 245, 1),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  snapshot.data["details"]
-                                                      ["owner"],
-                                                  textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                      fontSize: 17,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  '- Camp Owner',
-                                                  textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.black54,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 38,
-                                            margin: EdgeInsets.only(
-                                              top: 5,
-                                              bottom: 20,
-                                            ),
-                                            padding: EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              color: Color.fromRGBO(
-                                                  245, 245, 245, 1),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  snapshot.data["details"]
-                                                      ["createdOn"],
-                                                  textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  '- Created On ',
-                                                  textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.black54,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(bottom: 3),
-                                            height: 20,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width -
                                                 40,
-                                            child: Padding(
+                                        height: 190,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: 44,
+                                              margin: EdgeInsets.only(
+                                                top: 5,
+                                                bottom: 10,
+                                              ),
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                                color: Color.fromRGBO(
+                                                    245, 245, 245, 1),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    snapshot.data["details"]
+                                                        ["owner"],
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                        fontSize: 17,
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    '- Camp Owner',
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.black54,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 44,
+                                              margin: EdgeInsets.only(
+                                                top: 5,
+                                                bottom: 20,
+                                              ),
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                                color: Color.fromRGBO(
+                                                    245, 245, 245, 1),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    snapshot.data["details"]
+                                                        ["createdOn"],
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    '- Created On ',
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.black54,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  EdgeInsets.only(bottom: 3),
+                                              height: 20,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  40,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text(
+                                                  'ETH address',
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 20,
                                               padding: const EdgeInsets.only(
                                                   left: 8.0),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  40,
                                               child: Text(
-                                                'ETH address',
-                                                textAlign: TextAlign.start,
+                                                snapshot.data["details"]
+                                                    ["address"],
                                                 style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                  fontSize: 12,
+                                                  color: Colors.black,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Container(
-                                            height: 34,
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                40,
-                                            child: Text(
-                                              snapshot.data["details"]
-                                                  ["address"],
-                                              style: TextStyle(
-                                                fontSize: 12.5,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -632,6 +748,8 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
   }
 }
 
+// Get camps
+
 Future<dynamic> getCamps(String token, String campAddress) async {
   var headers = {
     'x-api-key':
@@ -649,11 +767,29 @@ Future<dynamic> getCamps(String token, String campAddress) async {
   return await jsonDecode(await response.stream.bytesToString());
 }
 
+// Get all the investors of a camp
+
 Future<dynamic> getCampsAngels(String campAddress) async {
   var headers = {'Content-Type': 'application/json'};
   var request = http.Request(
       'POST', Uri.parse('http://3.15.217.59:8080/api/getCampsAngelInvestors'));
   request.body = json.encode({"camp_address": campAddress});
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  return await jsonDecode(await response.stream.bytesToString());
+}
+
+// Get investment done by a particular angel
+
+Future<dynamic> getAngelsFunding(
+    String campAddress, String angelAddress) async {
+  var headers = {'Content-Type': 'application/json'};
+  var request = http.Request(
+      'POST', Uri.parse('http://3.15.217.59:8080/api/getFundingDetails'));
+  request.body =
+      json.encode({"camp_address": campAddress, "angel_address": angelAddress});
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();

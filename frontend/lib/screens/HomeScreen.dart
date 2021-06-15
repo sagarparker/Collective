@@ -390,6 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     snapshot.data['details']
                                                             [index]
                                                         ['camp_description'],
+                                                    textAlign: TextAlign.start,
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       color: Colors.black54,
