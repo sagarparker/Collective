@@ -2,11 +2,16 @@ const express       =   require('express');
 const app           =   express();
 const cors          =   require("cors");
 const path          =   require('path');
+const moment        =   require('moment-timezone');
 
 
 const CollectiveToken   =   require('./lib/blockchain/CollectiveToken');
 const Camps             =   require('./lib/blockchain/Camps');
 const Auth              =   require('./lib/auth/userAuth');
+
+// Timezone setup
+
+moment.tz.setDefault("Asia/Kolkata");
 
 //EXPRESS PRESET
 
@@ -17,6 +22,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(express.text({ limit: '200mb' }));
+
 
 // EXPRESS STATIC FILE SERVER
 
@@ -49,6 +55,9 @@ app.use('/api',Auth);
 // Blockchain APIs
 
 app.use('/api',CollectiveToken);
+
+
+// Camps APIs
 
 app.use('/api',Camps);
 

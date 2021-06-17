@@ -19,6 +19,7 @@ class CampScreen extends StatefulWidget {
 class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
   Map selectedCamp = {};
   String token;
+  String username;
 
   TabController _tabController;
 
@@ -32,6 +33,7 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
   Future setToken() async {
     SharedPreferences.getInstance().then((prefValue) {
       token = prefValue.getString('token');
+      username = prefValue.getString('username');
       setState(() {});
     });
   }
@@ -321,57 +323,186 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                             ),
                                           ],
                                         ),
-                                        ElevatedButton(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 3,
-                                                  bottom: 0,
+                                        snapshot.data['details']
+                                                ['targetReachedDB']
+                                            ? snapshot.data['details']
+                                                        ['owner'] ==
+                                                    username
+                                                ? Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .emoji_events_rounded,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                            size: 18,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 3,
+                                                                    top: 2),
+                                                            child: Text(
+                                                              'Funding raised!',
+                                                              style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                                fontSize: 17,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      ElevatedButton(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                top: 3,
+                                                                bottom: 0,
+                                                              ),
+                                                              child: Text(
+                                                                'Withdraw amount',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          elevation: 0,
+                                                          primary:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        50),
+                                                          ),
+                                                          minimumSize:
+                                                              Size(100, 45),
+                                                        ),
+                                                        onPressed: () {},
+                                                      ),
+                                                    ],
+                                                  )
+                                                : Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .emoji_events_rounded,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                            size: 28,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 3,
+                                                                    top: 5),
+                                                            child: Text(
+                                                              'Funding raised!',
+                                                              style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                                fontSize: 25,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  )
+                                            : ElevatedButton(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        top: 3,
+                                                        bottom: 0,
+                                                      ),
+                                                      child: Text(
+                                                        'Invest in ' +
+                                                            snapshot.data[
+                                                                    'details']
+                                                                ['name'],
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                child: Text(
-                                                  'Invest in ' +
-                                                      snapshot.data['details']
-                                                          ['name'],
-                                                  style: TextStyle(
-                                                    fontSize: 20,
+                                                style: ElevatedButton.styleFrom(
+                                                  elevation: 0,
+                                                  primary: Theme.of(context)
+                                                      .primaryColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
                                                   ),
+                                                  minimumSize: Size(100, 45),
                                                 ),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                          InvestInCamp
+                                                              .routeName,
+                                                          arguments: {
+                                                        'campAddress':
+                                                            selectedCamp[
+                                                                'campAddress'],
+                                                        'campName': snapshot
+                                                                .data['details']
+                                                            ['name'],
+                                                        'target': snapshot
+                                                                .data['details']
+                                                            ['target'],
+                                                        'equity': snapshot
+                                                                .data['details']
+                                                            ['equity'],
+                                                        'raised': snapshot
+                                                                .data['details']
+                                                            ['fundingRaised']
+                                                      });
+                                                },
                                               ),
-                                            ],
-                                          ),
-                                          style: ElevatedButton.styleFrom(
-                                            elevation: 0,
-                                            primary:
-                                                Theme.of(context).primaryColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                            ),
-                                            minimumSize: Size(100, 45),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pushNamed(
-                                                InvestInCamp.routeName,
-                                                arguments: {
-                                                  'campAddress': selectedCamp[
-                                                      'campAddress'],
-                                                  'campName': snapshot
-                                                      .data['details']['name'],
-                                                  'target':
-                                                      snapshot.data['details']
-                                                          ['target'],
-                                                  'equity':
-                                                      snapshot.data['details']
-                                                          ['equity'],
-                                                  'raised':
-                                                      snapshot.data['details']
-                                                          ['fundingRaised']
-                                                });
-                                          },
-                                        ),
                                       ],
                                     ),
                                     Container(
@@ -630,7 +761,7 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                                         ["owner"],
                                                     textAlign: TextAlign.start,
                                                     style: TextStyle(
-                                                        fontSize: 17,
+                                                        fontSize: 16,
                                                         color: Theme.of(context)
                                                             .primaryColor,
                                                         fontWeight:
@@ -651,7 +782,7 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                               height: 44,
                                               margin: EdgeInsets.only(
                                                 top: 5,
-                                                bottom: 20,
+                                                bottom: 10,
                                               ),
                                               padding: EdgeInsets.all(8),
                                               decoration: BoxDecoration(
@@ -688,43 +819,61 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             Container(
-                                              margin:
-                                                  EdgeInsets.only(bottom: 3),
-                                              height: 20,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  40,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0),
-                                                child: Text(
-                                                  'ETH address',
-                                                  textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
+                                              height: 40,
+                                              margin: EdgeInsets.only(
+                                                top: 5,
+                                                bottom: 10,
                                               ),
-                                            ),
-                                            Container(
-                                              height: 20,
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  40,
-                                              child: Text(
-                                                snapshot.data["details"]
-                                                    ["address"],
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.black,
-                                                ),
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                                color: Color.fromRGBO(
+                                                    245, 245, 245, 1),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 2.0),
+                                                    child: Text(
+                                                      ((int.parse(snapshot.data[
+                                                                              "details"]
+                                                                          [
+                                                                          "target"]) *
+                                                                      100) /
+                                                                  int.parse(snapshot
+                                                                              .data[
+                                                                          "details"]
+                                                                      [
+                                                                      "equity"]))
+                                                              .toStringAsFixed(
+                                                                  0) +
+                                                          " CTV",
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      style: TextStyle(
+                                                          fontSize: 17,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '- Evaulation ',
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.black54,
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                             ),
                                           ],
