@@ -2,6 +2,7 @@ import 'package:collective/screens/BuyCtvScreen.dart';
 import 'package:collective/screens/CampScreen.dart';
 import 'package:collective/screens/CreateCampScreen.dart';
 import 'package:collective/screens/LoginScreen.dart';
+import 'package:collective/screens/UserDetailsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 2,
         centerTitle: true,
         title: Container(
-          width: 150,
+          width: 155,
           child: Row(
             children: [
               Image.asset(
@@ -77,6 +78,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(UserDetailsScreen.routeName);
+              })
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -246,10 +257,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                height: 500,
+                height: 482,
                 width: MediaQuery.of(context).size.width,
-                padding:
-                    EdgeInsets.only(left: 10, right: 10, bottom: 16, top: 5),
+                padding: EdgeInsets.only(left: 10, right: 10, top: 5),
                 child: FutureBuilder<dynamic>(
                     future: getCamps(token),
                     builder: (BuildContext context,
@@ -273,8 +283,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Text('There was a problem fetching balance'));
                         } else {
                           return ListView.builder(
-                            padding:
-                                EdgeInsets.only(top: 10, left: 6, right: 6),
+                            padding: EdgeInsets.only(
+                                top: 10, left: 6, right: 6, bottom: 55),
                             itemBuilder: (context, index) {
                               return Container(
                                 margin: EdgeInsets.only(bottom: 25),
@@ -493,33 +503,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       }
                     }),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        prefs.remove('email');
-                        prefs.remove('username');
-                        prefs.remove('id');
-                        prefs.remove('token');
-                        Navigator.of(context)
-                            .pushReplacementNamed(LoginScreen.routeName);
-                      },
-                      child: Text('Logout'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        print(token);
-                      },
-                      child: Text('Account Data'),
-                    ),
-                  ],
-                ),
-              ),
+              )
             ],
           ),
         ),

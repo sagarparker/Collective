@@ -134,9 +134,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 HomeScreen.routeName);
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
+                                          backgroundColor:
+                                              Theme.of(context).primaryColor,
                                           content: Text(
                                             "Welcome to Collective",
                                             textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ));
                                       }

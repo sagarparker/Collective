@@ -16,7 +16,7 @@ class AppBarGoBack extends StatelessWidget {
       elevation: 2,
       centerTitle: true,
       title: Container(
-        width: 150,
+        width: 155,
         child: Row(
           children: [
             Image.asset(

@@ -866,7 +866,7 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                                     ),
                                                   ),
                                                   Text(
-                                                    '- Evaulation ',
+                                                    '- Valuation',
                                                     textAlign: TextAlign.start,
                                                     style: TextStyle(
                                                       fontSize: 12,

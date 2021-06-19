@@ -21,7 +21,6 @@ router.post('/getUserDetails',
       
       const userData = await UserDetailsModel.find({username:req.decoded.username});
       if(userData.length>0){
-        console.log(req.decoded);
         res.status(200).json({
           msg:"User is a valid registered Collective user",
           result:true,
@@ -43,5 +42,6 @@ router.post('/getUserDetails',
       });
     }
 });
+
 
 module.exports = router;

@@ -5,6 +5,7 @@ import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/screens/InvestInCamp.dart';
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:collective/screens/RegisterScreen.dart';
+import 'package:collective/screens/UserDetailsScreen.dart';
 import 'package:collective/widgets/SplashScreenWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         BuyCtvScreen.routeName: (ctx) => BuyCtvScreen(),
         CreateCampScreen.routeName: (ctx) => CreateCampScreen(),
         CampScreen.routeName: (ctx) => CampScreen(),
-        InvestInCamp.routeName: (ctx) => InvestInCamp()
+        InvestInCamp.routeName: (ctx) => InvestInCamp(),
+        UserDetailsScreen.routeName: (ctx) => UserDetailsScreen(),
       },
     );
   }
