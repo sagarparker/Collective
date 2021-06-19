@@ -8,6 +8,7 @@ const moment        =   require('moment-timezone');
 const CollectiveToken   =   require('./lib/blockchain/CollectiveToken');
 const Camps             =   require('./lib/blockchain/Camps');
 const Auth              =   require('./lib/auth/userAuth');
+const Collective        =   require('./lib/collective/collective');
 
 // Timezone setup
 
@@ -60,6 +61,11 @@ app.use('/api',CollectiveToken);
 // Camps APIs
 
 app.use('/api',Camps);
+
+
+// Collective APIs
+
+app.use('/api',Collective);
 
 
 module.exports = app;
