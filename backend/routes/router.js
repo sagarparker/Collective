@@ -8,7 +8,7 @@ const moment        =   require('moment-timezone');
 const CollectiveToken   =   require('./lib/blockchain/CollectiveToken');
 const Camps             =   require('./lib/blockchain/Camps');
 const Auth              =   require('./lib/auth/userAuth');
-const Collective        =   require('./lib/collective/collective');
+const Collective        =   require('./lib/collective/Collective');
 
 // Timezone setup
 

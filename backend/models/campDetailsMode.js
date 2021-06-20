@@ -58,6 +58,10 @@ category        :   {
 targetReachedDB :   {
                         type:Boolean,
                         default:false
+                    },
+amountWithdrawn :   {
+                        type:Boolean,
+                        default:false
                     }
 
 });
