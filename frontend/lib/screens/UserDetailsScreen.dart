@@ -273,12 +273,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                         child: Padding(
                                           padding:
                                               const EdgeInsets.only(top: 1.0),
-                                          child: Text(
-                                            'Owned camps',
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor),
-                                          ),
+                                          child: Text('Investments',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor)),
                                         ),
                                         style: ElevatedButton.styleFrom(
                                             elevation: 0,
@@ -295,10 +293,12 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                         child: Padding(
                                           padding:
                                               const EdgeInsets.only(top: 1.0),
-                                          child: Text('Investments',
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor)),
+                                          child: Text(
+                                            'Collaborations',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
                                         ),
                                         style: ElevatedButton.styleFrom(
                                             elevation: 0,
@@ -309,7 +309,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                                   BorderRadius.circular(50),
                                             ),
                                             minimumSize: Size(150, 40)),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
