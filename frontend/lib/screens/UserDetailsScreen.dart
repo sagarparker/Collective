@@ -48,7 +48,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 height: 100,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(248, 248, 248, 1),
+                  color: Color.fromRGBO(240, 240, 240, 1),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Column(
@@ -195,7 +195,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 child: Image.asset('assets/images/userDetails.png'),
               ),
               Container(
-                height: 300,
+                height: 320,
                 width: MediaQuery.of(context).size.width,
                 child: FutureBuilder<dynamic>(
                     future: getUserDetails(token),
@@ -259,71 +259,99 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                                 .primaryColor)),
                                   ],
                                 ),
-                                Divider(),
                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 100.0),
+                                  padding: const EdgeInsets.only(
+                                    top: 50,
+                                    bottom: 50.0,
+                                  ),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        'Eth-address',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
+                                      ElevatedButton(
+                                        onPressed: () {},
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 1.0),
+                                          child: Text(
+                                            'Owned camps',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
                                         ),
+                                        style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            primary: Color.fromRGBO(
+                                                240, 240, 240, 1),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
+                                            minimumSize: Size(150, 40)),
                                       ),
-                                      Text(
-                                          snapshot.data['userAuthData']
-                                              ['eth_address'],
-                                          style: TextStyle(
-                                              fontSize: 8,
-                                              color: Theme.of(context)
-                                                  .primaryColor)),
+                                      ElevatedButton(
+                                        onPressed: () {},
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 1.0),
+                                          child: Text('Investments',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor)),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            primary: Color.fromRGBO(
+                                                240, 240, 240, 1),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
+                                            minimumSize: Size(150, 40)),
+                                      )
                                     ],
                                   ),
                                 ),
                                 ElevatedButton(
-                                    onPressed: () async {
-                                      SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-                                      prefs.remove('email');
-                                      prefs.remove('username');
-                                      prefs.remove('id');
-                                      prefs.remove('token');
-                                      Navigator.of(context)
-                                          .pushReplacementNamed(
-                                              LoginScreen.routeName);
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.logout),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 3,
-                                            bottom: 0,
-                                            left: 5,
-                                          ),
-                                          child: Text(
-                                            'Logout',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                  onPressed: () async {
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.remove('email');
+                                    prefs.remove('username');
+                                    prefs.remove('id');
+                                    prefs.remove('token');
+                                    Navigator.of(context).pushReplacementNamed(
+                                        LoginScreen.routeName);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.logout),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 3,
+                                          bottom: 0,
+                                          left: 5,
+                                        ),
+                                        child: Text(
+                                          'Logout',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        primary: Theme.of(context).primaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ),
-                                        minimumSize: Size(100, 45))),
+                                      ),
+                                    ],
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      primary: Theme.of(context).primaryColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      minimumSize: Size(100, 45)),
+                                ),
                               ],
                             ),
                           );

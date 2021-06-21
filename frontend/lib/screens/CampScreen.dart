@@ -277,7 +277,7 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                 ),
                               ),
                               Container(
-                                height: 175,
+                                height: 190,
                                 width: MediaQuery.of(context).size.width - 40,
                                 child: TabBarView(
                                   controller: _tabController,
@@ -289,7 +289,7 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                                   .size
                                                   .width -
                                               40,
-                                          height: 60,
+                                          height: 65,
                                           child: Text(
                                             snapshot.data["details"]
                                                 ["camp_description"],
@@ -506,9 +506,6 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                       ],
                                     ),
                                     Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          40,
-                                      height: 200,
                                       child: FutureBuilder<dynamic>(
                                         future: getCampsAngels(
                                           selectedCamp['campAddress'],
@@ -634,15 +631,13 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                                                   elevation:
                                                                       20.0,
                                                                   backgroundColor:
-                                                                      Color.fromRGBO(
-                                                                          255,
-                                                                          255,
-                                                                          255,
-                                                                          1),
+                                                                      Theme.of(
+                                                                              context)
+                                                                          .primaryColor,
                                                                   padding:
                                                                       EdgeInsets
                                                                           .all(
-                                                                              20),
+                                                                              35),
                                                                   content: Text(
                                                                     'Investment : ' +
                                                                         data[
@@ -654,8 +649,8 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             17,
-                                                                        color: Theme.of(context)
-                                                                            .primaryColor),
+                                                                        color: Colors
+                                                                            .white),
                                                                   ),
                                                                 ),
                                                               );

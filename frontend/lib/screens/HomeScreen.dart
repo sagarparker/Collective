@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                height: 482,
+                height: 600,
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(left: 10, right: 10, top: 5),
                 child: FutureBuilder<dynamic>(
@@ -284,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         } else {
                           return ListView.builder(
                             padding: EdgeInsets.only(
-                                top: 10, left: 6, right: 6, bottom: 55),
+                                top: 10, left: 6, right: 6, bottom: 200),
                             itemBuilder: (context, index) {
                               return Container(
                                 margin: EdgeInsets.only(bottom: 25),
@@ -503,7 +503,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       }
                     }),
-              )
+              ),
             ],
           ),
         ),
