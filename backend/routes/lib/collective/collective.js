@@ -55,7 +55,6 @@ router.post('/withdrawAmount',
   isAuthenticated,
   [body('owner_address').not().isEmpty(),
   body('owner_private_key').not().isEmpty(),
-  body('transfer_address').not().isEmpty(),
   body('amount').not().isEmpty()],
   async (req,res)=>{
     try{
@@ -70,7 +69,7 @@ router.post('/withdrawAmount',
 
         const owner_address     =   req.body.owner_address;
         const owner_private_key =   req.body.owner_private_key;
-        const transfer_address  =   req.body.transfer_address;
+        const transfer_address  =   req.decoded.eth_address;
         const amount            =   req.body.amount;
 
         const buyer_private_key =   owner_private_key;
