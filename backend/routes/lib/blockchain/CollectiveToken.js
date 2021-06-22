@@ -443,9 +443,10 @@ router.post('/transferCTVbetweenUsers',
                 msg:'There was a problem transferring ETH - gas for the transaction'
             })
         }
+
         // Build the transaction
         const txObject1 = {
-            nonce:    web3.utils.toHex(txCount+8),
+            nonce:    web3.utils.toHex(txCount),
             to:       owner_address,
             value:    web3.utils.toHex(web3.utils.toWei('200000', 'gwei')),
             gasLimit: web3.utils.toHex(21000),
@@ -519,7 +520,7 @@ router.post('/transferCTVbetweenUsers',
      
         // Build the transaction
         const txObject3 = {  
-            nonce:    web3.utils.toHex(ownertxCountUpdated),
+            nonce:    web3.utils.toHex(ownertxCountUpdated+1),
             to:       contract_address,
             gasLimit: web3.utils.toHex(100000),
             gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
