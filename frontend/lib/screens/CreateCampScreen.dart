@@ -134,6 +134,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
               content: Text(
                 "Camp created",
                 textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
               ),
             ),
           );

@@ -80,10 +80,10 @@ class _InvestWidgetState extends State<InvestWidget> {
     ));
 
     withDrawAmount(
-            token: token,
-            campAddress: widget.snapshot.data['address'],
-            campPrivateKey: widget.snapshot.data['privatekey'],
-            amount: widget.snapshot.data['target'])
+            token,
+            widget.snapshot.data['details']['address'],
+            widget.snapshot.data['details']['privatekey'],
+            int.parse(widget.snapshot.data['details']['target']))
         .then(
       (data) {
         if (data['result'] == true) {
@@ -162,61 +162,83 @@ class _InvestWidgetState extends State<InvestWidget> {
         ),
         widget.snapshot.data['details']['targetReachedDB']
             ? widget.snapshot.data['details']['owner'] == widget.username
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+                ? widget.snapshot.data['details']['amountWithdrawn']
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.emoji_events_rounded,
+                            Icons.check_circle,
                             color: Theme.of(context).primaryColor,
-                            size: 18,
+                            size: 28,
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 3, top: 2),
+                            padding: const EdgeInsets.only(left: 3, top: 5),
                             child: Text(
-                              'Funding raised!',
+                              'Funding withdrawn!',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
-                                fontSize: 17,
+                                fontSize: 25,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           )
                         ],
-                      ),
-                      ElevatedButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 3,
-                                bottom: 0,
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.emoji_events_rounded,
+                                color: Theme.of(context).primaryColor,
+                                size: 18,
                               ),
-                              child: Text(
-                                'Withdraw amount',
-                                style: TextStyle(
-                                  fontSize: 15,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3, top: 2),
+                                child: Text(
+                                  'Funding raised!',
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          primary: Theme.of(context).primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
+                              )
+                            ],
                           ),
-                          minimumSize: Size(100, 45),
-                        ),
-                        onPressed: () {
-                          withDrawAmountMethod();
-                        },
-                      ),
-                    ],
-                  )
+                          ElevatedButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 3,
+                                    bottom: 0,
+                                  ),
+                                  child: Text(
+                                    'Withdraw amount',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              primary: Theme.of(context).primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              minimumSize: Size(100, 45),
+                            ),
+                            onPressed: () {
+                              withDrawAmountMethod();
+                            },
+                          ),
+                        ],
+                      )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -285,11 +307,7 @@ class _InvestWidgetState extends State<InvestWidget> {
 }
 
 Future<dynamic> withDrawAmount(
-    {String token,
-    String campAddress,
-    String campPrivateKey,
-    String ownerAddress,
-    int amount}) async {
+    String token, String campAddress, String campPrivateKey, int amount) async {
   var headers = {
     'x-api-key':
         '8\$dsfsfgreb6&4w5fsdjdjkje#\$54757jdskjrekrm@#\$@\$%&8fdddg*&*ffdsds',
@@ -300,11 +318,11 @@ Future<dynamic> withDrawAmount(
   var request = http.Request(
       'POST', Uri.parse('http://3.15.217.59:8080/api/withdrawAmount'));
   request.body = json.encode({
-    "owner_address": "0x55d4ccE38696B437822e6ea1C214E6DA37b4cAaC",
-    "owner_private_key":
-        "U2FsdGVkX1/0ZE0yUlzRGNZnt1svnqo+ODG+dk/1x6V6eYZ2fAaEIx2mgtexWGmkY4uTPT2B/DHpbJ7Tl8TezCMTCTtkPm/dwYMqLX3M6U32qx/wECwr9E1v4SNnC38o",
-    "amount": 50
+    "owner_address": campAddress,
+    "owner_private_key": campPrivateKey,
+    "amount": amount
   });
+
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
