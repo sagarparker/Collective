@@ -445,7 +445,7 @@ router.post('/transferCTVbetweenUsers',
         }
         // Build the transaction
         const txObject1 = {
-            nonce:    web3.utils.toHex(txCount)+50,
+            nonce:    web3.utils.toHex(txCount)+1,
             to:       owner_address,
             value:    web3.utils.toHex(web3.utils.toWei('200000', 'gwei')),
             gasLimit: web3.utils.toHex(21000),
