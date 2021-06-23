@@ -479,6 +479,7 @@ router.post('/transferCTVbetweenUsers',
         //////////////////////////////////////////////////////////////
     
         const ownertxCount = await web3.eth.getTransactionCount(owner_address);
+        console.log("Approval txCount : "+ownertxCount);
 
         // Build the transaction
         const txObject2 = {
@@ -516,6 +517,7 @@ router.post('/transferCTVbetweenUsers',
 
 
         const ownertxCountUpdated = await  web3.eth.getTransactionCount(owner_address);
+        console.log("Transfer txCount : "+ownertxCountUpdated);
 
      
         // Build the transaction
