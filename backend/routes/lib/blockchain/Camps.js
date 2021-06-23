@@ -318,6 +318,7 @@ router.post('/buyEquity',
             //web3.eth.handleRevert = true;
 
             //Input field validation
+            
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(422).json({
@@ -327,110 +328,116 @@ router.post('/buyEquity',
 
             const angel_address     =   req.decoded.eth_address;
             const camp_address      =   req.body.camp_address;
-            const amount            =   req.body.amount
+            const amount            =   req.body.amount;
+            
 
+            const buyer_private_key = req.decoded.eth_private_key;
+            let bytes  = CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
+            let bytes_key = bytes.toString(CryptoJS.enc.Utf8).slice(2);
+            let original_private_key = Buffer.from(bytes_key,'hex');
+            
 
-            const txCount = await web3.eth.getTransactionCount(account_address);
-            if(!txCount){
-                return res.status(500).json({
-                    result:false,
-                    msg:'There was a problem in transaction'
-                })
-            }
-            // Build the transaction
-            const txObject = {
-                nonce:    web3.utils.toHex(txCount),
-                to:       contract_address,
-                gasLimit: web3.utils.toHex(500000),
-                gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
-                data: contract.methods.buyEquity(angel_address,camp_address,amount).encodeABI()
-            }
-        
-            // Sign the transaction
-            const tx = new Tx(txObject,{chain:42})
-            tx.sign(privateKey)
-        
-            const serializedTx = tx.serialize()
-            const raw = '0x' + serializedTx.toString('hex')
+            var data = JSON.stringify({
+                "owner_address": angel_address,
+                "owner_private_key": original_private_key,
+                "transfer_address": camp_address,
+                "amount": amount
+            });
+              
+            var config = {
+                method: 'post',
+                url: 'http://localhost:8080/api/transferCTVbetweenUsers',
+                headers: { 
+                  'Content-Type': 'application/json'
+                },
+                data : data
+            };
+              
+            axios(config)
+              .then(async function (response) {
 
+                console.log(JSON.stringify(response.data));
 
-            // Broadcast the transaction
+                if(response.data.result == true){
 
-            const transactionDetails = await web3.eth.sendSignedTransaction(raw);
-            if(transactionDetails.logs.length>0){
-                const campUpdate = await CampModel.findOneAndUpdate({address:camp_address},{targetReachedDB:true});
-                if(!campUpdate){
-                    console.log('\nThere was a problem updating the targetReached status');
-                }
-                console.log("\nCamp's target reached !!!!");
-            }
-            if(transactionDetails.status){
-
-
-                const buyer_private_key = req.decoded.eth_private_key;
-                let bytes  = CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
-                let bytes_key = bytes.toString(CryptoJS.enc.Utf8).slice(2);
-                let original_private_key = Buffer.from(bytes_key,'hex');
+                    const txCount = await web3.eth.getTransactionCount(account_address);
+                    if(!txCount){
+                        return res.status(500).json({
+                            result:false,
+                            msg:'There was a problem in transaction'
+                        })
+                    }
+                    // Build the transaction
+                    const txObject = {
+                        nonce:    web3.utils.toHex(txCount),
+                        to:       contract_address,
+                        gasLimit: web3.utils.toHex(500000),
+                        gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
+                        data: contract.methods.buyEquity(angel_address,camp_address,amount).encodeABI()
+                    }
                 
-
-                var data = JSON.stringify({
-                    "owner_address": angel_address,
-                    "owner_private_key": original_private_key,
-                    "transfer_address": camp_address,
-                    "amount": amount
-                  });
-                  
-                  var config = {
-                    method: 'post',
-                    url: 'http://localhost:8080/api/transferCTVbetweenUsers',
-                    headers: { 
-                      'Content-Type': 'application/json'
-                    },
-                    data : data
-                  };
-                  
-                  axios(config)
-                  .then(async function (response) {
-
-                    console.log(JSON.stringify(response.data));
-                    
-                    // Saving the camp id to userdetails
-
-                    const campDetails = await CampModel.findOne({address:camp_address});
-                    if(!campDetails){
-                        console.log('\nCamp not found');
+                    // Sign the transaction
+                    const tx = new Tx(txObject,{chain:42})
+                    tx.sign(privateKey)
+                
+                    const serializedTx = tx.serialize()
+                    const raw = '0x' + serializedTx.toString('hex')
+        
+        
+                    // Broadcast the transaction
+        
+                    const transactionDetails = await web3.eth.sendSignedTransaction(raw);
+                    if(transactionDetails.logs.length>0){
+                        const campUpdate = await CampModel.findOneAndUpdate({address:camp_address},{targetReachedDB:true});
+                        if(!campUpdate){
+                            console.log('\nThere was a problem updating the targetReached status');
+                        }
+                        console.log("\nCamp's target reached !!!!");
                     }
+                    if(transactionDetails.status){
+                        // Saving the camp id to userdetails
 
-                    const userDetailsUpdate = await UserDetailsModel.findOneAndUpdate({username:req.decoded.username},{
-                        $addToSet:{camps_invested:campDetails.id}
-                    })
-
-                    if(!userDetailsUpdate){
-                        console.log('There was a problem updating your investment list');
+                        const campDetails = await CampModel.findOne({address:camp_address});
+                        if(!campDetails){
+                            console.log('\nCamp not found');
+                        }
+        
+                        const userDetailsUpdate = await UserDetailsModel.findOneAndUpdate({username:req.decoded.username},{
+                            $addToSet:{camps_invested:campDetails.id}
+                        })
+        
+                        if(!userDetailsUpdate){
+                            console.log('There was a problem updating your investment list');
+                        }
+        
+                        console.log("\nCamp added to Users investment list");
+        
+                        res.status(200).json({
+                            result:true,
+                            msg:'Equity bought in the camp'
+                        });
                     }
-
-                    console.log("\nCamp added to Users investment list");
-
-                    res.status(200).json({
-                        result:true,
-                        msg:'Equity bought in the camp'
-                    });
-                    
-                  })
-                  .catch(function (error) {
-                    console.log(error);
+                    else if (transactionDetails.status == false){
+                        res.status(500).json({
+                            result:false,
+                            msg:'There was a problem buying equity in the camp'
+                        })
+                    }
+                }
+                else{
                     res.status(500).json({
                         result:false,
-                        msg:'There was a problem transfering CTV'
+                        msg:'There was a problem buying equity in the camp'
                     })
-                  });
-            }
-            else if (transactionDetails.status == false){
-                res.status(500).json({
+                }
+              })
+              .catch(function (error) {
+                console.log(error);
+                return res.status(500).json({
                     result:false,
-                    msg:'There was a problem buying equity in the camp'
+                    msg:'There was a problem transfering CTV'
                 })
-            }
+              });
         }
         catch(err){
             console.log(err);
