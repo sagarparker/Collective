@@ -15,107 +15,96 @@ class MoreCampDataWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              height: 44,
+              height: 35,
               margin: EdgeInsets.only(
-                top: 5,
-                bottom: 10,
+                top: 15,
               ),
               padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Color.fromRGBO(245, 245, 245, 1),
-              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Text(
+                    'Camp Owner',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Text(
                     snapshot.data["details"]["owner"],
                     textAlign: TextAlign.start,
                     style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Divider(),
+            Container(
+              height: 35,
+              margin: EdgeInsets.only(
+                top: 5,
+              ),
+              padding: EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Created On ',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    snapshot.data["details"]["createdOn"].split(',')[0],
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(),
+            Container(
+              height: 35,
+              margin: EdgeInsets.only(
+                top: 5,
+              ),
+              padding: EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Valuation',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
                         fontSize: 16,
-                        color: Theme.of(context).primaryColor,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    '- Camp Owner',
+                    ((int.parse(snapshot.data["details"]["target"]) * 100) /
+                                int.parse(snapshot.data["details"]["equity"]))
+                            .toStringAsFixed(0)
+                            .replaceAllMapped(
+                                new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                (Match m) => '${m[1]},') +
+                        " CTV",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              height: 44,
-              margin: EdgeInsets.only(
-                top: 5,
-                bottom: 10,
-              ),
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Color.fromRGBO(245, 245, 245, 1),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    snapshot.data["details"]["createdOn"],
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '- Created On ',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              height: 40,
-              margin: EdgeInsets.only(
-                top: 5,
-                bottom: 10,
-              ),
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Color.fromRGBO(245, 245, 245, 1),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2.0),
-                    child: Text(
-                      ((int.parse(snapshot.data["details"]["target"]) * 100) /
-                                  int.parse(snapshot.data["details"]["equity"]))
-                              .toStringAsFixed(0) +
-                          " CTV",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold),
+                      fontSize: 16,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
-                  Text(
-                    '- Valuation',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54,
-                    ),
-                  )
                 ],
               ),
             ),

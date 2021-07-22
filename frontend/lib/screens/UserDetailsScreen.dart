@@ -127,17 +127,21 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                                 const EdgeInsets.only(left: 5),
                                             child: Image.asset(
                                               'assets/images/Logo.png',
-                                              width: 35,
-                                              height: 35,
+                                              width: 33,
+                                              height: 33,
                                             ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 left: 3, top: 5),
                                             child: Text(
-                                              snapshot.data['CTV_balance'],
+                                              snapshot.data['CTV_balance']
+                                                  .replaceAllMapped(
+                                                      new RegExp(
+                                                          r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                      (Match m) => '${m[1]},'),
                                               style: TextStyle(
-                                                fontSize: 25,
+                                                fontSize: 24,
                                                 fontWeight: FontWeight.bold,
                                                 color: Theme.of(context)
                                                     .primaryColor,

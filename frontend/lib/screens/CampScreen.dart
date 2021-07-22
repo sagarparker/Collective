@@ -164,8 +164,11 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      snapshot.data['details']
-                                              ['fundingRaised'] +
+                                      snapshot.data['details']['fundingRaised']
+                                              .replaceAllMapped(
+                                                  new RegExp(
+                                                      r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                  (Match m) => '${m[1]},') +
                                           " CTV",
                                       style: TextStyle(
                                         fontSize: 16,
@@ -173,7 +176,11 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     Text(
-                                      snapshot.data['details']['target'] +
+                                      snapshot.data['details']['target']
+                                              .replaceAllMapped(
+                                                  new RegExp(
+                                                      r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                  (Match m) => '${m[1]},') +
                                           " CTV",
                                       style: TextStyle(
                                           fontSize: 16,

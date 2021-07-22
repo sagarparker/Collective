@@ -1,3 +1,4 @@
+import 'package:collective/screens/CampScreen.dart';
 import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,7 @@ class _InvestInCampState extends State<InvestInCamp> {
       (data) {
         if (data['result'] == true) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Theme.of(context).primaryColor,
@@ -246,7 +247,7 @@ class _InvestInCampState extends State<InvestInCamp> {
                                         padding:
                                             const EdgeInsets.only(left: 10.0),
                                         child: Text(
-                                          'Current balance : ',
+                                          'CTV Balance : ',
                                           style: TextStyle(
                                             fontSize: 19,
                                             fontWeight: FontWeight.bold,
@@ -272,7 +273,11 @@ class _InvestInCampState extends State<InvestInCamp> {
                                               top: 5,
                                             ),
                                             child: Text(
-                                              snapshot.data['CTV_balance'],
+                                              snapshot.data['CTV_balance']
+                                                  .replaceAllMapped(
+                                                      new RegExp(
+                                                          r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                      (Match m) => '${m[1]},'),
                                               style: TextStyle(
                                                 fontSize: 19,
                                                 fontWeight: FontWeight.bold,
@@ -472,7 +477,11 @@ class _InvestInCampState extends State<InvestInCamp> {
                             'You can invest upto ' +
                                 (int.parse(selectedCamp['target']) -
                                         int.parse(selectedCamp['raised']))
-                                    .toString() +
+                                    .toString()
+                                    .replaceAllMapped(
+                                        new RegExp(
+                                            r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                        (Match m) => '${m[1]},') +
                                 ' CTV.',
                             style: TextStyle(
                               color: Theme.of(context).primaryColor,

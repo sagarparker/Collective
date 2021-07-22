@@ -329,7 +329,7 @@ router.post('/buyEquity',
             const angel_address     =   req.decoded.eth_address;
             const camp_address      =   req.body.camp_address;
             const amount            =   req.body.amount;
-            
+
 
             const buyer_private_key = req.decoded.eth_private_key;
             let bytes  = CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
@@ -395,6 +395,7 @@ router.post('/buyEquity',
                         console.log("\nCamp's target reached !!!!");
                     }
                     if(transactionDetails.status){
+                        
                         // Saving the camp id to userdetails
 
                         const campDetails = await CampModel.findOne({address:camp_address});
