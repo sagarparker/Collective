@@ -198,7 +198,7 @@ Future<dynamic> userLogin(String emailusername, String password) async {
     'Content-Type': 'application/json'
   };
   var request =
-      http.Request('POST', Uri.parse('http://3.15.217.59:8080/api/userLogin'));
+      http.Request('POST', Uri.parse('http://3.15.217.59/api/userLogin'));
   request.body =
       json.encode({"email_username": emailusername, "password": password});
   request.headers.addAll(headers);

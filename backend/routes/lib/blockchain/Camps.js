@@ -122,7 +122,7 @@ router.post('/createCamp',
                 })
             }
 
-            const image_url = `http://3.15.217.59:8080/media/camp/${req.file.filename}`;
+            const image_url = `http://3.15.217.59/media/camp/${req.file.filename}`;
             const camp_name         =   req.body.camp_name;
             const camp_target       =   req.body.camp_target;
             const camp_equity       =   req.body.camp_equity;

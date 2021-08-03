@@ -169,7 +169,7 @@ class CampsAngelListWidget extends StatelessWidget {
 Future<dynamic> getCampsAngels(String campAddress) async {
   var headers = {'Content-Type': 'application/json'};
   var request = http.Request(
-      'POST', Uri.parse('http://3.15.217.59:8080/api/getCampsAngelInvestors'));
+      'POST', Uri.parse('http://3.15.217.59/api/getCampsAngelInvestors'));
   request.body = json.encode({"camp_address": campAddress});
   request.headers.addAll(headers);
 
@@ -184,7 +184,7 @@ Future<dynamic> getAngelsFunding(
     String campAddress, String angelAddress) async {
   var headers = {'Content-Type': 'application/json'};
   var request = http.Request(
-      'POST', Uri.parse('http://3.15.217.59:8080/api/getFundingDetails'));
+      'POST', Uri.parse('http://3.15.217.59/api/getFundingDetails'));
   request.body =
       json.encode({"camp_address": campAddress, "angel_address": angelAddress});
   request.headers.addAll(headers);

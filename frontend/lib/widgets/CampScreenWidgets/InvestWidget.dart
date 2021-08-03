@@ -315,8 +315,8 @@ Future<dynamic> withDrawAmount(
     'Authorization': token
   };
 
-  var request = http.Request(
-      'POST', Uri.parse('http://3.15.217.59:8080/api/withdrawAmount'));
+  var request =
+      http.Request('POST', Uri.parse('http://3.15.217.59/api/withdrawAmount'));
   request.body = json.encode({
     "owner_address": campAddress,
     "owner_private_key": campPrivateKey,

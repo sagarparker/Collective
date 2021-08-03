@@ -536,7 +536,7 @@ Future<dynamic> getUserBalance(String token) async {
     'Authorization': token
   };
   var request = http.Request(
-      'GET', Uri.parse('http://3.15.217.59:8080/api/getUsersAccountBalance'));
+      'GET', Uri.parse('http://3.15.217.59/api/getUsersAccountBalance'));
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
@@ -551,8 +551,8 @@ Future<dynamic> getCamps(String token) async {
     'Content-Type': 'application/json',
     'Authorization': token
   };
-  var request = http.Request(
-      'POST', Uri.parse('http://3.15.217.59:8080/api/getCampList'));
+  var request =
+      http.Request('POST', Uri.parse('http://3.15.217.59/api/getCampList'));
   request.body = json.encode({"sort_by": "High target"});
   request.headers.addAll(headers);
 

@@ -223,8 +223,8 @@ Future<dynamic> userRegister(
         '8\$dsfsfgreb6&4w5fsdjdjkje#\$54757jdskjrekrm@#\$@\$%&8fdddg*&*ffdsds',
     'Content-Type': 'application/json'
   };
-  var request = http.Request(
-      'POST', Uri.parse('http://3.15.217.59:8080/api/userRegister'));
+  var request =
+      http.Request('POST', Uri.parse('http://3.15.217.59/api/userRegister'));
   request.body =
       json.encode({"email": email, "username": username, "password": password});
   request.headers.addAll(headers);
