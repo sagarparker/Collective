@@ -63,98 +63,98 @@ class CampsAngelListWidget extends StatelessWidget {
           return ListView.builder(
             itemCount: snapshot.data['list'].length,
             itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(
-                  top: 5,
-                  bottom: 10,
-                ),
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Color.fromRGBO(245, 245, 245, 1),
-                ),
-                width: MediaQuery.of(context).size.width - 40,
-                height: 53,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2.0),
-                      child: Text(
-                        snapshot.data['list'][index]['username'],
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+              return Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 5,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        getAngelsFunding(selectedCamp['campAddress'],
-                                snapshot.data['list'][index]['eth_address'])
-                            .then(
-                          (data) {
-                            if (data['result'] == true) {
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  elevation: 20.0,
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                  padding: EdgeInsets.all(35),
-                                  content: Text(
-                                    snapshot.data['list'][index]['username'] +
-                                        '\'s investment : ' +
-                                        data['details'] +
-                                        ' CTV',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 17, color: Colors.white),
-                                  ),
-                                ),
-                              );
-                            } else if (data['result'] == false) {
-                              print(data);
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.red,
-                                  padding: EdgeInsets.all(20),
-                                  content: Text(
-                                    "Please try again later",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 2.0),
-                        child: Text('Check investment'),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        primary: Theme.of(context).primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            25,
+                    padding: EdgeInsets.all(8),
+                    width: MediaQuery.of(context).size.width - 40,
+                    height: 53,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Text(
+                            snapshot.data['list'][index]['username'],
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        minimumSize: Size(100, 70),
-                      ),
+                        ElevatedButton(
+                          onPressed: () {
+                            getAngelsFunding(selectedCamp['campAddress'],
+                                    snapshot.data['list'][index]['eth_address'])
+                                .then(
+                              (data) {
+                                if (data['result'] == true) {
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      elevation: 20.0,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                      padding: EdgeInsets.all(35),
+                                      content: Text(
+                                        snapshot.data['list'][index]
+                                                ['username'] +
+                                            '\'s investment : ' +
+                                            data['details'] +
+                                            ' CTV',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 17, color: Colors.white),
+                                      ),
+                                    ),
+                                  );
+                                } else if (data['result'] == false) {
+                                  print(data);
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.red,
+                                      padding: EdgeInsets.all(20),
+                                      content: Text(
+                                        "Please try again later",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 2.0),
+                            child: Text('Check investment'),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            primary: Theme.of(context).primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                25,
+                              ),
+                            ),
+                            minimumSize: Size(100, 70),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Divider(),
+                ],
               );
             },
           );

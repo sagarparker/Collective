@@ -48,7 +48,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 height: 100,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(240, 240, 240, 1),
+                  color: Color.fromRGBO(245, 245, 245, 1),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Column(
@@ -123,17 +123,34 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                       Row(
                                         children: [
                                           Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 8.0,
+                                              top: 5,
+                                            ),
+                                            child: Text(
+                                              'Balance ',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
                                             padding:
                                                 const EdgeInsets.only(left: 5),
                                             child: Image.asset(
                                               'assets/images/Logo.png',
-                                              width: 33,
-                                              height: 33,
+                                              width: 25,
+                                              height: 25,
                                             ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 3, top: 5),
+                                                left: 3, top: 5, right: 10),
                                             child: Text(
                                               snapshot.data['CTV_balance']
                                                   .replaceAllMapped(
@@ -141,7 +158,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                                           r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                                                       (Match m) => '${m[1]},'),
                                               style: TextStyle(
-                                                fontSize: 24,
+                                                fontSize: 20,
                                                 fontWeight: FontWeight.bold,
                                                 color: Theme.of(context)
                                                     .primaryColor,
@@ -149,36 +166,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                             ),
                                           ),
                                         ],
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              elevation: 0,
-                                              primary: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          60)),
-                                              minimumSize: Size(90, 35)),
-                                          onPressed: () {
-                                            Navigator.of(context).pushNamed(
-                                                BuyCtvScreen.routeName);
-                                          },
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 2),
-                                            child: Text(
-                                              'Buy CTV',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
                                       ),
                                     ],
                                   );
@@ -193,14 +180,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 ),
               ),
               Container(
-                height: 200,
-                margin: EdgeInsets.only(top: 40),
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset('assets/images/userDetails.png'),
-              ),
-              Container(
-                height: 320,
-                width: MediaQuery.of(context).size.width,
+                height: 540,
+                width: MediaQuery.of(context).size.width - 20,
                 child: FutureBuilder<dynamic>(
                     future: getUserDetails(token),
                     builder: (BuildContext context,
@@ -220,141 +201,170 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         } else {
                           return Container(
                             margin: EdgeInsets.only(top: 30),
-                            height: 200,
+                            height: 560,
                             padding: EdgeInsets.all(16),
                             child: Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Username',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Text(
-                                        snapshot.data['userAuthData']
-                                            ['username'],
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Theme.of(context)
-                                                .primaryColor)),
-                                  ],
-                                ),
-                                Divider(),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Email-ID',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Text(snapshot.data['userAuthData']['email'],
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Theme.of(context)
-                                                .primaryColor)),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 50,
-                                    bottom: 50.0,
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 30,
+                                    bottom: 30,
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      ElevatedButton(
-                                        onPressed: () {},
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 1.0),
-                                          child: Text('Investments',
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor)),
+                                      Text(
+                                        'Username',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
                                         ),
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 0,
-                                            primary: Color.fromRGBO(
-                                                240, 240, 240, 1),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                            ),
-                                            minimumSize: Size(150, 40)),
                                       ),
-                                      ElevatedButton(
-                                        onPressed: () {},
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 1.0),
-                                          child: Text(
-                                            'Collaborations',
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor),
-                                          ),
+                                      Text(
+                                          snapshot.data['userAuthData']
+                                              ['username'],
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
+                                    ],
+                                  ),
+                                ),
+                                Divider(),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 30,
+                                    bottom: 30,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Email-ID',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
                                         ),
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 0,
-                                            primary: Color.fromRGBO(
-                                                240, 240, 240, 1),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                            ),
-                                            minimumSize: Size(150, 40)),
+                                      ),
+                                      Text(
+                                          snapshot.data['userAuthData']
+                                              ['email'],
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
+                                    ],
+                                  ),
+                                ),
+                                Divider(),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 30,
+                                    bottom: 30,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Investments',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot
+                                                .data['userData']
+                                                    ['camps_invested']
+                                                .length
+                                                .toString() +
+                                            " investments",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                     ],
                                   ),
                                 ),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
-                                    prefs.remove('email');
-                                    prefs.remove('username');
-                                    prefs.remove('id');
-                                    prefs.remove('token');
-                                    Navigator.of(context).pushReplacementNamed(
-                                        LoginScreen.routeName);
-                                  },
+                                Divider(),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 30,
+                                    bottom: 30,
+                                  ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Icon(Icons.logout),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 3,
-                                          bottom: 0,
-                                          left: 5,
+                                      Text(
+                                        'Collaborations',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
                                         ),
-                                        child: Text(
-                                          'Logout',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data['userData']['camps_owned']
+                                                .length
+                                                .toString() +
+                                            " collabs",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                     ],
                                   ),
-                                  style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      primary: Theme.of(context).primaryColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      minimumSize: Size(100, 45)),
+                                ),
+                                Divider(),
+                                Container(
+                                  margin: EdgeInsets.only(top: 50),
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.remove('email');
+                                      prefs.remove('username');
+                                      prefs.remove('id');
+                                      prefs.remove('token');
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              LoginScreen.routeName);
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.logout),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 3,
+                                            bottom: 0,
+                                            left: 5,
+                                          ),
+                                          child: Text(
+                                            'Logout',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                        elevation: 0,
+                                        primary: Theme.of(context).primaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                        minimumSize: Size(100, 45)),
+                                  ),
                                 ),
                               ],
                             ),

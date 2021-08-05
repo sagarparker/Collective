@@ -61,7 +61,7 @@ class CollabWidget extends StatelessWidget {
           ),
           style: ElevatedButton.styleFrom(
             elevation: 0,
-            primary: Color.fromRGBO(235, 235, 235, 1),
+            primary: Color.fromRGBO(225, 225, 225, 1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
