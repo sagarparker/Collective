@@ -88,7 +88,7 @@ router.post('/withdrawAmount',
         
         var config = {
           method: 'post',
-          url: 'http://3.15.217.59:8080/api/transferCTVbetweenUsers',
+          url: 'http://localhost:8080/api/transferCTVbetweenUsers',
           headers: { 
             'Content-Type': 'application/json'
           },

@@ -507,7 +507,7 @@ Future<dynamic> getUserBalance(String token) async {
     'Authorization': token
   };
   var request = http.Request(
-      'GET', Uri.parse('http://3.15.217.59/api/getUsersAccountBalance'));
+      'GET', Uri.parse('http://18.217.26.234/api/getUsersAccountBalance'));
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
@@ -523,7 +523,7 @@ Future<dynamic> buyEquity(String token, String address, int amount) async {
     'Authorization': token
   };
   var request =
-      http.Request('POST', Uri.parse('http://3.15.217.59/api/buyEquity'));
+      http.Request('POST', Uri.parse('http://18.217.26.234/api/buyEquity'));
   request.body = json.encode({"camp_address": address, "amount": amount});
   request.headers.addAll(headers);
 

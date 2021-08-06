@@ -358,7 +358,7 @@ Future<dynamic> createCamp(
     'Authorization': token
   };
   var request = http.MultipartRequest(
-      'POST', Uri.parse('http://3.15.217.59/api/createCamp'));
+      'POST', Uri.parse('http://18.217.26.234/api/createCamp'));
   request.fields.addAll({
     'camp_name': campName,
     'camp_equity': equity.toString(),
