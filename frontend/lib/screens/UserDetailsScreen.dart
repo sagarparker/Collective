@@ -1,4 +1,3 @@
-import 'package:collective/screens/BuyCtvScreen.dart';
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
@@ -128,10 +127,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                               top: 5,
                                             ),
                                             child: Text(
-                                              'Balance ',
+                                              'CTV Balance ',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 18,
+                                                fontSize: 16,
                                               ),
                                             ),
                                           )
@@ -144,8 +143,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                                 const EdgeInsets.only(left: 5),
                                             child: Image.asset(
                                               'assets/images/Logo.png',
-                                              width: 25,
-                                              height: 25,
+                                              width: 23,
+                                              height: 23,
                                             ),
                                           ),
                                           Padding(
@@ -158,7 +157,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                                           r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                                                       (Match m) => '${m[1]},'),
                                               style: TextStyle(
-                                                fontSize: 20,
+                                                fontSize: 18,
                                                 fontWeight: FontWeight.bold,
                                                 color: Theme.of(context)
                                                     .primaryColor,
@@ -180,7 +179,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 ),
               ),
               Container(
-                height: 540,
+                height: 545,
                 width: MediaQuery.of(context).size.width - 20,
                 child: FutureBuilder<dynamic>(
                     future: getUserDetails(token),
@@ -200,14 +199,13 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                   Text('There was a problem fetching balance'));
                         } else {
                           return Container(
-                            margin: EdgeInsets.only(top: 30),
-                            height: 560,
+                            margin: EdgeInsets.only(top: 25),
+                            height: 545,
                             padding: EdgeInsets.all(16),
                             child: Column(
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(
-                                    top: 30,
                                     bottom: 30,
                                   ),
                                   child: Row(
@@ -255,6 +253,36 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                               fontSize: 16,
                                               color: Theme.of(context)
                                                   .primaryColor)),
+                                    ],
+                                  ),
+                                ),
+                                Divider(),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 30,
+                                    bottom: 30,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Camps owned',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data['userData']['camps_owned']
+                                                .length
+                                                .toString() +
+                                            " camps",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -320,9 +348,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                     ],
                                   ),
                                 ),
-                                Divider(),
                                 Container(
-                                  margin: EdgeInsets.only(top: 50),
+                                  margin: EdgeInsets.only(top: 10),
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       SharedPreferences prefs =

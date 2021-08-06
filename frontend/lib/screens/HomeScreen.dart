@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String token;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -41,6 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
       statusBarIconBrightness: Brightness.dark,
     ));
     return Scaffold(
+      key: _scaffoldKey,
+      endDrawerEnableOpenDragGesture: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -49,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.black,
           iconSize: 25,
           onPressed: () {
-            print("XD");
+            _scaffoldKey.currentState.openDrawer();
           },
         ),
         elevation: 2,
@@ -87,6 +90,54 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.of(context).pushNamed(UserDetailsScreen.routeName);
               })
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            SizedBox(
+              height: 64,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Text(
+                  'Collective',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.campaign,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text('Camps owned'),
+              onTap: () {
+                print('XD');
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(
+                Icons.monetization_on,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text('Investments'),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(
+                Icons.group,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text('Collaborations'),
+            ),
+            Divider()
+          ],
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -176,8 +227,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 const EdgeInsets.only(left: 5),
                                             child: Image.asset(
                                               'assets/images/Logo.png',
-                                              width: 33,
-                                              height: 33,
+                                              width: 30,
+                                              height: 30,
                                             ),
                                           ),
                                           Padding(
@@ -190,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                                                       (Match m) => '${m[1]},'),
                                               style: TextStyle(
-                                                fontSize: 24,
+                                                fontSize: 20,
                                                 fontWeight: FontWeight.bold,
                                                 color: Theme.of(context)
                                                     .primaryColor,
@@ -223,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               'Buy CTV',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 16,
+                                                fontSize: 15,
                                               ),
                                             ),
                                           ),
@@ -243,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 height: 60,
-                padding: EdgeInsets.only(left: 16, right: 16, top: 19),
+                padding: EdgeInsets.only(left: 18, right: 18, top: 19),
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -252,10 +303,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       "Popular camps",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 17,
                       ),
                     ),
-                    Text('- Filter')
+                    Text('- Filter',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ))
                   ],
                 ),
               ),
@@ -422,8 +476,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       children: [
                                                         Image.asset(
                                                           'assets/images/LogoNoPadding.png',
-                                                          width: 30,
-                                                          height: 30,
+                                                          width: 27,
+                                                          height: 27,
                                                         ),
                                                         Padding(
                                                           padding:
@@ -443,7 +497,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     (Match m) =>
                                                                         '${m[1]},'),
                                                             style: TextStyle(
-                                                                fontSize: 24,
+                                                                fontSize: 20,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,

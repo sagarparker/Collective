@@ -68,14 +68,17 @@ class _InvestInCampState extends State<InvestInCamp> {
         padding: const EdgeInsets.only(top: 0.0),
         child: Column(
           children: [
-            Image.asset(
-              'assets/images/loading.png',
-              width: 300,
+            Padding(
+              padding: const EdgeInsets.only(top: 80),
+              child: SpinKitFadingCube(
+                color: Theme.of(context).primaryColor,
+                size: 40.0,
+              ),
             ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 50,
                   left: 45,
                   right: 45,
                   bottom: 30,
@@ -90,10 +93,6 @@ class _InvestInCampState extends State<InvestInCamp> {
                 ),
               ),
             ),
-            SpinKitFadingCube(
-              color: Theme.of(context).primaryColor,
-              size: 30.0,
-            )
           ],
         ),
       ),
