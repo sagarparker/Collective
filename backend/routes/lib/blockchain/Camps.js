@@ -331,10 +331,10 @@ router.post('/buyEquity',
             const amount            =   req.body.amount;
 
 
-            const buyer_private_key = req.decoded.eth_private_key;
-            let bytes  = CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
-            let bytes_key = bytes.toString(CryptoJS.enc.Utf8).slice(2);
-            let original_private_key = Buffer.from(bytes_key,'hex');
+            const buyer_private_key     =   req.decoded.eth_private_key;
+            let bytes                   =   CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
+            let bytes_key               =   bytes.toString(CryptoJS.enc.Utf8).slice(2);
+            let original_private_key    =   Buffer.from(bytes_key,'hex');
             
 
             var data = JSON.stringify({
@@ -710,7 +710,7 @@ router.get('/getCampsCreatedByUser',
             return res.status(200).json({
                 result:true,
                 msg:'Camps fetched',
-                data:campList
+                details:campList.camps_owned
             });
             
         }
@@ -744,7 +744,7 @@ router.get('/getCampsInvestedByUser',
             return res.status(200).json({
                 result:true,
                 msg:'Camps fetched',
-                data:campList
+                details:campList.camps_invested
             });
             
         }
