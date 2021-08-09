@@ -5,6 +5,7 @@ const Web3      = require('web3');
 const moment    = require('moment-timezone');
 const CryptoJS  = require("crypto-js");
 const axios     = require("axios");
+const nodemailer = require('nodemailer');
 
 const UserAuthModel     = require("../../../models/userAuthModel");
 const CampModel         = require('../../../models/campDetailsMode');
@@ -129,6 +130,76 @@ router.post('/withdrawAmount',
     }
 });
 
+
+// Support/Help email API
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.email_id,
+    pass: process.env.email_password
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
+
+router.post('/supportEmail',
+  validateApiSecret,
+  isAuthenticated,
+  [ 
+    body('email_sender').isEmail(),
+    body('email_sender').not().isEmpty(),
+    body('email_subject').not().isEmpty(),
+    body('email_message').not().isEmpty()
+  ],
+  async(req,res)=>{
+    try{
+        //Input field validation
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({
+                error: errors.array()[0],result:false   
+            });
+        }
+
+        let { email_sender,email_subject,email_message } = req.body;
+
+        // Using nodemailer to send support email
+
+        const mailOptions = {
+          from: email_sender,
+          to: 'collectivecfplatform@gmail.com',
+          subject: email_sender+" - "+email_subject,
+          text: email_sender+" - "+email_message
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+            return res.status(500).json({
+              msg:"There was a problem sending the email",
+              result:false,
+              error
+            });
+          } else {
+            return res.status(200).json({
+              msg:"Email sent, please wait for the response from our support team",
+              result:true
+            })
+          }
+        });
+
+    }
+    catch(err){
+      console.log(err);
+      return res.status(500).json({
+        msg:"There was an error sending a message to our team, Please try again.",
+        result:false,
+      });
+    }
+});
 
 
 

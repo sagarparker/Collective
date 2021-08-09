@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView(
             children: <Widget>[
               SizedBox(
-                height: 60,
+                height: 64,
                 child: DrawerHeader(
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(240, 240, 240, 1),
@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Text(
                                               'Buy CTV',
                                               style: TextStyle(
-                                                fontWeight: FontWeight.bold,
+                                                fontWeight: FontWeight.normal,
                                                 fontSize: 15,
                                               ),
                                             ),
@@ -341,7 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text('- Filter',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                         ))
                   ],
                 ),

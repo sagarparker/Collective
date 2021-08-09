@@ -80,13 +80,13 @@ class CampListViewWidget extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(right: 3),
+                                padding: const EdgeInsets.only(right: 0),
                                 child: Text(
                                   '- ' +
                                       snapshot.data['details'][index]
                                           ['category'],
                                   style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       color: Theme.of(context).primaryColor),
                                 ),
                               ),
@@ -94,10 +94,10 @@ class CampListViewWidget extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          height: 80,
+                          height: 64,
                           width: 326,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 5.0),
+                            padding: const EdgeInsets.only(top: 2.0),
                             child: Text(
                               snapshot.data['details'][index]
                                   ['camp_description'],
@@ -109,7 +109,9 @@ class CampListViewWidget extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Divider(),
                         Container(
+                          padding: EdgeInsets.only(top: 6),
                           height: 40,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,7 +163,7 @@ class CampListViewWidget extends StatelessWidget {
                                   child: Text(
                                     'Checkout',
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.normal,
                                       fontSize: 16,
                                     ),
                                   ),

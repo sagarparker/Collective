@@ -8,22 +8,24 @@ pragma solidity ^0.8.0;
 
 contract Camps {
     
-    mapping(string =>mapping(string => uint)) public funding;
-    mapping(string => CampDetails) public camps;
+    // m => (camp_address => m (angel_address => investment_amount)) 
+    mapping(address => mapping(address => uint)) public funding;
+    
+    mapping(address => CampDetails) public camps;
     
     struct CampDetails{
         bool campExists;
         uint fundingRaised;
-        string[] angelList;
+        address[] angelList;
         uint target;
         uint equity;
         bool targetReached;
     }
     
     
-    //Create a new camp on Collective
+    // Create a new camp on Collective
     
-    function createCamp(string memory _camp, uint _target, uint _equity) public {
+    function createCamp(address _camp, uint _target, uint _equity) public {
         require(camps[_camp].campExists == false,"Camp already exists");
         camps[_camp].campExists = true;
         camps[_camp].target = _target;
@@ -34,12 +36,12 @@ contract Camps {
     
     // Emit event when the camp target is reached
     
-    event targetReachedForCamp(string _camp);
+    event targetReachedForCamp(address _camp);
     
     
     // Buying equity in the camp
     
-    function buyEquity(string memory _angel,string memory _camp,uint _amount) public {
+    function buyEquity(address _angel,address _camp,uint _amount) public {
         require(camps[_camp].campExists == true && camps[_camp].targetReached == false,'Camp not found');
         if(camps[_camp].fundingRaised + _amount >= camps[_camp].target){
             camps[_camp].targetReached = true;
@@ -50,7 +52,7 @@ contract Camps {
         
 
         if(camps[_camp].targetReached){
-            emit targetReachedForCamp(_camp);
+            emit targetReachedForCamp( _camp);
         }
         
     }
@@ -58,23 +60,17 @@ contract Camps {
     
     // get the total number of Angels who bought equity in a camp 
     
-    function getAngelListLength(string memory _camp) public view returns(uint){
+    function getAngelListLength(address _camp) public view returns(uint){
         return camps[_camp].angelList.length;
     }
     
     
      // get the list of Angels who bought equity in a camp 
     
-    function getAngelList(string memory _camp) public view returns(string[] memory){
+    function getAngelList(address _camp) public view returns(address[] memory){
         return camps[_camp].angelList;
     }
     
     
 
 }
-
-
-
-
-
-
