@@ -1,4 +1,3 @@
-import 'package:collective/screens/CampScreen.dart';
 import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';

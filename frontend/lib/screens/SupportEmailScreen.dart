@@ -91,11 +91,38 @@ class _SupportEmailScreenState extends State<SupportEmailScreen> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height -
-              AppBar().preferredSize.height,
+              AppBar().preferredSize.height -
+              35,
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Call us at : ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                    Text(
+                      '(650) 555-2645',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context).primaryColor),
+                    ),
+                  ],
+                ),
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                padding: EdgeInsets.only(left: 30, right: 30, top: 25),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 25),
                 width: MediaQuery.of(context).size.width,
                 height: 300,
                 child: Image.asset(
@@ -104,30 +131,14 @@ class _SupportEmailScreenState extends State<SupportEmailScreen> {
                 ),
               ),
               Container(
-                child: Text(
-                  'Contact our support team at Collective',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                padding: EdgeInsets.only(
-                  left: 35,
-                  right: 35,
-                ),
-              ),
-              Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height -
-                    350 -
+                    400 -
                     AppBar().preferredSize.height,
                 child: Column(
                   children: [
                     Container(
-                      height: 250,
+                      height: 240,
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.only(
                         left: 35,
@@ -139,16 +150,16 @@ class _SupportEmailScreenState extends State<SupportEmailScreen> {
                           children: [
                             TextFormField(
                               decoration: InputDecoration(
-                                labelText: 'Subject',
-                              ),
+                                  labelText: 'Subject',
+                                  labelStyle: TextStyle(fontSize: 16)),
                               controller: emailSubjectController,
                               validator: emailSubjectValidator,
                             ),
                             TextFormField(
                               maxLines: 4,
                               decoration: InputDecoration(
-                                labelText: 'Please describe your issue here',
-                              ),
+                                  labelText: 'Please describe your issue here',
+                                  labelStyle: TextStyle(fontSize: 16)),
                               controller: emailMessageController,
                               validator: emailMessageValidator,
                               keyboardType: TextInputType.text,
