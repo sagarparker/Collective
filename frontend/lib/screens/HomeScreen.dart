@@ -1,5 +1,6 @@
 import 'package:collective/screens/BuyCtvScreen.dart';
 import 'package:collective/screens/CreateCampScreen.dart';
+import 'package:collective/screens/SupportEmailScreen.dart';
 import 'package:collective/screens/UserDetailsScreen.dart';
 import 'package:collective/screens/UserInvestmentScreen.dart';
 import 'package:collective/screens/UsersCampScreen.dart';
@@ -166,6 +167,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text('Support'),
+                onTap: () {
+                  Navigator.of(context).pushNamed(SupportEmailScreen.routeName);
+                },
               ),
               Divider()
             ],

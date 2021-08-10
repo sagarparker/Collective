@@ -1,5 +1,7 @@
+import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -14,6 +16,7 @@ class SupportEmailScreen extends StatefulWidget {
 
 class _SupportEmailScreenState extends State<SupportEmailScreen> {
   String token;
+  final _fromKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -28,9 +31,58 @@ class _SupportEmailScreenState extends State<SupportEmailScreen> {
     });
   }
 
+  TextEditingController emailSubjectController = new TextEditingController();
+  TextEditingController emailMessageController = new TextEditingController();
+
+  final emailSubjectValidator =
+      MultiValidator([RequiredValidator(errorText: 'Subject is required')]);
+
+  final emailMessageValidator =
+      MultiValidator([RequiredValidator(errorText: 'Description is required')]);
+
+  void sendEmail() {
+    supportEmail(
+      token,
+      emailSubjectController.text,
+      emailMessageController.text,
+    ).then(
+      (data) {
+        if (data['result'] == true) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).primaryColor,
+              padding: EdgeInsets.all(25),
+              content: Text(
+                "Ticket Raised, please wait for the response from our support team.",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          );
+        } else if (data['result'] == false) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              padding: EdgeInsets.all(18),
+              content: Text(
+                "There was a rasising a ticket",
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(55),
         child: AppBarGoBack(),
@@ -38,19 +90,107 @@ class _SupportEmailScreenState extends State<SupportEmailScreen> {
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height -
+              AppBar().preferredSize.height,
           child: Column(
             children: [
-              Image.asset(
-                'assets/images/SupportEmail.png',
+              Container(
+                padding: EdgeInsets.only(top: 20),
                 width: MediaQuery.of(context).size.width,
-                height: 200,
+                height: 300,
+                child: Image.asset(
+                  'assets/images/SupportEmail.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Container(
+                child: Text(
+                  'Contact our support team at Collective',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                padding: EdgeInsets.only(
+                  left: 35,
+                  right: 35,
+                ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height - 200,
+                height: MediaQuery.of(context).size.height -
+                    350 -
+                    AppBar().preferredSize.height,
                 child: Column(
-                  children: [],
+                  children: [
+                    Container(
+                      height: 250,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(
+                        left: 35,
+                        right: 35,
+                      ),
+                      child: Form(
+                        key: _fromKey,
+                        child: ListView(
+                          children: [
+                            TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Subject',
+                              ),
+                              controller: emailSubjectController,
+                              validator: emailSubjectValidator,
+                            ),
+                            TextFormField(
+                              maxLines: 4,
+                              decoration: InputDecoration(
+                                labelText: 'Please describe your issue here',
+                              ),
+                              controller: emailMessageController,
+                              validator: emailMessageValidator,
+                              keyboardType: TextInputType.text,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 35, right: 35, top: 5),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _fromKey.currentState.validate()
+                              ? sendEmail()
+                              : ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                  padding: EdgeInsets.all(20),
+                                  content: Text(
+                                    "Please enter valid details in the form above",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Text(
+                            'Raise your ticket',
+                            style: TextStyle(fontSize: 19),
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            minimumSize:
+                                Size(MediaQuery.of(context).size.width, 50),
+                            primary: Theme.of(context).primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            )),
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],
@@ -61,7 +201,7 @@ class _SupportEmailScreenState extends State<SupportEmailScreen> {
   }
 }
 
-Future<dynamic> buyCTV(
+Future<dynamic> supportEmail(
     String token, String emailSubject, String emailMessage) async {
   var headers = {
     'x-api-key':
