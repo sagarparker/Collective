@@ -149,8 +149,6 @@ router.post('/supportEmail',
   validateApiSecret,
   isAuthenticated,
   [ 
-    body('email_sender').isEmail(),
-    body('email_sender').not().isEmpty(),
     body('email_subject').not().isEmpty(),
     body('email_message').not().isEmpty()
   ],
@@ -164,7 +162,8 @@ router.post('/supportEmail',
             });
         }
 
-        let { email_sender,email_subject,email_message } = req.body;
+        let { email_subject,email_message } = req.body;
+        let email_sender = req.decoded.email;
 
         // Using nodemailer to send support email
 

@@ -5,6 +5,7 @@ import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/screens/InvestInCamp.dart';
 import 'package:collective/screens/LoginScreen.dart';
 import 'package:collective/screens/RegisterScreen.dart';
+import 'package:collective/screens/SupportEmailScreen.dart';
 import 'package:collective/screens/UserDetailsScreen.dart';
 import 'package:collective/screens/UserInvestmentScreen.dart';
 import 'package:collective/screens/UsersCampScreen.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         UserDetailsScreen.routeName: (ctx) => UserDetailsScreen(),
         UserInvestmentScreen.routeName: (ctx) => UserInvestmentScreen(),
         UsersCampScreen.routeName: (ctx) => UsersCampScreen(),
+        SupportEmailScreen.routeName: (ctx) => SupportEmailScreen(),
       },
     );
   }
