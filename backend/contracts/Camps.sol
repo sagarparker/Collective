@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 // Camp - A camp that is created by a Creative ( OP - Original Posters ) on Collective to raise funding
 
-// Angel - Angels are the users who buy equity in exchange of CTV - CollectiveToken
+// Angel - Angels are the users/investors who buy equity in exchange of CTV - CollectiveToken
 
 contract Camps {
     

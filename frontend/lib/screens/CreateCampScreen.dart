@@ -174,10 +174,6 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(55),
-          child: AppBarGoBack(),
-        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -185,13 +181,13 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                 child: _image == null
                     ? Image.asset(
                         'assets/images/Create.png',
-                        height: 230,
+                        height: 180,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       )
                     : Image.file(
                         _image,
-                        height: 220,
+                        height: 180,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ),
@@ -282,12 +278,11 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                                       children: [
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(top: 0),
+                                              const EdgeInsets.only(top: 2),
                                           child: Text(
                                             'Create camp',
                                             style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20,
+                                              fontSize: 18,
                                             ),
                                           ),
                                         ),
