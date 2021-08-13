@@ -14,6 +14,8 @@ class HomeScreenWidget extends StatefulWidget {
 
 class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   String token;
+  Future usersAccountBalance;
+  Future campList;
 
   @override
   void initState() {
@@ -24,6 +26,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   Future setToken() async {
     SharedPreferences.getInstance().then((prefValue) {
       token = prefValue.getString('token');
+      usersAccountBalance = getUserBalance(token);
+      campList = getCamps(token);
       setState(() {});
     });
   }
@@ -90,11 +94,13 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                         width: MediaQuery.of(context).size.width - 32,
                         height: 60,
                         child: FutureBuilder<dynamic>(
-                          future: getUserBalance(token),
+                          future: usersAccountBalance,
                           builder: (BuildContext context,
                               AsyncSnapshot<dynamic> snapshot) {
                             if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
+                                    ConnectionState.none ||
+                                snapshot.connectionState ==
+                                    ConnectionState.waiting) {
                               return Center(
                                 child: SpinKitThreeBounce(
                                   color: Theme.of(context).primaryColor,
@@ -208,10 +214,11 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(left: 10, right: 10, top: 5),
               child: FutureBuilder<dynamic>(
-                  future: getCamps(token),
+                  future: campList,
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
+                    if (snapshot.connectionState == ConnectionState.waiting ||
+                        snapshot.connectionState == ConnectionState.none) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 190.0),
                         child: Column(

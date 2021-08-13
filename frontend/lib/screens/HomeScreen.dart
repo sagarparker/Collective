@@ -1,20 +1,13 @@
-import 'package:collective/screens/BuyCtvScreen.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:collective/screens/CreateCampScreen.dart';
 import 'package:collective/screens/SupportEmailScreen.dart';
 import 'package:collective/screens/UserDetailsScreen.dart';
 import 'package:collective/screens/UserInvestmentScreen.dart';
 import 'package:collective/screens/UsersCampScreen.dart';
-import 'package:collective/widgets/CampListViewWidget.dart';
 import 'package:collective/widgets/HomeScreenWidget.dart';
 import 'package:collective/widgets/keepAlivePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/homeScreen';
@@ -198,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedIndex: _currentIndex,
         showElevation: true,
         itemCornerRadius: 24,
-        containerHeight: 45,
+        containerHeight: 47,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         curve: Curves.easeIn,
         backgroundColor: Colors.white,
@@ -208,33 +201,54 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            title: Text(
-              'Wallet',
-              style: TextStyle(fontSize: 16),
+            icon: Icon(
+              Icons.account_balance_wallet,
+              color: Theme.of(context).primaryColor,
+            ),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 1.0),
+              child: Text(
+                'Wallet',
+                style: TextStyle(
+                    fontSize: 16, color: Theme.of(context).primaryColor),
+              ),
             ),
             inactiveColor: Colors.black26,
-            activeColor: Theme.of(context).primaryColor,
+            activeColor: Colors.grey[400],
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.campaign),
-            title: Text(
-              'Camps',
-              style: TextStyle(fontSize: 16),
+            icon: Icon(
+              Icons.campaign,
+              color: Theme.of(context).primaryColor,
+            ),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 1.0),
+              child: Text(
+                'Camps',
+                style: TextStyle(
+                    fontSize: 16, color: Theme.of(context).primaryColor),
+              ),
             ),
             inactiveColor: Colors.black26,
-            activeColor: Theme.of(context).primaryColor,
+            activeColor: Colors.grey[400],
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.add_circle_rounded),
-            title: Text(
-              'Create camp',
-              style: TextStyle(fontSize: 14),
+            icon: Icon(
+              Icons.add_circle_rounded,
+              color: Theme.of(context).primaryColor,
+            ),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 2.0),
+              child: Text(
+                'Create camp',
+                style: TextStyle(
+                    fontSize: 14, color: Theme.of(context).primaryColor),
+              ),
             ),
             inactiveColor: Colors.black26,
-            activeColor: Theme.of(context).primaryColor,
+            activeColor: Colors.grey[400],
             textAlign: TextAlign.center,
           ),
         ],

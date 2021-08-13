@@ -3,6 +3,7 @@ import 'package:collective/widgets/CampScreenWidgets/CollabWidget.dart';
 import 'package:collective/widgets/CampScreenWidgets/MoreCampDataWidget.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:collective/widgets/CampScreenWidgets/InvestWidget.dart';
+import 'package:collective/widgets/keepAlivePage.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +24,7 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
   Map selectedCamp = {};
   String token;
   String username;
+  Future campDetails;
 
   TabController _tabController;
 
@@ -37,6 +39,10 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
     SharedPreferences.getInstance().then((prefValue) {
       token = prefValue.getString('token');
       username = prefValue.getString('username');
+      campDetails = getCamps(
+        token,
+        selectedCamp['campAddress'],
+      );
       setState(() {});
     });
   }
@@ -60,12 +66,10 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
         ),
         body: SingleChildScrollView(
           child: FutureBuilder<dynamic>(
-              future: getCamps(
-                token,
-                selectedCamp['campAddress'],
-              ),
+              future: campDetails,
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    snapshot.connectionState == ConnectionState.none) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 300.0),
                     child: Column(
@@ -301,7 +305,9 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                         snapshot, username, selectedCamp),
                                     CollabWidget(
                                         snapshot, username, selectedCamp),
-                                    CampsAngelListWidget(selectedCamp),
+                                    KeepAlivePage(
+                                        child:
+                                            CampsAngelListWidget(selectedCamp)),
                                     MoreCampDataWidget(snapshot),
                                   ],
                                 ),

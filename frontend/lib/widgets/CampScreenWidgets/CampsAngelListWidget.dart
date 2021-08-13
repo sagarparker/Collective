@@ -4,20 +4,34 @@ import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 
-class CampsAngelListWidget extends StatelessWidget {
+class CampsAngelListWidget extends StatefulWidget {
   final Map selectedCamp;
 
   CampsAngelListWidget(this.selectedCamp);
 
   @override
+  _CampsAngelListWidgetState createState() => _CampsAngelListWidgetState();
+}
+
+class _CampsAngelListWidgetState extends State<CampsAngelListWidget> {
+  Future campsAngelList;
+
+  @override
+  void initState() {
+    super.initState();
+    campsAngelList = getCampsAngels(
+      widget.selectedCamp['campAddress'],
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder<dynamic>(
-        future: getCampsAngels(
-          selectedCamp['campAddress'],
-        ),
+        future: campsAngelList,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              snapshot.connectionState == ConnectionState.none) {
             return Padding(
               padding: const EdgeInsets.only(top: 50.0),
               child: Column(
@@ -87,7 +101,7 @@ class CampsAngelListWidget extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            getAngelsFunding(selectedCamp['campAddress'],
+                            getAngelsFunding(widget.selectedCamp['campAddress'],
                                     snapshot.data['list'][index]['eth_address'])
                                 .then(
                               (data) {
