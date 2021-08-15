@@ -1,4 +1,5 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:collective/screens/CreateCampHomeScreen.dart';
 import 'package:collective/screens/CreateCampScreen.dart';
 import 'package:collective/screens/SupportEmailScreen.dart';
 import 'package:collective/screens/UserDetailsScreen.dart';
@@ -184,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Text('WalletScreen. Coming soon...'),
           ),
           KeepAlivePage(child: HomeScreenWidget()),
-          KeepAlivePage(child: CreateCampScreen()),
+          CreateCampHomeScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavyBar(
