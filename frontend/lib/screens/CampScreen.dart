@@ -39,10 +39,6 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
     SharedPreferences.getInstance().then((prefValue) {
       token = prefValue.getString('token');
       username = prefValue.getString('username');
-      campDetails = getCamps(
-        token,
-        selectedCamp['campAddress'],
-      );
       setState(() {});
     });
   }
@@ -66,7 +62,10 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
         ),
         body: SingleChildScrollView(
           child: FutureBuilder<dynamic>(
-              future: campDetails,
+              future: getCamps(
+                token,
+                selectedCamp['campAddress'],
+              ),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting ||
                     snapshot.connectionState == ConnectionState.none) {
