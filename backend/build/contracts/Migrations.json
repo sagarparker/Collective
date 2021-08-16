@@ -831,10 +831,16 @@
       "links": {},
       "address": "0xB67fE637efbBaFEE69fAc578bdFB0F5058A67927",
       "transactionHash": "0x1939ec0fb7765837bb1eb4d54c21c3f1caa3764a3f22765d16a79c85a319f21c"
+    },
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xf264f4c9759A99114567Fb358173899F7bBB187F",
+      "transactionHash": "0xc10ef01065afe086ed1f555c7994891d79a9a437aa54f476dcc43d2034f23c4d"
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2021-05-25T11:39:56.929Z",
+  "updatedAt": "2021-08-16T11:40:31.448Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

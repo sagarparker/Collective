@@ -6,21 +6,38 @@ pragma solidity ^0.8.0;
 
 // Angel - Angels are the users/investors who buy equity in exchange of CTV - CollectiveToken
 
+// Col - Collaborator who collaborates in a camp in exchange of CTV
+
 contract Camps {
     
     // m => (camp_address => m (angel_address => investment_amount)) 
     mapping(address => mapping(address => uint)) public funding;
     
+    
     mapping(address => CampDetails) public camps;
+    
+    
+    // Struct to save collaborator details
+    
+    struct CollaboratorsList {
+        address colAddress;
+        uint amount;
+    }
+    
+    
+    // Camp details struct
     
     struct CampDetails{
         bool campExists;
         uint fundingRaised;
         address[] angelList;
+        CollaboratorsList[] colList;
         uint target;
         uint equity;
         bool targetReached;
     }
+    
+    
     
     
     // Create a new camp on Collective
@@ -57,7 +74,6 @@ contract Camps {
         
     }
     
-    
     // get the total number of Angels who bought equity in a camp 
     
     function getAngelListLength(address _camp) public view returns(uint){
@@ -72,5 +88,21 @@ contract Camps {
     }
     
     
-
+    // Collaborate in a camp
+    
+    function collab(address _col,address _camp,uint _amount) public {
+        require(camps[_camp].campExists == true,'Camp not found');
+        camps[_camp].colList.push(CollaboratorsList({
+            colAddress : _col,
+            amount : _amount
+        }));
+    }
+    
+    
+    // Get collab details for a camp
+    
+    function getCollabDetails(address _camp) public view returns (CollaboratorsList[] memory){
+        return camps[_camp].colList;
+    }
+    
 }
