@@ -11,14 +11,18 @@ var collabSchema = new mongoose.Schema({
                                     type:String,
                                     default:'NA'
                                 },
-    collabCtvAmount     :       {
-                                    type:String,
-                                    default:'NA'
+    collabAmount        :       {
+                                    type:Number,
+                                    default:0
                                 },
     collabDescription   :       {
                                     type:Array,
                                     default:[]
                                 },
+    collaboratorSearchActive     :  {
+                                        type:Boolean,
+                                        default:true
+                                    },
     collabRequests      :       [{
                                     username    :   String,
                                     address     :   String,

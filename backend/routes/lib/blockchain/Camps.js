@@ -216,20 +216,6 @@ router.post('/createCamp',
                 });
             }
 
-            // Creating the collab model
-
-            const collabDetails = await CollabModel.create({
-                campID : newCampDetails.id
-            })
-
-            if(!collabDetails){
-                return res.status(500).json({
-                    result:false,
-                    msg:'There was a problem creating the camp',
-                });
-            }
-
-
             // Saving the camp id to userdetails
 
             const userDetailsUpdate = await UserDetailsModel.findOneAndUpdate({username:req.decoded.username},{

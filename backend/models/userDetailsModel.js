@@ -21,10 +21,6 @@ var userDetailsSchema = new mongoose.Schema({
                                     type:mongoose.Schema.Types.ObjectId,
                                     ref:'CampDetails'
                                 }],
-    collabApplications      :   [{
-                                    type:mongoose.Schema.Types.ObjectId,
-                                    ref:'Collab'
-                                }]
 });
 
 module.exports = mongoose.model("UserDetails",userDetailsSchema);

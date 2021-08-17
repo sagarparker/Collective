@@ -9,6 +9,7 @@ const CollectiveToken   =   require('./lib/blockchain/CollectiveToken');
 const Camps             =   require('./lib/blockchain/Camps');
 const Auth              =   require('./lib/auth/userAuth');
 const Collective        =   require('./lib/collective/collective');
+const Collab            =   require('./lib/collective/collab');
 
 // Timezone setup
 
@@ -66,6 +67,11 @@ app.use('/api',Camps);
 // Collective APIs
 
 app.use('/api',Collective);
+
+
+// Collab APIs
+
+app.use('/api',Collab);
 
 
 module.exports = app;
