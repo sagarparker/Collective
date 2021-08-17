@@ -23,6 +23,7 @@ router.post('/newCollabJobForCamp',
     isAuthenticated,
     [
         body('camp_id').not().isEmpty(),
+        body('camp_owner_username').not().isEmpty(),
         body('collab_title').not().isEmpty(),
         body('collab_amount').not().isEmpty(),
         body('collab_description').not().isEmpty()
@@ -37,13 +38,14 @@ router.post('/newCollabJobForCamp',
                 });
             }
 
-            let { camp_id,collab_title,collab_amount,collab_description } = req.body;
+            let { camp_id,camp_owner_username,collab_title,collab_amount,collab_description } = req.body;
 
 
             // Update the collab section
 
             const newCollab = await CollabModel.create({
                 campID              :   camp_id,
+                campOwnerUsername   :   camp_owner_username,
                 collabTitle         :   collab_title,
                 collabAmount        :   collab_amount,
                 collabDescription   :   collab_description

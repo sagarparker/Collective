@@ -7,6 +7,10 @@ var collabSchema = new mongoose.Schema({
                                     required:true,
                                     default:'NA'
                                 },
+    campOwnerUsername   :       {
+                                    type:String,
+                                    default:'NA'
+                                },
     collabTitle         :       {
                                     type:String,
                                     default:'NA'
