@@ -17,11 +17,11 @@ timestamp               :   {
                                 type:String,
                                 required:true
                             },
-eth_address                 :   {
+eth_address             :   {
                                 type:String,
                                 required:true
                             },
-eth_private_key             :   {
+eth_private_key         :   {
                                 type:String,
                                 required:true
                             }

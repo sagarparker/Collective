@@ -6570,11 +6570,24 @@
           ],
           "name": "targetReachedForCamp",
           "type": "event"
+        },
+        "0xa13ac8def81f33998d29b46ff52805497ccd12bc15d76006d7ec0e5982f93efc": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_camp",
+              "type": "address"
+            }
+          ],
+          "name": "targetReachedForCamp",
+          "type": "event"
         }
       },
       "links": {},
-      "address": "0xA48567aDC9C3310f190e97467A10546AF9CDcb8D",
-      "transactionHash": "0x02f7d76ef4ef31456c4f44d7817530b99e3717947e8cbc938782da10828601a5"
+      "address": "0x22483826e79B64bdaE6e5B2770674CE4A025e52c",
+      "transactionHash": "0x243417fe8e4c4cc3d2036325d26f09c25227eba24e786f0016fe064284e0562a"
     },
     "5777": {
       "events": {
@@ -6598,7 +6611,7 @@
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2021-08-16T11:40:31.442Z",
+  "updatedAt": "2021-08-17T07:16:04.895Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

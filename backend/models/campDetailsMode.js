@@ -62,7 +62,7 @@ targetReachedDB :   {
 amountWithdrawn :   {
                         type:Boolean,
                         default:false
-                    }
+                    },
 
 });
 

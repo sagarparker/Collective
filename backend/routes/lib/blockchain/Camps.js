@@ -16,7 +16,7 @@ require('dotenv').config();
 const CampModel         =   require('../../../models/campDetailsMode');
 const UserAuthModel     =   require('../../../models/userAuthModel');
 const UserDetailsModel  =   require("../../../models/userDetailsModel");
-
+const CollabModel       =   require("../../../models/collabModel");        
 
 
 ///////////////////////////
@@ -210,7 +210,20 @@ router.post('/createCamp',
             const newCampDetails = await CampModel.create(campDetails);
 
             if(!newCampDetails){
-                return res.status(400).json({
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem creating the camp',
+                });
+            }
+
+            // Creating the collab model
+
+            const collabDetails = await CollabModel.create({
+                campID : newCampDetails.id
+            })
+
+            if(!collabDetails){
+                return res.status(500).json({
                     result:false,
                     msg:'There was a problem creating the camp',
                 });
@@ -224,7 +237,7 @@ router.post('/createCamp',
             })
 
             if(!userDetailsUpdate){
-                return res.status(400).json({
+                return res.status(500).json({
                     result:false,
                     msg:'There was a problem creating the camp',
                 });

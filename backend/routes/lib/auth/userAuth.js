@@ -252,6 +252,3 @@ router.post('/verifyUser',
 
 
 module.exports = router;
-
-
-
