@@ -102,7 +102,6 @@ class _InvestWidgetState extends State<InvestWidget> {
             ),
           );
         } else if (data['result'] == false) {
-          print(data);
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -125,7 +124,6 @@ class _InvestWidgetState extends State<InvestWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.snapshot);
     return Column(
       children: [
         Container(

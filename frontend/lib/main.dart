@@ -1,5 +1,6 @@
 import 'package:collective/screens/BuyCtvScreen.dart';
 import 'package:collective/screens/CampScreen.dart';
+import 'package:collective/screens/CollabMainScreen.dart';
 import 'package:collective/screens/CreateCampHomeScreen.dart';
 import 'package:collective/screens/CreateCampScreen.dart';
 import 'package:collective/screens/HomeScreen.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         UsersCampScreen.routeName: (ctx) => UsersCampScreen(),
         SupportEmailScreen.routeName: (ctx) => SupportEmailScreen(),
         CreateCampHomeScreen.routeName: (ctx) => CreateCampHomeScreen(),
+        CollabMainScreen.routeName: (ctx) => CollabMainScreen(),
       },
     );
   }

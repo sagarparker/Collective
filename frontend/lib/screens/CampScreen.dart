@@ -303,7 +303,10 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                     InvestWidget(
                                         snapshot, username, selectedCamp),
                                     CollabWidget(
-                                        snapshot, username, selectedCamp),
+                                        snapshot,
+                                        username,
+                                        selectedCamp,
+                                        snapshot.data['details']['_id']),
                                     KeepAlivePage(
                                         child:
                                             CampsAngelListWidget(selectedCamp)),

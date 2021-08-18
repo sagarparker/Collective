@@ -1,11 +1,13 @@
+import 'package:collective/screens/CollabMainScreen.dart';
 import 'package:flutter/material.dart';
 
 class CollabWidget extends StatelessWidget {
   final AsyncSnapshot snapshot;
   final String username;
   final Map selectedCamp;
+  final String campId;
 
-  CollabWidget(this.snapshot, this.username, this.selectedCamp);
+  CollabWidget(this.snapshot, this.username, this.selectedCamp, this.campId);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,14 @@ class CollabWidget extends StatelessWidget {
             ),
             minimumSize: Size(100, 45),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(CollabMainScreen.routeName,
+                arguments: {
+                  "username": username,
+                  "selectedCamp": selectedCamp,
+                  "campId": campId
+                });
+          },
         )
       ],
     );
