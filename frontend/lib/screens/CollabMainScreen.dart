@@ -1,3 +1,4 @@
+import 'package:collective/screens/CreateCampCollabJobScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,9 +19,7 @@ class _CollabMainScreenState extends State<CollabMainScreen>
   Map selectedCamp = {};
   String token;
   String username;
-  String campId;
   TabController _tabController;
-
   Future collabJobsList;
 
   @override
@@ -92,7 +91,7 @@ class _CollabMainScreenState extends State<CollabMainScreen>
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 22),
             color: Colors.white,
             height: MediaQuery.of(context).size.height -
                 AppBar().preferredSize.height -
@@ -110,7 +109,7 @@ class _CollabMainScreenState extends State<CollabMainScreen>
                       if (snapshot.connectionState == ConnectionState.waiting ||
                           snapshot.connectionState == ConnectionState.none) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 300.0),
+                          padding: const EdgeInsets.only(top: 0),
                           child: Column(
                             children: [
                               SpinKitThreeBounce(
@@ -127,10 +126,10 @@ class _CollabMainScreenState extends State<CollabMainScreen>
                             padding: const EdgeInsets.only(
                               left: 60.0,
                               right: 60.0,
-                              top: 310,
+                              top: 0,
                             ),
                             child: Text(
-                              'There was a problem fetching camp details, please try again.',
+                              'No collab jobs found',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 16),
                             ),
@@ -178,7 +177,7 @@ class _CollabMainScreenState extends State<CollabMainScreen>
                                 Row(
                                   children: [
                                     Container(
-                                      color: Color.fromRGBO(245, 245, 245, 1),
+                                      color: Color.fromRGBO(247, 247, 247, 1),
                                       height: 135,
                                       padding: EdgeInsets.only(
                                         top: 15,
@@ -216,7 +215,7 @@ class _CollabMainScreenState extends State<CollabMainScreen>
                                 Column(
                                   children: [
                                     Container(
-                                      color: Color.fromRGBO(245, 245, 245, 1),
+                                      color: Color.fromRGBO(247, 247, 247, 1),
                                       margin: const EdgeInsets.only(
                                           left: 16.0, right: 16),
                                       child: Padding(
@@ -238,7 +237,7 @@ class _CollabMainScreenState extends State<CollabMainScreen>
                                         borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(15),
                                             bottomRight: Radius.circular(15)),
-                                        color: Color.fromRGBO(245, 245, 245, 1),
+                                        color: Color.fromRGBO(247, 247, 247, 1),
                                       ),
                                       width: MediaQuery.of(context).size.width -
                                           32,
@@ -254,20 +253,20 @@ class _CollabMainScreenState extends State<CollabMainScreen>
                                                     left: 8),
                                                 child: Image.asset(
                                                   'assets/images/Logo.png',
-                                                  width: 30,
-                                                  height: 30,
+                                                  width: 27,
+                                                  height: 27,
                                                 ),
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.only(
-                                                    left: 5, top: 3),
+                                                    left: 5, top: 4),
                                                 child: Text(
                                                   snapshot.data['collabJobs']
                                                           [index]
                                                           ['collabAmount']
                                                       .toString(),
                                                   style: TextStyle(
-                                                      fontSize: 22,
+                                                      fontSize: 21,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: Theme.of(context)
@@ -279,37 +278,74 @@ class _CollabMainScreenState extends State<CollabMainScreen>
                                           Row(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 8.0),
-                                                child: ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
-                                                      elevation: 0,
-                                                      primary: Theme.of(context)
-                                                          .primaryColor,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          60)),
-                                                      minimumSize:
-                                                          Size(100, 35)),
-                                                  onPressed: () {},
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 2),
-                                                    child: Text(
-                                                      'Checkout',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8.0),
+                                                  child: snapshot.data[
+                                                                      'collabJobs']
+                                                                  [index][
+                                                              'campOwnerUsername'] ==
+                                                          this.username
+                                                      ? ElevatedButton(
+                                                          style: ElevatedButton.styleFrom(
+                                                              elevation: 0,
+                                                              primary: Theme.of(
+                                                                      context)
+                                                                  .primaryColor,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              60)),
+                                                              minimumSize: Size(
+                                                                  100, 35)),
+                                                          onPressed: () {},
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 2),
+                                                            child: Text(
+                                                              'Collab Requests',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : ElevatedButton(
+                                                          style: ElevatedButton.styleFrom(
+                                                              elevation: 0,
+                                                              primary: Theme.of(
+                                                                      context)
+                                                                  .primaryColor,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              60)),
+                                                              minimumSize: Size(
+                                                                  100, 35)),
+                                                          onPressed: () {},
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 2),
+                                                            child: Text(
+                                                              'Collab',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ))
                                             ],
                                           )
                                         ],
@@ -329,6 +365,24 @@ class _CollabMainScreenState extends State<CollabMainScreen>
           )
         ],
       ),
+      floatingActionButton: selectedCamp['campOwner'] == this.username
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(CreateCampCollabJobScreen.routeName, arguments: {
+                  "campId": selectedCamp['campId'],
+                  "campOwner": selectedCamp['campOwner']
+                });
+              },
+              elevation: 4,
+              child: const Icon(
+                Icons.add,
+                color: Color.fromRGBO(24, 119, 242, 1.0),
+              ),
+              backgroundColor: Color.fromRGBO(240, 240, 240, 1),
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }
 }

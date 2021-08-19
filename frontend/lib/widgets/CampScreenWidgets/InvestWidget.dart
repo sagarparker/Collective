@@ -273,7 +273,7 @@ class _InvestWidgetState extends State<InvestWidget> {
                       child: Text(
                         'Invest in ' + widget.snapshot.data['details']['name'],
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 19,
                         ),
                       ),
                     ),

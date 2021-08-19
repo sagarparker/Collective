@@ -56,7 +56,7 @@ class CollabWidget extends StatelessWidget {
                 child: Text(
                   'Collab with ' + snapshot.data['details']['name'],
                   style: TextStyle(
-                      fontSize: 20, color: Theme.of(context).primaryColor),
+                      fontSize: 19, color: Theme.of(context).primaryColor),
                 ),
               ),
             ],
@@ -70,12 +70,13 @@ class CollabWidget extends StatelessWidget {
             minimumSize: Size(100, 45),
           ),
           onPressed: () {
-            Navigator.of(context).pushNamed(CollabMainScreen.routeName,
-                arguments: {
-                  "username": username,
-                  "selectedCamp": selectedCamp,
-                  "campId": campId
-                });
+            Navigator.of(context)
+                .pushNamed(CollabMainScreen.routeName, arguments: {
+              "username": username,
+              "selectedCamp": selectedCamp,
+              "campId": campId,
+              "campOwner": snapshot.data['details']['owner']
+            });
           },
         )
       ],

@@ -142,14 +142,14 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                   Text(
                                     snapshot.data['details']['name'],
                                     style: TextStyle(
-                                      fontSize: 22,
+                                      fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
                                     "- " + snapshot.data['details']['category'],
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 15,
                                       color: Theme.of(context).primaryColor,
                                     ),
                                   )
