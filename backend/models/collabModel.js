@@ -30,10 +30,6 @@ var collabSchema = new mongoose.Schema({
     collabRequests      :       [{
                                     username    :   String,
                                     address     :   String,
-                                    acceppted   :   {
-                                                        type    :   Boolean,
-                                                        default :   false
-                                                    } 
                                 }]
 }); 
 

@@ -1,7 +1,9 @@
 const express   = require('express');
 const router    = express.Router();
-const bcrypt    = require("bcryptjs");
+
+const Tx        =   require('ethereumjs-tx').Transaction;
 const Web3      = require('web3');
+
 const moment    = require('moment-timezone');
 const CryptoJS  = require("crypto-js");
 const axios     = require("axios");
@@ -13,7 +15,40 @@ const CollabModel       = require("../../../models/collabModel");
 
 const { body, validationResult } = require("express-validator");
 const { validateApiSecret,isAuthenticated }=require("../auth/authHelper");
+
 require('dotenv').config();
+
+
+///////////////////////////
+//Web3 and contract setup
+///////////////////////////
+
+const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
+
+const web3 = new Web3(rpcURL);
+
+const Camps = require('../../../build/contracts/Camps.json');
+
+const contract_address = process.env.camps_contract_address;
+
+const abi = Camps.abi;
+
+const contract = new web3.eth.Contract(abi,contract_address);
+
+
+
+////////////////////////////////////
+// Account addresses & Private keys
+////////////////////////////////////
+
+
+//Main account with which contract is deployed
+
+const account_address = process.env.account_1;
+
+// Main private key - token generation
+
+const privateKey = Buffer.from(process.env.privateKey_1,'hex');
 
 
 // Create a new collab job for a camp 
@@ -242,12 +277,163 @@ router.get('/getAllCollabRequestForACamp/:id',
         }
 });
 
-// accept a re
 
-router.post('/acceptUsersRequest',async(req,res)=>{
 
-})
+// Accept a request for a collab job
 
+router.post('/acceptUsersRequest',
+    validateApiSecret,
+    isAuthenticated,
+    [
+        body('collab_job_id').not().isEmpty(),
+        body('camp_address').not().isEmpty(),
+        body('col_username').not().isEmpty(),
+        body('col_address').not().isEmpty(),
+        body('collab_title').not().isEmpty(),
+        body('collab_amount').not().isEmpty(),
+
+    ],
+    async(req,res)=>{
+        try{
+            
+            //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],result:false   
+                });
+            }
+
+            // Saving collab data in the camp
+
+            const txCount = await web3.eth.getTransactionCount(account_address);
+            if(!txCount){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a accepting the request'
+                })
+            }
+
+
+            let { 
+                collab_job_id, 
+                camp_address, 
+                col_username,
+                col_address, 
+                collab_title, 
+                collab_amount 
+            } = req.body;
+
+
+            // Build the transaction
+            
+            const txObject = {
+                nonce:    web3.utils.toHex(txCount),
+                to:       contract_address,
+                gasLimit: web3.utils.toHex(500000),
+                gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
+                data: contract.methods.collab(col_address,camp_address,collab_title,collab_amount).encodeABI()
+            }
+        
+            // Sign the transaction
+            const tx = new Tx(txObject,{chain:42})
+            tx.sign(privateKey)
+        
+            const serializedTx = tx.serialize()
+            const raw = '0x' + serializedTx.toString('hex')
+
+
+            // Broadcast the transaction
+
+            await web3.eth.sendSignedTransaction(raw);
+
+
+            // Updating the collaboratorSearchActive 
+
+            const collabJob = await CollabModel.findOneAndUpdate({_id:collab_job_id},{collaboratorSearchActive:false});
+
+            if(!collabJob){
+                return res.status(500).json({
+                    msg:"There was a problem updating collaboratorSearchActive status",
+                    result:false
+                })
+            }
+
+            // Updating the col's camps_collaborated list
+
+            const userDetails = await UserDetailsModel.findOneAndUpdate({username:col_username},{
+                $addToSet : {
+                    camps_collaborated : collab_job_id
+                }
+            });
+
+            if(!userDetails){
+                return res.status(500).json({
+                    msg:"There was a problem updating the camps_collaborated list of the col",
+                    result:false
+                })
+            }
+            
+            return res.status(200).json({
+                msg:"Collab request accpeted",
+                result:true
+            })
+
+
+        }
+        catch(err){
+            console.log(err)
+            res.status(500).json({
+                result  :   false,
+                msg     :   "There was a problem accepting the request for the user"
+            });
+        }
+
+});
+
+
+// Get camps accepted collabs
+
+
+router.get('/getCollabAcceptedRequest/:campaddress',    
+    validateApiSecret,
+    isAuthenticated,
+    async(req,res) =>{
+        try{
+
+            let campAddress = req.params.campaddress;
+
+            if(campAddress == null || campAddress.length == 0){
+                return res.status(404).json({
+                    msg:"Camp address is not valid",
+                    result:false
+                })
+            }
+
+            const collabJobs = await contract.methods.getCollabDetails(campAddress).call();
+
+            if(!collabJobs){
+                return res.status(404).json({
+                    msg:"There was a problem fetching collab job details",
+                    result:false
+                })
+            }
+
+            return res.status(200).json({
+                msg:"Accepted collabs found",
+                result:true,
+                collabJobs
+            });
+
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result  :   false,
+                msg     :   "There was a fetching accepted requests"
+            });
+        }
+});
 
 
 

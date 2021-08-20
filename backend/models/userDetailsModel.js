@@ -21,6 +21,10 @@ var userDetailsSchema = new mongoose.Schema({
                                     type:mongoose.Schema.Types.ObjectId,
                                     ref:'CampDetails'
                                 }],
+    camps_collaborated      :   [{
+                                    type:mongoose.Schema.Types.ObjectId,
+                                    ref:'Collab'
+                                }],
 });
 
 module.exports = mongoose.model("UserDetails",userDetailsSchema);
