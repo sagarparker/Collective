@@ -295,7 +295,7 @@ describe('Camp Collaboration', ()=>{
     });
 
     it('Adding First collaborator with amount',async()=>{
-        const collab = await contract.methods.collab(accounts[5],accounts[2],10).send({
+        const collab = await contract.methods.collab(accounts[5],accounts[2],'Software developer',10).send({
             from:accounts[5],
             gas:'2500000',
         })
@@ -305,7 +305,7 @@ describe('Camp Collaboration', ()=>{
 
 
     it('Adding Second collaborator with amount',async()=>{
-        const collab = await contract.methods.collab(accounts[6],accounts[2],25).send({
+        const collab = await contract.methods.collab(accounts[6],accounts[2],'Blockchain developer',20).send({
             from:accounts[6],
             gas:'2500000',
         })

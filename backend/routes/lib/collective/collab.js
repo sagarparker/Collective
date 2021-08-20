@@ -216,7 +216,7 @@ router.get('/getAllCollabRequestForACamp/:id',
                 })
             }
 
-            const collab = await CollabModel.find({_id:collabID});
+            const collab = await CollabModel.find({_id:collabID,collaboratorSearchActive:true});
             console.log(collab);
 
             if(collab[0].collabRequests.length == 0){
@@ -241,6 +241,12 @@ router.get('/getAllCollabRequestForACamp/:id',
             });
         }
 });
+
+// accept a re
+
+router.post('/acceptUsersRequest',async(req,res)=>{
+
+})
 
 
 

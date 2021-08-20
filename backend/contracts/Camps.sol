@@ -22,6 +22,7 @@ contract Camps {
     struct CollaboratorsList {
         address colAddress;
         uint amount;
+        string position;
     }
     
     
@@ -90,11 +91,12 @@ contract Camps {
     
     // Collaborate in a camp
     
-    function collab(address _col,address _camp,uint _amount) public {
+    function collab(address _col,address _camp,string memory _position,uint _amount) public {
         require(camps[_camp].campExists == true,'Camp not found');
         camps[_camp].colList.push(CollaboratorsList({
             colAddress : _col,
-            amount : _amount
+            amount : _amount,
+            position : _position
         }));
     }
     
