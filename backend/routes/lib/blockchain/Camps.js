@@ -757,6 +757,39 @@ router.get('/getCampsInvestedByUser',
 });
 
 
+// GET COLLAB JOBS OF A USER
+
+router.get('/getUsersCollabs',
+    validateApiSecret,
+    isAuthenticated,
+    async(req,res)=>{
+        try{
+  
+            const campList = await UserDetailsModel.findOne({username:req.decoded.username},{camps_collaborated:1})
+                .populate("camps_collaborated",{collabRequests:0}); 
+
+            if(!campList){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching users collabs'
+                })
+            }
+
+            return res.status(200).json({
+                result:true,
+                msg:'Collabs jobs fetched',
+                details:campList.camps_collaborated
+            });
+            
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result:false,
+                msg:'There was a problem fetching users collabs'
+            })
+        }
+});
 
 
 

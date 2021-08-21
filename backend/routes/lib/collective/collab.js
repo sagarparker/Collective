@@ -4,12 +4,8 @@ const router    = express.Router();
 const Tx        =   require('ethereumjs-tx').Transaction;
 const Web3      = require('web3');
 
-const moment    = require('moment-timezone');
-const CryptoJS  = require("crypto-js");
-const axios     = require("axios");
-
 const UserAuthModel     = require("../../../models/userAuthModel");
-const CampModel         = require('../../../models/campDetailsMode');
+
 const UserDetailsModel  = require("../../../models/userDetailsModel");
 const CollabModel       = require("../../../models/collabModel");
 
@@ -236,7 +232,7 @@ router.post('/sendRequestToCollab',
 // Fetch Collab Request for a particular camp
 
 
-router.get('/getAllCollabRequestForACamp/:id',
+router.get('/getAllCollabRequestForACampJob/:id',
     validateApiSecret,
     isAuthenticated,
     async(req,res)=>{
@@ -252,7 +248,6 @@ router.get('/getAllCollabRequestForACamp/:id',
             }
 
             const collab = await CollabModel.find({_id:collabID,collaboratorSearchActive:true});
-            console.log(collab);
 
             if(collab[0].collabRequests.length == 0){
                 return res.status(404).json({
@@ -389,6 +384,59 @@ router.post('/acceptUsersRequest',
             });
         }
 
+});
+
+
+// Reject a collab request for a collab
+
+router.put('/rejectCollabRequestForACampJob',    
+    validateApiSecret,
+    isAuthenticated,
+    [
+        body('collab_job_id').not().isEmpty(),
+        body('col_req_username').not().isEmpty(),
+    ],
+    async(req,res)=>{
+        try{
+            //Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],result:false   
+                });
+            }
+
+            let { collab_job_id,col_req_username } = req.body;
+
+            const colJob = await CollabModel.findOneAndUpdate({_id:collab_job_id},
+                {
+                    $pull : {
+                        "collabRequests" : { "username" : col_req_username }
+                    }
+                },
+                { safe: true, multi:true }
+            );
+
+            if(colJob.length == 0){
+                return res.status(500).json({
+                    msg:"There was a problem rejecting the request",
+                    result:false
+                })
+            }
+
+            return res.status(200).json({
+                msg:"Request rejected",
+                result:true
+            })
+
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                result  :   false,
+                msg     :   "There was a problem recjecting the collab request"
+            });
+        }
 });
 
 
