@@ -43,7 +43,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               height: 100,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(248, 248, 248, 1),
+                color: Color.fromRGBO(245, 245, 245, 1),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Column(

@@ -72,15 +72,6 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
       ),
       content: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Text(
-              "Creating a new Collab job for the camp",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor, fontSize: 20),
-            ),
-          ),
           SpinKitFadingCube(
             color: Theme.of(context).primaryColor,
             size: 30.0,

@@ -16,7 +16,7 @@ class CampListViewWidget extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 25),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: Color.fromRGBO(245, 245, 245, 1),
+            color: Color.fromRGBO(240, 240, 240, 1),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey,

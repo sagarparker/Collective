@@ -3,6 +3,7 @@ import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -41,6 +42,25 @@ class _SupportEmailScreenState extends State<SupportEmailScreen> {
       MultiValidator([RequiredValidator(errorText: 'Description is required')]);
 
   void sendEmail() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.white,
+      duration: Duration(days: 1),
+      padding: EdgeInsets.only(
+        top: 350,
+        bottom: 150,
+        left: 30,
+        right: 30,
+      ),
+      content: Column(
+        children: [
+          SpinKitThreeBounce(
+            color: Theme.of(context).primaryColor,
+            size: 30.0,
+          )
+        ],
+      ),
+    ));
+
     supportEmail(
       token,
       emailSubjectController.text,
