@@ -126,7 +126,7 @@ router.get('/getAllCollabJobForACamp/:id',
                 })
             }
 
-            const collabJobs = await CollabModel.find({campID});
+            const collabJobs = await CollabModel.find({campID,collaboratorSearchActive:true});
 
             if(collabJobs.length == 0){
                 return res.status(404).json({
@@ -410,7 +410,7 @@ router.get('/getCollabAcceptedRequest/:campaddress',
                 })
             }
 
-            const collabJobs = await contract.methods.getCollabDetails(campAddress).call();
+            let collabJobs = await contract.methods.getCollabDetails(campAddress).call();
 
             if(!collabJobs){
                 return res.status(404).json({
@@ -419,10 +419,17 @@ router.get('/getCollabAcceptedRequest/:campaddress',
                 })
             }
 
-            return res.status(200).json({
+
+            const curatedCollabJobDetails = await Promise.all(collabJobs.map(async(collab)=>{
+                let userAuth = await UserAuthModel.findOne({eth_address:collab.colAddress},{email:1,username:1});
+                return {...collab,...userAuth['_doc']};
+            }));
+
+
+            return res.status(200).json({       
                 msg:"Accepted collabs found",
                 result:true,
-                collabJobs
+                curatedCollabJobDetails
             });
 
         }
