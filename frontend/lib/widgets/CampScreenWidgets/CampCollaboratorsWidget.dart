@@ -90,7 +90,7 @@ class _CampCollaboratorsWidgetState extends State<CampCollaboratorsWidget> {
                 ),
               );
             }
-            print(snapshot.data);
+
             return ListView.builder(
                 itemCount: snapshot.data['curatedCollabJobDetails'].length,
                 itemBuilder: (context, index) {

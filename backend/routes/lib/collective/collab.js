@@ -319,7 +319,6 @@ router.post('/acceptUsersRequest',
                 collab_amount 
             } = req.body;
 
-
             // Build the transaction
             
             const txObject = {

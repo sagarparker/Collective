@@ -1,3 +1,4 @@
+import 'package:collective/screens/CollabRequestsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -92,7 +93,6 @@ class _OpportunitiesListWidgetState extends State<OpportunitiesListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.selectedCamp);
     return Container(
       width: MediaQuery.of(context).size.width,
       child: FutureBuilder(
@@ -268,7 +268,34 @@ class _OpportunitiesListWidgetState extends State<OpportunitiesListWidget> {
                                                           BorderRadius.circular(
                                                               60)),
                                                   minimumSize: Size(100, 35)),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            CollabRequestsScreen(
+                                                              collabId: snapshot
+                                                                          .data[
+                                                                      'collabJobs']
+                                                                  [
+                                                                  index]['_id'],
+                                                              campAddress: widget
+                                                                          .selectedCamp[
+                                                                      'selectedCamp']
+                                                                  [
+                                                                  'campAddress'],
+                                                              collabTitle: snapshot
+                                                                          .data[
+                                                                      'collabJobs'][index]
+                                                                  [
+                                                                  "collabTitle"],
+                                                              collabAmount: snapshot
+                                                                  .data[
+                                                                      'collabJobs']
+                                                                      [index][
+                                                                      'collabAmount']
+                                                                  .toString(),
+                                                            )));
+                                              },
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 2),

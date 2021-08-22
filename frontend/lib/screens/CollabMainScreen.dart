@@ -5,10 +5,7 @@ import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:collective/widgets/keepAlivePage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class CollabMainScreen extends StatefulWidget {
   static String routeName = '/collabMainScreen';
