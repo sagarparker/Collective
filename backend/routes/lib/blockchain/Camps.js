@@ -793,6 +793,53 @@ router.get('/getUsersCollabs',
 
 
 
+// Search for a camp - Search API
+
+router.post('/searchCamp',
+    validateApiSecret,
+    isAuthenticated,
+    [body('camp_name').not().isEmpty()],
+    async(req,res)=>{
+        try{
+            // Input field validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({
+                    error: errors.array()[0],result:false   
+                });
+            }
+
+            let camp_name = req.body.camp_name;
+            
+
+            // Search for camp with regex
+
+            const camps = await CampModel.find({"name": { $regex : camp_name }});
+
+            if(camps.length == 0){
+                return res.status(404).json({
+                    msg:"No camps found",
+                    result:false
+                })
+            }
+
+            return res.status(200).json({
+                msg:"Camps matching to the search query",
+                result:true,
+                camps
+            })
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                msg:"Error in searching for camps",
+                result:false
+            })
+        }
+});
+
+
+
 
 module.exports = router;
 
