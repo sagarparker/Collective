@@ -214,7 +214,7 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.only(left: 16, top: 10, right: 16),
+                  padding: EdgeInsets.only(left: 16, top: 20, right: 16),
                   height: 200,
                   child: descriptionList.length == 0
                       ? Container(

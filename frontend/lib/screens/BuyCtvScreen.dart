@@ -1,6 +1,7 @@
 import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 import 'package:pay/pay.dart';
@@ -66,22 +67,22 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: Duration(days: 1),
       backgroundColor: Colors.white,
-      padding: EdgeInsets.only(top: 230, left: 20, right: 20),
+      padding: EdgeInsets.only(top: 290, left: 20, right: 20),
       content: Padding(
         padding: const EdgeInsets.only(top: 0.0),
         child: Column(
           children: [
-            Image.asset(
-              'assets/images/loading.png',
-              width: 300,
+            SpinKitFadingCube(
+              color: Theme.of(context).primaryColor,
+              size: 30.0,
             ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 40,
                 ),
                 child: Text(
-                  'Transaction in progress ...',
+                  'Transaction in progress',
                   style: TextStyle(
                     color: Colors.black,
                   ),
@@ -143,11 +144,14 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height -
+              AppBar().preferredSize.height -
+              39,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin:
-                    EdgeInsets.only(left: 35, right: 35, top: 25, bottom: 10),
+                margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                 height: 100,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -289,13 +293,13 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
               ),
               isFormValid
                   ? Container(
-                      height: 100,
+                      height: 70,
                       width: MediaQuery.of(context).size.width,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
+                            padding: const EdgeInsets.only(top: 30.0),
                             child: Text(
                               amountController.text + ' INR',
                               style: TextStyle(
@@ -311,7 +315,7 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
                             width: 145,
                             height: 50,
                             type: GooglePayButtonType.pay,
-                            margin: const EdgeInsets.only(top: 15.0),
+                            margin: const EdgeInsets.only(top: 30.0),
                             onPaymentResult: onGooglePayResult,
                             loadingIndicator: const Center(
                               child: CircularProgressIndicator(),
@@ -321,7 +325,7 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
                       ),
                     )
                   : Container(
-                      height: 100,
+                      height: 70,
                       padding:
                           const EdgeInsets.only(top: 40, left: 65, right: 65),
                       child: Text(

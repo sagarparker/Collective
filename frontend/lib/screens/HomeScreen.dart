@@ -1,10 +1,10 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:collective/screens/CreateCampHomeScreen.dart';
-import 'package:collective/screens/CreateCampScreen.dart';
 import 'package:collective/screens/SupportEmailScreen.dart';
 import 'package:collective/screens/UserDetailsScreen.dart';
 import 'package:collective/screens/UserInvestmentScreen.dart';
 import 'package:collective/screens/UsersCampScreen.dart';
+import 'package:collective/screens/UsersCollabScreen.dart';
 import 'package:collective/widgets/HomeScreenWidget.dart';
 import 'package:collective/widgets/keepAlivePage.dart';
 import 'package:flutter/material.dart';
@@ -157,6 +157,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text('Collaborations'),
+                onTap: () {
+                  Navigator.of(context).pushNamed(UsersCollabScreen.routeName);
+                },
               ),
               Divider(),
               ListTile(
@@ -182,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Container(
             color: Colors.white,
-            child: Text('WalletScreen. Coming soon...'),
+            child: Text('Search Screen. Coming soon...'),
           ),
           KeepAlivePage(child: HomeScreenWidget()),
           CreateCampHomeScreen(),
@@ -203,13 +206,13 @@ class _HomeScreenState extends State<HomeScreen> {
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
             icon: Icon(
-              Icons.account_balance_wallet,
+              Icons.search,
               color: Theme.of(context).primaryColor,
             ),
             title: Padding(
               padding: const EdgeInsets.only(top: 1.0),
               child: Text(
-                'Wallet',
+                'Search',
                 style: TextStyle(
                     fontSize: 16, color: Theme.of(context).primaryColor),
               ),
@@ -241,11 +244,11 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Theme.of(context).primaryColor,
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 2.0),
+              padding: const EdgeInsets.only(top: 1.0),
               child: Text(
-                'Create camp',
+                'Create',
                 style: TextStyle(
-                    fontSize: 14, color: Theme.of(context).primaryColor),
+                    fontSize: 16, color: Theme.of(context).primaryColor),
               ),
             ),
             inactiveColor: Colors.black26,

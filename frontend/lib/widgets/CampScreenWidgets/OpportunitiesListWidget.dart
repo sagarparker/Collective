@@ -101,7 +101,7 @@ class _OpportunitiesListWidgetState extends State<OpportunitiesListWidget> {
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.connectionState == ConnectionState.none) {
             return Padding(
-              padding: const EdgeInsets.only(top: 0),
+              padding: const EdgeInsets.only(top: 270),
               child: Column(
                 children: [
                   SpinKitThreeBounce(

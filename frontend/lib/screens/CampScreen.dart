@@ -308,8 +308,11 @@ class _CampScreenState extends State<CampScreen> with TickerProviderStateMixin {
                                         selectedCamp,
                                         snapshot.data['details']['_id']),
                                     KeepAlivePage(
-                                        child:
-                                            CampsAngelListWidget(selectedCamp)),
+                                        child: CampsAngelListWidget(
+                                      selectedCamp,
+                                      snapshot.data['details']['target'],
+                                      snapshot.data['details']['equity'],
+                                    )),
                                     MoreCampDataWidget(snapshot),
                                   ],
                                 ),

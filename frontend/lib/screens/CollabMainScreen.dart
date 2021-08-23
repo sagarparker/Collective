@@ -119,7 +119,7 @@ class _CollabMainScreenState extends State<CollabMainScreen>
                 Icons.add,
                 color: Color.fromRGBO(24, 119, 242, 1.0),
               ),
-              backgroundColor: Color.fromRGBO(240, 240, 240, 1),
+              backgroundColor: Color.fromRGBO(230, 230, 230, 1),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,

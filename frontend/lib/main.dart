@@ -12,6 +12,7 @@ import 'package:collective/screens/SupportEmailScreen.dart';
 import 'package:collective/screens/UserDetailsScreen.dart';
 import 'package:collective/screens/UserInvestmentScreen.dart';
 import 'package:collective/screens/UsersCampScreen.dart';
+import 'package:collective/screens/UsersCollabScreen.dart';
 import 'package:collective/widgets/SplashScreenWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         InvestInCamp.routeName: (ctx) => InvestInCamp(),
         UserDetailsScreen.routeName: (ctx) => UserDetailsScreen(),
         UserInvestmentScreen.routeName: (ctx) => UserInvestmentScreen(),
+        UsersCollabScreen.routeName: (ctx) => UsersCollabScreen(),
         UsersCampScreen.routeName: (ctx) => UsersCampScreen(),
         SupportEmailScreen.routeName: (ctx) => SupportEmailScreen(),
         CreateCampHomeScreen.routeName: (ctx) => CreateCampHomeScreen(),

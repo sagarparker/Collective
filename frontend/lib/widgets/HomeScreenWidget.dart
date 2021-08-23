@@ -167,7 +167,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                           padding:
                                               const EdgeInsets.only(top: 2),
                                           child: Text(
-                                            'Buy CTV',
+                                            'Buy',
                                             style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 15,

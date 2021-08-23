@@ -6,8 +6,10 @@ import 'package:http/http.dart' as http;
 
 class CampsAngelListWidget extends StatefulWidget {
   final Map selectedCamp;
+  final String campTarget;
+  final String campEquity;
 
-  CampsAngelListWidget(this.selectedCamp);
+  CampsAngelListWidget(this.selectedCamp, this.campTarget, this.campEquity);
 
   @override
   _CampsAngelListWidgetState createState() => _CampsAngelListWidgetState();
@@ -114,16 +116,84 @@ class _CampsAngelListWidgetState extends State<CampsAngelListWidget> {
                                       elevation: 20.0,
                                       backgroundColor:
                                           Theme.of(context).primaryColor,
-                                      padding: EdgeInsets.all(35),
-                                      content: Text(
-                                        snapshot.data['list'][index]
-                                                ['username'] +
-                                            '\'s investment : ' +
-                                            data['details'] +
-                                            ' CTV',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 17, color: Colors.white),
+                                      padding: EdgeInsets.all(0),
+                                      content: Container(
+                                        height: 160,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  snapshot.data['list'][index]
+                                                          ['username'] +
+                                                      '\'s  investment',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 17,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 15.0),
+                                                  child: Text(
+                                                      'CTV : ' +
+                                                          data['details'] +
+                                                          ' CTV',
+                                                      style: TextStyle(
+                                                        fontSize: 17,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                      )),
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: Text(
+                                                      'Equity : ' +
+                                                          (int.parse(data[
+                                                                      'details']) *
+                                                                  100 /
+                                                                  (int.parse(widget
+                                                                          .campTarget) *
+                                                                      100 /
+                                                                      int.parse(
+                                                                          widget
+                                                                              .campEquity)))
+                                                              .toStringAsFixed(
+                                                                  2) +
+                                                          "%",
+                                                      style: TextStyle(
+                                                        fontSize: 17,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                      )),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );

@@ -46,7 +46,7 @@ class _CampCollaboratorsWidgetState extends State<CampCollaboratorsWidget> {
             if (snapshot.connectionState == ConnectionState.waiting ||
                 snapshot.connectionState == ConnectionState.none) {
               return Padding(
-                padding: const EdgeInsets.only(top: 0),
+                padding: const EdgeInsets.only(top: 270),
                 child: Column(
                   children: [
                     SpinKitThreeBounce(
@@ -66,7 +66,7 @@ class _CampCollaboratorsWidgetState extends State<CampCollaboratorsWidget> {
                     top: 0,
                   ),
                   child: Text(
-                    'No collab jobs found',
+                    'No collaborators found',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16),
                   ),
@@ -83,7 +83,7 @@ class _CampCollaboratorsWidgetState extends State<CampCollaboratorsWidget> {
                     top: 0,
                   ),
                   child: Text(
-                    'No collaborators jobs found',
+                    'No collaborators found',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16),
                   ),
