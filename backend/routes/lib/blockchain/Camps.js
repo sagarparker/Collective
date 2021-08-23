@@ -814,7 +814,7 @@ router.post('/searchCamp',
 
             // Search for camp with regex
 
-            const camps = await CampModel.find({"name": { $regex : camp_name }});
+            const camps = await CampModel.find({"name": { $regex : camp_name,'$options' : 'i' }});
 
             if(camps.length == 0){
                 return res.status(404).json({
