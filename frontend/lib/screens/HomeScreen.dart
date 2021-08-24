@@ -1,5 +1,6 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:collective/screens/CreateCampHomeScreen.dart';
+import 'package:collective/screens/SearchCampScreen.dart';
 import 'package:collective/screens/SupportEmailScreen.dart';
 import 'package:collective/screens/UserDetailsScreen.dart';
 import 'package:collective/screens/UserInvestmentScreen.dart';
@@ -183,10 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() => _currentIndex = index);
         },
         children: [
-          Container(
-            color: Colors.white,
-            child: Text('Search Screen. Coming soon...'),
-          ),
+          KeepAlivePage(child: SearchCampScreen()),
           KeepAlivePage(child: HomeScreenWidget()),
           CreateCampHomeScreen(),
         ],
