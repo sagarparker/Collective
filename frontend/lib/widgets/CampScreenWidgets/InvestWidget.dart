@@ -125,10 +125,14 @@ class _InvestWidgetState extends State<InvestWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           width: MediaQuery.of(context).size.width - 40,
           height: 65,
+          margin: EdgeInsets.only(
+            bottom: 18,
+          ),
           child: Text(
             widget.snapshot.data["details"]["camp_description"],
             textAlign: TextAlign.start,
@@ -137,25 +141,6 @@ class _InvestWidgetState extends State<InvestWidget> {
               color: Colors.black,
             ),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.only(bottom: 17),
-              child: TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                child: Text(
-                  'Read more',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-            ),
-          ],
         ),
         widget.snapshot.data['details']['targetReachedDB']
             ? widget.snapshot.data['details']['owner'] == widget.username

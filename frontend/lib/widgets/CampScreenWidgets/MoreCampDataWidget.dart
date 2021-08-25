@@ -10,15 +10,12 @@ class MoreCampDataWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width - 40,
-        height: 190,
+        height: 180,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               height: 35,
-              margin: EdgeInsets.only(
-                top: 15,
-              ),
               padding: EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

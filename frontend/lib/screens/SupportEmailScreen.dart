@@ -170,27 +170,63 @@ class _SupportEmailScreenState extends State<SupportEmailScreen> {
                           children: [
                             TextFormField(
                               decoration: InputDecoration(
-                                  labelText: 'Subject',
-                                  labelStyle: TextStyle(fontSize: 16)),
+                                labelText: 'Subject',
+                                labelStyle: TextStyle(fontSize: 16),
+                                filled: true,
+                                fillColor: Colors.grey[50],
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 1.5),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey[300], width: 1),
+                                ),
+                              ),
                               controller: emailSubjectController,
                               validator: emailSubjectValidator,
                             ),
-                            TextFormField(
-                              maxLines: 4,
-                              decoration: InputDecoration(
+                            Container(
+                              margin: EdgeInsets.only(
+                                top: 20,
+                              ),
+                              child: TextFormField(
+                                maxLines: 4,
+                                decoration: InputDecoration(
                                   labelText: 'Please describe your issue here',
-                                  labelStyle: TextStyle(fontSize: 16)),
-                              controller: emailMessageController,
-                              validator: emailMessageValidator,
-                              keyboardType: TextInputType.text,
+                                  labelStyle: TextStyle(fontSize: 16),
+                                  filled: true,
+                                  fillColor: Colors.grey[50],
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                        width: 1.5),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide(
+                                        color: Colors.grey[300], width: 1),
+                                  ),
+                                ),
+                                controller: emailMessageController,
+                                validator: emailMessageValidator,
+                                keyboardType: TextInputType.text,
+                              ),
                             )
                           ],
                         ),
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.only(left: 35, right: 35, top: 5),
+                      padding: const EdgeInsets.only(
+                        left: 35,
+                        right: 35,
+                        top: 10,
+                      ),
                       child: ElevatedButton(
                         onPressed: () {
                           _fromKey.currentState.validate()

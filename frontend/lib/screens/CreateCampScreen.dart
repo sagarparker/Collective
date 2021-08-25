@@ -49,10 +49,6 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
     RequiredValidator(errorText: 'Category is required'),
   ]);
 
-  final longDescriptionValidator = MultiValidator([
-    RequiredValidator(errorText: 'Detailed description is required'),
-  ]);
-
   final campDescriptionValidator = MultiValidator([
     RequiredValidator(errorText: 'Description is required'),
     MaxLengthValidator(116,
@@ -65,7 +61,6 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
     campEquityController.dispose();
     campTargetController.dispose();
     campDescriptionController.dispose();
-    longDescriptionController.dispose();
     campCategoryController.dispose();
     super.dispose();
   }
@@ -114,15 +109,14 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
     ));
 
     createCamp(
-            token,
-            campNameController.text,
-            int.parse(campEquityController.text),
-            int.parse(campTargetController.text),
-            campDescriptionController.text,
-            longDescriptionController.text,
-            campCategoryController.text,
-            _imagePath)
-        .then(
+      token,
+      campNameController.text,
+      int.parse(campEquityController.text),
+      int.parse(campTargetController.text),
+      campDescriptionController.text,
+      campCategoryController.text,
+      _imagePath,
+    ).then(
       (data) {
         if (data['result'] == true) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -134,7 +128,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
               content: Text(
                 "Camp created",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 18),
               ),
             ),
           );
@@ -199,62 +193,136 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
               Container(
                 height: 445,
                 margin: EdgeInsets.only(
-                  left: 32,
-                  right: 32,
+                  left: 20,
+                  right: 20,
                 ),
                 child: Form(
                   key: _formKey,
                   child: ListView(
                     children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Camp name',
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Camp name',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          controller: campNameController,
+                          validator: campNameValidator,
                         ),
-                        controller: campNameController,
-                        validator: campNameValidator,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Catergory',
+                      Container(
+                        margin: EdgeInsets.only(top: 12),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Catergory',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          controller: campCategoryController,
+                          validator: campCategoryValidator,
                         ),
-                        controller: campCategoryController,
-                        validator: campCategoryValidator,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Short Description',
+                      Container(
+                        margin: EdgeInsets.only(top: 12),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Description',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          controller: campDescriptionController,
+                          validator: campDescriptionValidator,
                         ),
-                        controller: campDescriptionController,
-                        validator: campDescriptionValidator,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Equity',
+                      Container(
+                        margin: EdgeInsets.only(top: 12),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Equity',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          controller: campEquityController,
+                          validator: campEquityValidator,
+                          keyboardType: TextInputType.number,
                         ),
-                        controller: campEquityController,
-                        validator: campEquityValidator,
-                        keyboardType: TextInputType.number,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Target',
+                      Container(
+                        margin: EdgeInsets.only(top: 12),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Target',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          controller: campTargetController,
+                          validator: campTargetValidator,
+                          keyboardType: TextInputType.number,
                         ),
-                        controller: campTargetController,
-                        validator: campTargetValidator,
-                        keyboardType: TextInputType.number,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Detailed description',
-                        ),
-                        controller: longDescriptionController,
-                        validator: longDescriptionValidator,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 20, bottom: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, bottom: 20, left: 5),
                             child: _image == null
                                 ? Text(
                                     'Please select a camp image',
@@ -347,7 +415,6 @@ Future<dynamic> createCamp(
   int equity,
   int target,
   String description,
-  String longDescription,
   String category,
   String imagePath,
 ) async {
@@ -363,7 +430,7 @@ Future<dynamic> createCamp(
     'camp_equity': equity.toString(),
     'camp_target': target.toString(),
     'camp_description': description,
-    'long_description': longDescription,
+    'long_description': 'Long description',
     'category': category,
   });
   request.files.add(await http.MultipartFile.fromPath('image', imagePath));

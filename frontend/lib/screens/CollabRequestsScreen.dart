@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
