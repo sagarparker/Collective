@@ -107,12 +107,11 @@ class _SupportEmailScreenState extends State<SupportEmailScreen> {
         preferredSize: const Size.fromHeight(55),
         child: AppBarGoBack(),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height -
-              AppBar().preferredSize.height -
-              35,
+      body: Container(
+        height: MediaQuery.of(context).size.height -
+            AppBar().preferredSize.height -
+            39,
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Container(

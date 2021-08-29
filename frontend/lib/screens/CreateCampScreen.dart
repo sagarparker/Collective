@@ -179,13 +179,13 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                 child: _image == null
                     ? Image.asset(
                         'assets/images/Create.png',
-                        height: 230,
+                        height: 225,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       )
                     : Image.file(
                         _image,
-                        height: 230,
+                        height: 225,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ),

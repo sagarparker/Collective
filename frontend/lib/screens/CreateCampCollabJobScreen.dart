@@ -162,9 +162,22 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
                     key: _descriptionformKey,
                     child: TextFormField(
                       decoration: InputDecoration(
-                          labelText:
-                              'Add a new item to the description list above',
-                          labelStyle: TextStyle(fontSize: 15)),
+                        labelText: 'Add the item here',
+                        labelStyle: TextStyle(fontSize: 15),
+                        filled: true,
+                        fillColor: Colors.grey[50],
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 1.5),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide:
+                              BorderSide(color: Colors.grey[300], width: 1),
+                        ),
+                      ),
                       controller: descriptionItem,
                       validator: descriptionItemValidator,
                     ),
@@ -176,7 +189,7 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
                   ),
                   padding: EdgeInsets.only(left: 16, right: 16),
                   width: MediaQuery.of(context).size.width,
-                  height: 40,
+                  height: 45,
                   child: ElevatedButton(
                     onPressed: () {
                       _descriptionformKey.currentState.validate()
@@ -198,6 +211,7 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
                             'Add an item to the description list',
                             style: TextStyle(
                                 fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 color: Theme.of(context).primaryColor),
                           ),
                         ),
@@ -205,7 +219,7 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
                     ),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: Color.fromRGBO(235, 235, 235, 1),
+                      primary: Color.fromRGBO(230, 230, 230, 1),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       ),
@@ -224,7 +238,7 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
                               Image.asset(
                                 'assets/images/notfound.png',
                                 width: MediaQuery.of(context).size.width,
-                                height: 140,
+                                height: 130,
                               ),
                               Text('No description added yet')
                             ],
@@ -247,8 +261,8 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
                         ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 30),
-                  height: 180,
+                  margin: EdgeInsets.only(top: 10),
+                  height: 190,
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.only(top: 16, left: 16, right: 16),
                   child: Form(
@@ -257,18 +271,51 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
                       children: [
                         TextFormField(
                           decoration: InputDecoration(
-                              labelText: 'Collab job title',
-                              labelStyle: TextStyle(fontSize: 15)),
+                            labelText: 'Collab job title',
+                            labelStyle: TextStyle(fontSize: 15),
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
                           controller: collabTitle,
                           validator: collabTitleValidator,
                         ),
-                        TextFormField(
-                          decoration: InputDecoration(
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: 15,
+                          ),
+                          child: TextFormField(
+                            decoration: InputDecoration(
                               labelText: 'Collab job CTV amount',
-                              labelStyle: TextStyle(fontSize: 15)),
-                          controller: collabAmount,
-                          keyboardType: TextInputType.number,
-                          validator: collabAmountValidator,
+                              labelStyle: TextStyle(fontSize: 15),
+                              filled: true,
+                              fillColor: Colors.grey[50],
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 1.5),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide(
+                                    color: Colors.grey[300], width: 1),
+                              ),
+                            ),
+                            controller: collabAmount,
+                            keyboardType: TextInputType.number,
+                            validator: collabAmountValidator,
+                          ),
                         ),
                       ],
                     ),
@@ -280,7 +327,7 @@ class _CreateCampCollabJobScreenState extends State<CreateCampCollabJobScreen> {
                   ),
                   padding: EdgeInsets.only(left: 16, right: 16),
                   width: MediaQuery.of(context).size.width,
-                  height: 40,
+                  height: 45,
                   child: ElevatedButton(
                     onPressed: () {
                       _newJobformKey.currentState.validate()

@@ -165,7 +165,7 @@ class _SearchCampScreenState extends State<SearchCampScreen> {
                       }
 
                       return Container(
-                        height: 545,
+                        height: MediaQuery.of(context).size.height - 197,
                         width: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.all(20),
                         child: ListView.builder(
