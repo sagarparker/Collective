@@ -49,8 +49,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Theme.of(context).primaryColor,
-      statusBarIconBrightness: Brightness.light,
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
     ));
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -59,26 +59,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             children: [
               Container(
-                height: 80,
-                padding: EdgeInsets.only(top: 5),
+                height: 50,
+                padding: EdgeInsets.only(top: 0),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.white,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/images/LogoCrop.png',
-                      fit: BoxFit.cover,
-                      height: 40,
-                      width: 40,
+                      'assets/images/LogoNoPadding.png',
+                      height: 32,
+                      width: 32,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 5),
+                      padding: const EdgeInsets.only(left: 3, top: 5),
                       child: Text(
                         'Collective',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 30),
                       ),
@@ -87,44 +86,81 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                ),
-                height: 270,
-                width: double.infinity,
-                child: Image.asset(
-                  'assets/images/RegisterScreen.png',
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Container(
-                height: 325,
-                padding: const EdgeInsets.only(top: 10, left: 40, right: 40),
+                height: 400,
+                padding: const EdgeInsets.only(left: 40, right: 40),
                 child: Form(
                   key: _formKey,
                   child: ListView(
                     children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Email',
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          controller: emailController,
+                          validator: emailValidator,
                         ),
-                        controller: emailController,
-                        validator: emailValidator,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Username',
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Username',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          controller: usernameController,
+                          validator: usernameValidator,
                         ),
-                        controller: usernameController,
-                        validator: usernameValidator,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Password',
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          obscureText: true,
+                          controller: passwordController,
+                          validator: passwordValidator,
                         ),
-                        obscureText: true,
-                        controller: passwordController,
-                        validator: passwordValidator,
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 25),
@@ -178,7 +214,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             primary: Theme.of(context).primaryColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(60)),
-                            minimumSize: Size(double.infinity, 45),
+                            minimumSize: Size(double.infinity, 50),
                           ),
                           child: Text(
                             'REGISTER',
@@ -188,24 +224,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                      )
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: 30,
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(LoginScreen.routeName);
+                          },
+                          child: Text(
+                            'Existing user ? Login here',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
               Container(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(LoginScreen.routeName);
-                  },
-                  child: Text(
-                    'Existing user ? Login here',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 16,
-                    ),
-                  ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                height: 260,
+                width: double.infinity,
+                child: Image.asset(
+                  'assets/images/RegisterScreen.png',
+                  fit: BoxFit.cover,
                 ),
               ),
             ],

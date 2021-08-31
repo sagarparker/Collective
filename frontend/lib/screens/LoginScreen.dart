@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/screens/RegisterScreen.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Theme.of(context).primaryColor,
-      statusBarIconBrightness: Brightness.light,
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
     ));
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -42,26 +44,25 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               Container(
-                height: 80,
-                padding: EdgeInsets.only(top: 5),
+                height: 90,
+                padding: EdgeInsets.only(top: 0),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.white,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/images/LogoCrop.png',
-                      fit: BoxFit.cover,
-                      height: 40,
-                      width: 40,
+                      'assets/images/LogoNoPadding.png',
+                      height: 32,
+                      width: 32,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 5),
+                      padding: const EdgeInsets.only(left: 3, top: 5),
                       child: Text(
                         'Collective',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 30),
                       ),
@@ -70,38 +71,63 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                height: 300,
+                padding: const EdgeInsets.only(
+                  top: 35,
+                  left: 35,
+                  right: 35,
                 ),
-                height: 290,
-                child: Image.asset(
-                  'assets/images/SignUpScreen.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Container(
-                height: 287,
-                padding: const EdgeInsets.only(top: 35, left: 40, right: 40),
                 child: Form(
                   key: _formKey,
                   child: ListView(
                     children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Email / Username',
+                      Container(
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Email / Username',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          controller: emailUsernameController,
+                          validator: RequiredValidator(
+                              errorText: 'Please provide a username or email'),
                         ),
-                        controller: emailUsernameController,
-                        validator: RequiredValidator(
-                            errorText: 'Please provide a username or email'),
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Password',
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            filled: true,
+                            fillColor: Colors.grey[50],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  BorderSide(color: Colors.grey[300], width: 1),
+                            ),
+                          ),
+                          obscureText: true,
+                          controller: passwordController,
+                          validator: RequiredValidator(
+                              errorText: 'Please provide a password'),
                         ),
-                        obscureText: true,
-                        controller: passwordController,
-                        validator: RequiredValidator(
-                            errorText: 'Please provide a password'),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 25),
@@ -154,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             primary: Theme.of(context).primaryColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(60)),
-                            minimumSize: Size(double.infinity, 45),
+                            minimumSize: Size(double.infinity, 52),
                           ),
                           child: Text(
                             'LOGIN',
@@ -181,6 +207,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontSize: 16,
                     ),
                   ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                height: 270,
+                child: Image.asset(
+                  'assets/images/LoginScreen.png',
+                  fit: BoxFit.cover,
                 ),
               ),
             ],

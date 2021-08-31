@@ -103,7 +103,7 @@ class CampListViewWidget extends StatelessWidget {
                                   ['camp_description'],
                               style: TextStyle(
                                 fontSize: 15,
-                                color: Colors.black54,
+                                color: Colors.grey[600],
                               ),
                             ),
                           ),
