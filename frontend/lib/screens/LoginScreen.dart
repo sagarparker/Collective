@@ -198,7 +198,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(RegisterScreen.routeName);
+                    Navigator.of(context)
+                        .pushReplacementNamed(RegisterScreen.routeName);
                   },
                   child: Text(
                     'New User ? register here',
