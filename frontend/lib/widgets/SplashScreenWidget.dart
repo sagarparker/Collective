@@ -14,26 +14,38 @@ class SplashScreenWidget extends StatefulWidget {
 
 class _SplashScreenWidgetState extends State<SplashScreenWidget> {
   bool _isLogedIn = false;
-  bool _isOnline = false;
+
+  splashScreenCheck() {
+    return Future.delayed(Duration(milliseconds: 1500), () async {
+      try {
+        final result = await InternetAddress.lookup('google.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          if (_isLogedIn == true) {
+            return HomeScreen();
+          } else {
+            return LoginScreen();
+          }
+        }
+        return LoginScreen();
+      } on SocketException catch (_) {
+        return Scaffold(
+          body: Center(
+            child: Container(
+              padding: EdgeInsets.all(50),
+              child: Text(
+                'No internet connection, please check your network and restart the app!',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        );
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-
-    try {
-      InternetAddress.lookup('google.com').then((result) {
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          setState(() {
-            _isOnline = true;
-          });
-        }
-      });
-    } on SocketException catch (_) {
-      setState(() {
-        _isOnline = false;
-      });
-    }
-
     SharedPreferences.getInstance().then(
       (prefValue) {
         if (prefValue.containsKey('token')) {
@@ -56,22 +68,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
       body: Container(
         padding: EdgeInsets.only(top: 230),
         child: SplashScreen(
-          seconds: 2,
-          navigateAfterSeconds: _isOnline
-              ? _isLogedIn
-                  ? HomeScreen()
-                  : LoginScreen()
-              : Scaffold(
-                  body: Center(
-                    child: Container(
-                      padding: EdgeInsets.all(50),
-                      child: Text(
-                        'No internet connection, please check your network and restart the app!',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
+          navigateAfterFuture: splashScreenCheck(),
           image: Image.asset('assets/images/Logo.png'),
           backgroundColor: Theme.of(context).backgroundColor,
           photoSize: 50.0,
