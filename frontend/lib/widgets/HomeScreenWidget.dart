@@ -60,24 +60,49 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                         width: MediaQuery.of(context).size.width - 32,
                         height: 40,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 7),
-                              child: Icon(
-                                Icons.account_balance_wallet,
-                                color: Colors.white,
-                                size: 22,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4, left: 3),
-                              child: Text(
-                                "Wallet",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 7),
+                                  child: Icon(
+                                    Icons.account_balance_wallet,
                                     color: Colors.white,
-                                    fontSize: 19),
-                              ),
+                                    size: 22,
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 4, left: 3),
+                                  child: Text(
+                                    "Wallet",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        fontSize: 19),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    minimumSize: Size(0, 0),
+                                    padding: EdgeInsets.only(left: 10),
+                                  ),
+                                  child: Icon(
+                                    Icons.restart_alt,
+                                    color: Colors.white,
+                                    size: 22,
+                                  ),
+                                  onPressed: () {
+                                    usersAccountBalance = getUserBalance(token);
+                                    setState(() {});
+                                  },
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -202,10 +227,25 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                       fontSize: 17,
                     ),
                   ),
-                  Text('- Filter',
-                      style: TextStyle(
-                        fontSize: 14,
-                      ))
+                  Container(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        minimumSize: Size(0, 0),
+                        padding: EdgeInsets.only(
+                          left: 30,
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.restart_alt,
+                        color: Theme.of(context).primaryColor,
+                        size: 22,
+                      ),
+                      onPressed: () {
+                        campList = getCamps(token);
+                        setState(() {});
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

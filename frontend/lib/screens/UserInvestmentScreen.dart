@@ -52,8 +52,23 @@ class _UserInvestmentScreenState extends State<UserInvestmentScreen> {
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.only(right: 17, top: 20),
-                    child: Text('-filter'))
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                        padding: EdgeInsets.only(
+                          left: 0,
+                          top: 15,
+                        ),
+                        minimumSize: Size(0, 0)),
+                    child: Icon(
+                      Icons.restart_alt,
+                      color: Theme.of(context).primaryColor,
+                      size: 22,
+                    ),
+                    onPressed: () {
+                      setState(() {});
+                    },
+                  ),
+                ),
               ],
             ),
             Container(
