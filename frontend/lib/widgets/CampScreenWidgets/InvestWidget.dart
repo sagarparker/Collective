@@ -129,9 +129,9 @@ class _InvestWidgetState extends State<InvestWidget> {
       children: [
         Container(
           width: MediaQuery.of(context).size.width - 40,
-          height: 65,
+          height: 60,
           margin: EdgeInsets.only(
-            bottom: 18,
+            bottom: 7,
           ),
           child: Text(
             widget.snapshot.data["details"]["camp_description"],
@@ -141,6 +141,28 @@ class _InvestWidgetState extends State<InvestWidget> {
               color: Colors.black,
             ),
           ),
+        ),
+        Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Total investments',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              widget.snapshot.data["details"]["investmentCount"],
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ],
+        ),
+        Divider(),
+        SizedBox(
+          height: 10,
         ),
         widget.snapshot.data['details']['targetReachedDB']
             ? widget.snapshot.data['details']['owner'] == widget.username
