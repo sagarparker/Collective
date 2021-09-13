@@ -76,6 +76,8 @@ contract Camps {
     }
     
     // get the total number of Angels who bought equity in a camp 
+    // can also be used for fetching the total number of investments
+
     
     function getAngelListLength(address _camp) public view returns(uint){
         return camps[_camp].angelList.length;

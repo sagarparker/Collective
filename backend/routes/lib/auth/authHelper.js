@@ -4,6 +4,14 @@ const bcrypt  = require("bcryptjs");
 require("dotenv").config();
 
 
+//Generate token
+
+exports.generateToken = (payload) => {
+  return jwt.sign(payload, process.env.TOKEN_SECRET, {
+    expiresIn: "90d",
+  });
+};
+
 
 //Validate Collective API secret key
 
@@ -31,18 +39,6 @@ exports.validateApiSecret = (req,res,next) =>{
     }
   });
 } 
-
-
-
-
-//Generate token
-
-exports.generateToken = (payload) => {
-  return jwt.sign(payload, process.env.TOKEN_SECRET, {
-    expiresIn: "90d",
-  });
-};
-
 
 
 

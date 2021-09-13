@@ -509,19 +509,28 @@ router.post('/getCampMasterDetails',
 
             const camp_address = req.body.camp_address;
 
-            const campDetailsSC =   await contract.methods.camps(camp_address).call();
-            const campDetailsDB =   await CampModel.findOne({address:camp_address},{target:0,equity:0});   
-            
-            const campDetailsMaster = {
-                ...campDetailsSC,
-                ...campDetailsDB._doc
-            }
+            const campDetailsSC     =   await contract.methods.camps(camp_address).call();
+            const campDetailsDB     =   await CampModel.findOne({address:camp_address},{target:0,equity:0});   
+            const investmentCount   =   await contract.methods.getAngelListLength(camp_address).call();
 
             if(!campDetailsSC || !campDetailsDB){
                 return res.status(404).json({
                     result:false,
                     msg:'Camp not found'
                 })
+            }
+
+            if(!investmentCount){
+                return res.status(500).json({
+                    result:false,
+                    msg:'There was a problem fetching the angel count'
+                })
+            }
+            
+            const campDetailsMaster = {
+                ...campDetailsSC,
+                ...campDetailsDB._doc,
+                investmentCount
             }
 
             return res.status(200).json({
