@@ -28,8 +28,7 @@ class _CampsAngelListWidgetState extends State<CampsAngelListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
+    return Container(
       child: FutureBuilder<dynamic>(
         future: campsAngelList,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
