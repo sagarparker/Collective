@@ -511,7 +511,7 @@ router.post('/getCampMasterDetails',
 
             const campDetailsSC     =   await contract.methods.camps(camp_address).call();
             const campDetailsDB     =   await CampModel.findOne({address:camp_address},{target:0,equity:0});   
-            const investmentCount   =   await contract.methods.getAngelListLength(camp_address).call();
+        
 
             if(!campDetailsSC || !campDetailsDB){
                 return res.status(404).json({
@@ -520,17 +520,10 @@ router.post('/getCampMasterDetails',
                 })
             }
 
-            if(!investmentCount){
-                return res.status(500).json({
-                    result:false,
-                    msg:'There was a problem fetching the angel count'
-                })
-            }
             
             const campDetailsMaster = {
                 ...campDetailsSC,
-                ...campDetailsDB._doc,
-                investmentCount
+                ...campDetailsDB._doc
             }
 
             return res.status(200).json({
