@@ -511,19 +511,26 @@ router.post('/getCampMasterDetails',
 
             const campDetailsSC     =   await contract.methods.camps(camp_address).call();
             const campDetailsDB     =   await CampModel.findOne({address:camp_address},{target:0,equity:0});   
+            
         
 
             if(!campDetailsSC || !campDetailsDB){
                 return res.status(404).json({
                     result:false,
                     msg:'Camp not found'
-                })
+                })    
             }
 
-            
+            const campCollabCount = await CollabModel.countDocuments({
+                campID                      :   campDetailsDB._id,
+                collaboratorSearchActive    :   false
+            });
+
+
             const campDetailsMaster = {
                 ...campDetailsSC,
-                ...campDetailsDB._doc
+                ...campDetailsDB._doc,
+                campCollabCount
             }
 
             return res.status(200).json({
