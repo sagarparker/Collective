@@ -16,9 +16,9 @@ class CollabWidget extends StatelessWidget {
       children: [
         Container(
           width: MediaQuery.of(context).size.width - 40,
-          height: 65,
+          height: 60,
           margin: EdgeInsets.only(
-            bottom: 18,
+            bottom: 7,
           ),
           child: Text(
             snapshot.data["details"]["camp_description"],
@@ -28,6 +28,28 @@ class CollabWidget extends StatelessWidget {
               color: Colors.black,
             ),
           ),
+        ),
+        Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Total collabs',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              snapshot.data["details"]["campCollabCount"].toString(),
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ],
+        ),
+        Divider(),
+        SizedBox(
+          height: 10,
         ),
         ElevatedButton(
           child: Row(

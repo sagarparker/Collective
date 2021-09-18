@@ -21,7 +21,7 @@ class MoreCampDataWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Camp Owner',
+                    'Camp owner',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 16,
@@ -51,7 +51,7 @@ class MoreCampDataWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Created On ',
+                    'Created on ',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 16,
@@ -81,7 +81,7 @@ class MoreCampDataWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Valuation',
+                    'Camp status',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 16,
@@ -89,13 +89,9 @@ class MoreCampDataWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    ((int.parse(snapshot.data["details"]["target"]) * 100) /
-                                int.parse(snapshot.data["details"]["equity"]))
-                            .toStringAsFixed(0)
-                            .replaceAllMapped(
-                                new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                (Match m) => '${m[1]},') +
-                        " CTV",
+                    snapshot.data["details"]["targetReachedDB"]
+                        ? 'Target reached'
+                        : 'Raising funding',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 16,

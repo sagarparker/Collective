@@ -124,6 +124,7 @@ class _InvestWidgetState extends State<InvestWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.snapshot);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -147,13 +148,19 @@ class _InvestWidgetState extends State<InvestWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Total investments',
+              'Camp\'s valuation',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
               ),
             ),
             Text(
-              widget.snapshot.data["details"]["investmentCount"],
+              ((int.parse(widget.snapshot.data["details"]["target"]) * 100) /
+                          int.parse(widget.snapshot.data["details"]["equity"]))
+                      .toStringAsFixed(0)
+                      .replaceAllMapped(
+                          new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                          (Match m) => '${m[1]},') +
+                  " CTV",
               style: TextStyle(
                 color: Theme.of(context).primaryColor,
               ),
