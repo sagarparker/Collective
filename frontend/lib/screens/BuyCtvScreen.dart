@@ -105,7 +105,7 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
             content: Text(
               "CTV added to your wallet",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
               ),
               textAlign: TextAlign.center,
             ),
@@ -349,7 +349,7 @@ Future<dynamic> buyCTV(String token, int amount) async {
     'Content-Type': 'application/json'
   };
   var request = http.Request(
-      'POST', Uri.parse('http://18.217.26.234/api/transferCTVToUser'));
+      'POST', Uri.parse('http://3.135.1.141/api/transferCTVToUser'));
   request.body = json.encode({"amount": amount});
   request.headers.addAll(headers);
 

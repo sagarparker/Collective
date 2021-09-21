@@ -97,6 +97,16 @@ class _UsersCampScreenState extends State<UsersCampScreen> {
                         return Center(
                             child:
                                 Text('There was a problem fetching balance'));
+                      }
+                      if (snapshot.data['details'].length == 0) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 150,
+                            ),
+                            child: Text('No camps found'),
+                          ),
+                        );
                       } else {
                         return CampListViewWidget(snapshot);
                       }
@@ -118,7 +128,7 @@ Future<dynamic> getCampsCreatedByUser(String token) async {
     'Authorization': token
   };
   var request = http.Request(
-      'GET', Uri.parse('http://18.217.26.234/api/getCampsCreatedByUser'));
+      'GET', Uri.parse('http://3.135.1.141/api/getCampsCreatedByUser'));
 
   request.headers.addAll(headers);
 

@@ -32,6 +32,7 @@ class _CampsAngelListWidgetState extends State<CampsAngelListWidget> {
       child: FutureBuilder<dynamic>(
         future: campsAngelList,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          print(snapshot.data);
           if (snapshot.connectionState == ConnectionState.waiting ||
               snapshot.connectionState == ConnectionState.none) {
             return Padding(
@@ -69,6 +70,22 @@ class _CampsAngelListWidgetState extends State<CampsAngelListWidget> {
                 ),
                 child: Text(
                   'There was a problem fetching camp details, please try again.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            );
+          }
+          if (snapshot.data['result'] == true &&
+              snapshot.data['list'].length == 0) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 60.0,
+                  right: 60.0,
+                ),
+                child: Text(
+                  'No angels found',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16),
                 ),
@@ -198,7 +215,6 @@ class _CampsAngelListWidgetState extends State<CampsAngelListWidget> {
                                     ),
                                   );
                                 } else if (data['result'] == false) {
-                                  print(data);
                                   ScaffoldMessenger.of(context)
                                       .hideCurrentSnackBar();
 
@@ -253,7 +269,7 @@ class _CampsAngelListWidgetState extends State<CampsAngelListWidget> {
 Future<dynamic> getCampsAngels(String campAddress) async {
   var headers = {'Content-Type': 'application/json'};
   var request = http.Request(
-      'POST', Uri.parse('http://18.217.26.234/api/getCampsAngelInvestors'));
+      'POST', Uri.parse('http://3.135.1.141/api/getCampsAngelInvestors'));
   request.body = json.encode({"camp_address": campAddress});
   request.headers.addAll(headers);
 
@@ -268,7 +284,7 @@ Future<dynamic> getAngelsFunding(
     String campAddress, String angelAddress) async {
   var headers = {'Content-Type': 'application/json'};
   var request = http.Request(
-      'POST', Uri.parse('http://18.217.26.234/api/getFundingDetails'));
+      'POST', Uri.parse('http://3.135.1.141/api/getFundingDetails'));
   request.body =
       json.encode({"camp_address": campAddress, "angel_address": angelAddress});
   request.headers.addAll(headers);

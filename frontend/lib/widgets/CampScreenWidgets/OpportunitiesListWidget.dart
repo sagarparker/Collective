@@ -361,7 +361,7 @@ Future<dynamic> getAllCollabJobs(String token, String campID) async {
     'Authorization': token
   };
   var request = http.Request('GET',
-      Uri.parse('http://18.217.26.234/api/getAllCollabJobForACamp/' + campID));
+      Uri.parse('http://3.135.1.141/api/getAllCollabJobForACamp/' + campID));
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
@@ -377,7 +377,7 @@ Future<dynamic> sendCollabRequest(String token, String collabId) async {
     'Authorization': token
   };
   var request = http.Request(
-      'POST', Uri.parse('http://18.217.26.234/api/sendRequestToCollab'));
+      'POST', Uri.parse('http://3.135.1.141/api/sendRequestToCollab'));
   request.body = json.encode({"collab_job_id": collabId});
   request.headers.addAll(headers);
 

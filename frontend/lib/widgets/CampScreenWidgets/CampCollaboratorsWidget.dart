@@ -176,7 +176,7 @@ Future<dynamic> getAllAcceptedCollabJobs(
   var request = http.Request(
       'GET',
       Uri.parse(
-          'http://18.217.26.234/api/getCollabAcceptedRequest/' + campAddress));
+          'http://3.135.1.141/api/getCollabAcceptedRequest/' + campAddress));
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();

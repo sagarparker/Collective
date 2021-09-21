@@ -319,8 +319,8 @@ Future<dynamic> getAllCollabRequests(String token, String collabId) async {
   };
   var request = http.Request(
       'GET',
-      Uri.parse('http://18.217.26.234/api/getAllCollabRequestForACampJob/' +
-          collabId));
+      Uri.parse(
+          'http://3.135.1.141/api/getAllCollabRequestForACampJob/' + collabId));
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
@@ -337,7 +337,7 @@ Future<dynamic> rejectCollabRequest(
     'Authorization': token
   };
   var request = http.Request('PUT',
-      Uri.parse('http://18.217.26.234/api/rejectCollabRequestForACampJob'));
+      Uri.parse('http://3.135.1.141/api/rejectCollabRequestForACampJob'));
   request.body =
       json.encode({"collab_job_id": collabId, "col_req_username": colUsername});
   request.headers.addAll(headers);
@@ -363,7 +363,7 @@ Future<dynamic> acceptCollabRequest({
     'Authorization': token
   };
   var request = http.Request(
-      'POST', Uri.parse('http://18.217.26.234/api/acceptUsersRequest'));
+      'POST', Uri.parse('http://3.135.1.141/api/acceptUsersRequest'));
   request.body = json.encode({
     "collab_job_id": collabId,
     "camp_address": campAddress,

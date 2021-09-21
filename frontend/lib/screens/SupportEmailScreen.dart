@@ -276,7 +276,7 @@ Future<dynamic> supportEmail(
     'Content-Type': 'application/json'
   };
   var request =
-      http.Request('POST', Uri.parse('http://18.217.26.234/api/supportEmail'));
+      http.Request('POST', Uri.parse('http://3.135.1.141/api/supportEmail'));
   request.body = json
       .encode({"email_subject": emailSubject, "email_message": emailMessage});
   request.headers.addAll(headers);

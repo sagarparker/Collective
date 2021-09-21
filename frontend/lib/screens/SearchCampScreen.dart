@@ -338,7 +338,7 @@ Future<dynamic> searchCamp(String token, String campName) async {
     'Authorization': token
   };
   var request =
-      http.Request('POST', Uri.parse('http://18.217.26.234/api/searchCamp'));
+      http.Request('POST', Uri.parse('http://3.135.1.141/api/searchCamp'));
   request.body = json.encode({"camp_name": campName});
   request.headers.addAll(headers);
 

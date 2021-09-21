@@ -341,7 +341,7 @@ Future<dynamic> getCamps(String token, String campAddress) async {
     'Authorization': token
   };
   var request = http.Request(
-      'POST', Uri.parse('http://18.217.26.234/api/getCampMasterDetails'));
+      'POST', Uri.parse('http://3.135.1.141/api/getCampMasterDetails'));
   request.body = json.encode({"camp_address": campAddress});
   request.headers.addAll(headers);
 

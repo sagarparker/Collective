@@ -386,7 +386,7 @@ Future<dynamic> newCollabJobForCamp(
     'Authorization': token
   };
   var request = http.Request(
-      'POST', Uri.parse('http://18.217.26.234/api/newCollabJobForCamp'));
+      'POST', Uri.parse('http://3.135.1.141/api/newCollabJobForCamp'));
   request.body = json.encode({
     "camp_id": campID,
     "camp_owner_username": campOwner,

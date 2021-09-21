@@ -273,8 +273,10 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                     } else {
                       if (snapshot.data['result'] == false) {
                         return Center(
-                            child:
-                                Text('There was a problem fetching balance'));
+                            child: Padding(
+                          padding: const EdgeInsets.only(bottom: 150.0),
+                          child: Text(snapshot.data['msg']),
+                        ));
                       } else {
                         return CampListViewWidget(snapshot);
                       }
@@ -296,7 +298,7 @@ Future<dynamic> getUserBalance(String token) async {
     'Authorization': token
   };
   var request = http.Request(
-      'GET', Uri.parse('http://18.217.26.234/api/getUsersAccountBalance'));
+      'GET', Uri.parse('http://3.135.1.141/api/getUsersAccountBalance'));
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
@@ -312,7 +314,7 @@ Future<dynamic> getCamps(String token) async {
     'Authorization': token
   };
   var request =
-      http.Request('POST', Uri.parse('http://18.217.26.234/api/getCampList'));
+      http.Request('POST', Uri.parse('http://3.135.1.141/api/getCampList'));
   request.body = json.encode({"sort_by": "High target"});
   request.headers.addAll(headers);
 

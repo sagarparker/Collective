@@ -159,8 +159,8 @@ Future<dynamic> getUsersCollaboration(String token) async {
     'Content-Type': 'application/json',
     'Authorization': token
   };
-  var request = http.Request(
-      'GET', Uri.parse('http://18.217.26.234/api/getUsersCollabs'));
+  var request =
+      http.Request('GET', Uri.parse('http://3.135.1.141/api/getUsersCollabs'));
 
   request.headers.addAll(headers);
 

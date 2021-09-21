@@ -274,7 +274,7 @@ Future<dynamic> userRegister(
     'Content-Type': 'application/json'
   };
   var request =
-      http.Request('POST', Uri.parse('http://18.217.26.234/api/userRegister'));
+      http.Request('POST', Uri.parse('http://3.135.1.141/api/userRegister'));
   request.body =
       json.encode({"email": email, "username": username, "password": password});
   request.headers.addAll(headers);

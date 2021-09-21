@@ -361,7 +361,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                                       ],
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(180, 45),
+                                      minimumSize: Size(210, 45),
                                       elevation: 0,
                                       primary: Theme.of(context).primaryColor,
                                       shape: RoundedRectangleBorder(
@@ -424,7 +424,7 @@ Future<dynamic> createCamp(
     'Authorization': token
   };
   var request = http.MultipartRequest(
-      'POST', Uri.parse('http://18.217.26.234/api/createCamp'));
+      'POST', Uri.parse('http://3.135.1.141/api/createCamp'));
   request.fields.addAll({
     'camp_name': campName,
     'camp_equity': equity.toString(),
