@@ -1,27 +1,15 @@
-const express   = require('express');
-const router    = express.Router();
-const bcrypt    = require("bcryptjs");
-const Web3      = require('web3');
-const moment    = require('moment-timezone');
 const CryptoJS  = require("crypto-js");
 const axios     = require("axios");
 const nodemailer = require('nodemailer');
 
-const UserAuthModel     = require("../../../models/userAuthModel");
-const CampModel         = require('../../../models/campDetailsMode');
-const UserDetailsModel  = require("../../../models/userDetailsModel");
+const CampModel         = require("../../models/campDetailsModel");
+const UserDetailsModel  = require("../../models/userDetailsModel");
 
-const { body, validationResult } = require("express-validator");
-const {generateToken,validateApiSecret,isAuthenticated}=require("../auth/authHelper");
+const { validationResult } = require("express-validator");
 require('dotenv').config();
 
 
-// Fetch user data
-
-router.post('/getUserDetails',
-  validateApiSecret,
-  isAuthenticated,
-  async (req,res)=>{
+const getUserDetails = async (req,res)=>{
     try{
       
       const userData = await UserDetailsModel.find({username:req.decoded.username});
@@ -46,18 +34,10 @@ router.post('/getUserDetails',
         err
       });
     }
-});
+}
 
 
-// Withdraw camp amount raised
-
-router.post('/withdrawAmount',
-  validateApiSecret,
-  isAuthenticated,
-  [body('owner_address').not().isEmpty(),
-  body('owner_private_key').not().isEmpty(),
-  body('amount').not().isEmpty()],
-  async (req,res)=>{
+const withdrawAmount = async (req,res)=>{
     try{
 
         //Input field validation
@@ -128,31 +108,24 @@ router.post('/withdrawAmount',
         result:false,
       });
     }
-});
+}
 
 
 // Support/Help email API
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.email_id,
-    pass: process.env.email_password
-  },
-  tls: {
-    rejectUnauthorized: false
-  }
+    service: 'gmail',
+    auth: {
+      user: process.env.email_id,
+      pass: process.env.email_password
+    },
+    tls: {
+      rejectUnauthorized: false
+    }
 });
 
 
-router.post('/supportEmail',
-  validateApiSecret,
-  isAuthenticated,
-  [ 
-    body('email_subject').not().isEmpty(),
-    body('email_message').not().isEmpty()
-  ],
-  async(req,res)=>{
+const supportEmail = async(req,res)=>{
     try{
         //Input field validation
         const errors = validationResult(req);
@@ -198,9 +171,11 @@ router.post('/supportEmail',
         result:false,
       });
     }
-});
+}
 
 
-
-
-module.exports = router;
+module.exports = {
+    getUserDetails,
+    withdrawAmount,
+    supportEmail
+}

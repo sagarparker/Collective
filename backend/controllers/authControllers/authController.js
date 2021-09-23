@@ -1,13 +1,12 @@
-const express   = require('express');
-const router    = express.Router();
-const bcrypt    = require("bcryptjs");
-const Web3      = require('web3');
-const moment    = require('moment-timezone');
-const CryptoJS  = require("crypto-js");
-const UserAuthModel = require("../../../models/userAuthModel");
-const UserDetailsModel = require("../../../models/userDetailsModel");
-const { body, validationResult } = require("express-validator");
-const {generateToken,validateApiSecret,isAuthenticated}=require("./authHelper");
+const bcrypt        =   require("bcryptjs");
+const Web3          =   require('web3');
+const moment        =   require('moment-timezone');
+const CryptoJS      =   require("crypto-js");
+const UserAuthModel =   require("../../models/userAuthModel")
+const UserDetailsModel      =   require("../../models/userDetailsModel");
+const { validationResult }  =   require("express-validator");
+const {generateToken}       =   require("../../middleware/authHelper");
+
 
 require('dotenv').config();
 
@@ -16,15 +15,7 @@ const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 const web3 = new Web3(rpcURL);
 
 
-// REGISTER new user on collective
-
-router.post('/userRegister',[
-  body('email').isEmail(),
-  body('email').not().isEmpty(),
-  body('username').not().isEmpty(),
-  body('password').not().isEmpty()],
-  validateApiSecret,
-  async(req,res) => {
+const userRegister =  async(req,res) => {
     try{
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -139,16 +130,11 @@ router.post('/userRegister',[
         }
     }
 
-})
+}
 
 
-// Login api for Collective
 
-router.post('/userLogin',[
-  body('email_username').not().isEmpty(),
-  body('password').not().isEmpty()],
-  validateApiSecret,
-  async (req,res)=>{
+const userLogin = async (req,res)=>{
     try{
 
       const errors = validationResult(req);
@@ -216,16 +202,10 @@ router.post('/userLogin',[
       })
     }
 
-});
+}
 
 
-
-//Verify if the user is a registered user with a valid token.
-
-router.post('/verifyUser',
-  validateApiSecret,
-  isAuthenticated,
-  async (req,res)=>{
+const userVerify = async (req,res)=>{
     try{
       const userData = await UserAuthModel.find({ $or:[ {email:req.decoded.email},{username:req.decoded.username}]});
       if(userData.length>0){
@@ -248,7 +228,10 @@ router.post('/verifyUser',
         err
       });
     }
-});
+}
 
-
-module.exports = router;
+module.exports = {
+    userRegister,
+    userLogin,
+    userVerify
+}

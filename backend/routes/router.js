@@ -5,11 +5,11 @@ const path          =   require('path');
 const moment        =   require('moment-timezone');
 
 
-const CollectiveToken   =   require('./lib/blockchain/CollectiveToken');
-const Camps             =   require('./lib/blockchain/Camps');
-const Auth              =   require('./lib/auth/userAuth');
-const Collective        =   require('./lib/collective/collective');
-const Collab            =   require('./lib/collective/collab');
+const CollectiveToken   =   require('./blockchain/CollectiveToken');
+const Camps             =   require('./blockchain/Camps');
+const Auth              =   require('./auth/UserAuth');
+const Collective        =   require('./collective/Collective');
+const Collab            =   require('./collective/Collab');
 
 // Timezone setup
 
@@ -73,6 +73,7 @@ app.use('/api',Collective);
 // Collab APIs
 
 app.use('/api',Collab);
+
 
 
 module.exports = app;

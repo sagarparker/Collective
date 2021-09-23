@@ -1,9 +1,6 @@
-const express   =   require('express');
-const router    =   express.Router();
 const Tx        =   require('ethereumjs-tx').Transaction;
 const Web3      =   require('web3');
-const { body, validationResult } = require("express-validator");
-const { validateApiSecret,isAuthenticated }   =   require("../auth/authHelper");
+const { validationResult } = require("express-validator");
 require('dotenv').config();
 
 
@@ -15,7 +12,7 @@ const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 
 const web3 = new Web3(rpcURL);
 
-const CollectiveToken = require('../../../build/contracts/CollectiveToken.json');
+const CollectiveToken = require('../../build/contracts/CollectiveToken.json');
 
 const contract_address = process.env.ctv_contract_address;
 
@@ -32,23 +29,6 @@ const contract = new web3.eth.Contract(abi,contract_address)
 
 const account_address_1 = process.env.account_1;
 
-// // Testing accounts
-
-// const account_address_2 = process.env.account_2;
-
-// const account_address_3 = process.env.account_3;
-
-// const account_address_4 = process.env.account_4;
-
-// const account_address_5 = process.env.account_5;
-
-// // Trial account 
-
-// const account_address_6 = process.env.trial_account_1;
-
-// const account_address_7 = process.env.trial_account_2;
-
-
 
 //////////////////
 /// Private keys
@@ -58,109 +38,79 @@ const account_address_1 = process.env.account_1;
 
 const privateKey1 = Buffer.from(process.env.privateKey_1,'hex');
 
-// // Testing private key
-
-// const privateKey2 = Buffer.from(process.env.privatekey_2,'hex');
-
-// const privateKey3 = Buffer.from(process.env.privatekey_3,'hex');
-
-// const privateKey4 = Buffer.from(process.env.privatekey_4,'hex');
-
-// const privateKey5 = Buffer.from(process.env.privatekey_5,'hex');
-
-// // Trial accout private key 
-
-// const privateKey6 = Buffer.from(process.env.trial_privatekey_1,'hex');
-
-// const privateKey7 = Buffer.from(process.env.trial_privatekey_2,'hex');
 
 
+const getAccountBalance = async(req,res)=>{
+    try{
 
-// Get users account balance
-
-router.get('/getAccountBalance',
-    validateApiSecret,
-    body('account_address').not().isEmpty(),
-    async(req,res)=>{
-        try{
-
-             //Input field validation
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return res.status(422).json({
-                    error: errors.array()[0],result:false   
-                });
-            }
-
-            const ctvBalance = await contract.methods.balanceOf(req.body.account_address).call();
-            const ethBalance = await web3.eth.getBalance(req.body.account_address);
-
-            if(!ctvBalance || !ethBalance){
-                return res.status(500).json({
-                    result:false,
-                    msg:'There was a problem fetching the users account balance'
-                })
-            }
-
-            return res.status(200).json({
-                result:true,
-                msg:'Account balance fetched',
-                CTV_balance:ctvBalance+" CTV",
-                ETH_balance:ethBalance+" wei"
+         //Input field validation
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({
+                error: errors.array()[0],result:false   
             });
-            
         }
-        catch(err){
-            console.log(err);
-            res.status(500).json({
+
+        const ctvBalance = await contract.methods.balanceOf(req.body.account_address).call();
+        const ethBalance = await web3.eth.getBalance(req.body.account_address);
+
+        if(!ctvBalance || !ethBalance){
+            return res.status(500).json({
                 result:false,
                 msg:'There was a problem fetching the users account balance'
             })
         }
-});
+
+        return res.status(200).json({
+            result:true,
+            msg:'Account balance fetched',
+            CTV_balance:ctvBalance+" CTV",
+            ETH_balance:ethBalance+" wei"
+        });
+        
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            result:false,
+            msg:'There was a problem fetching the users account balance'
+        })
+    }
+}
 
 
-router.get('/getUsersAccountBalance',
-    validateApiSecret,
-    isAuthenticated,
-    async(req,res)=>{
-        try{
+const getUsersAccountBalance = async(req,res)=>{
+    try{
 
-            const ctvBalance = await contract.methods.balanceOf(req.decoded.eth_address).call();
-            const ethBalance = await web3.eth.getBalance(req.decoded.eth_address);
+        const ctvBalance = await contract.methods.balanceOf(req.decoded.eth_address).call();
+        const ethBalance = await web3.eth.getBalance(req.decoded.eth_address);
 
-            if(!ctvBalance || !ethBalance){
-                return res.status(500).json({
-                    result:false,
-                    msg:'There was a problem fetching the users account balance'
-                })
-            }
-
-            return res.status(200).json({
-                result:true,
-                msg:'Account balance fetched',
-                CTV_balance:ctvBalance+" CTV",
-                ETH_balance:ethBalance+" wei"
-            });
-            
-        }
-        catch(err){
-            console.log(err);
-            res.status(500).json({
+        if(!ctvBalance || !ethBalance){
+            return res.status(500).json({
                 result:false,
                 msg:'There was a problem fetching the users account balance'
             })
         }
-});
+
+        return res.status(200).json({
+            result:true,
+            msg:'Account balance fetched',
+            CTV_balance:ctvBalance+" CTV",
+            ETH_balance:ethBalance+" wei"
+        });
+        
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            result:false,
+            msg:'There was a problem fetching the users account balance'
+        })
+    }
+}
 
 
-
-// Sending ETH to users
-
-router.post('/transferETH',
-    [body('transfer_address').not().isEmpty(),
-    body('amount').not().isEmpty()],
-    async(req,res)=>{
+const transferETH = async(req,res)=>{
     try{
         //Input field validation
         const errors = validationResult(req);
@@ -219,15 +169,10 @@ router.post('/transferETH',
             msg:'There was a problem transferring ETH'
         })
     }
-});
+}
 
 
-// Sending CTV - Collective token to users
-
-router.post('/transferCTV',
-    [body('transfer_address').not().isEmpty(),
-    body('amount').not().isEmpty()],
-    async(req,res)=>{
+const transferCTV = async(req,res)=>{
     try{
         //Input field validation
         const errors = validationResult(req);
@@ -286,16 +231,10 @@ router.post('/transferCTV',
             msg:'There was a problem transferring CTV'
         })
     }
-});
+}
 
 
-// Transfer CTV to use - with AUTH
-
-router.post('/transferCTVToUser',
-    validateApiSecret,
-    isAuthenticated,
-    body('amount').not().isEmpty(),
-    async(req,res)=>{
+const transferCTVToUser = async(req,res)=>{
     try{
         //Input field validation
         const errors = validationResult(req);
@@ -354,51 +293,46 @@ router.post('/transferCTVToUser',
             msg:'There was a problem transferring CTV'
         })
     }
-});
+}
 
 
-// Get the allowance for a account;
-
-router.post('/getAllowance',
-    [body('owner_address').not().isEmpty(),
-    body('spender_address').not().isEmpty()],
-    async(req,res)=>{
-        try{
-             //Input field validation
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return res.status(422).json({
-                    error: errors.array()[0],result:false   
-                });
-            }
-
-            const owner_address     =   req.body.owner_address;
-            const spender_address   =   req.body.spender_address;
-
-            const allowance = await contract.methods.allowance(owner_address,spender_address).call()
-
-            if(!allowance){
-                return res.status(500).json({
-                    result:false,
-                    msg:'There was a problem fetching the account allowance.'
-                })
-            }
-
-            return res.status(200).json({
-                result:true,
-                msg:'Allowance for account fetched',
-                allowance:allowance
+const getAllowance  =   async(req,res)=>{
+    try{
+         //Input field validation
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({
+                error: errors.array()[0],result:false   
             });
-            
         }
-        catch(err){
-            console.log(err);
-            res.status(500).json({
+
+        const owner_address     =   req.body.owner_address;
+        const spender_address   =   req.body.spender_address;
+
+        const allowance = await contract.methods.allowance(owner_address,spender_address).call()
+
+        if(!allowance){
+            return res.status(500).json({
                 result:false,
                 msg:'There was a problem fetching the account allowance.'
             })
         }
-});
+
+        return res.status(200).json({
+            result:true,
+            msg:'Allowance for account fetched',
+            allowance:allowance
+        });
+        
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            result:false,
+            msg:'There was a problem fetching the account allowance.'
+        })
+    }
+}
 
 
 // Transfer CTV between user accounts
@@ -409,12 +343,8 @@ router.post('/getAllowance',
 // 2. Approve the transaction amount
 // 3. Send the amount to the transfer address from the CTV owner address
 
-router.post('/transferCTVbetweenUsers',
-    [body('owner_address').not().isEmpty(),
-    body('owner_private_key').not().isEmpty(),
-    body('transfer_address').not().isEmpty(),
-    body('amount').not().isEmpty()],
-    async(req,res)=>{
+
+const transferCTVbetweenUsers = async(req,res)=>{
     try{
         //Input field validation
         const errors = validationResult(req);
@@ -559,10 +489,16 @@ router.post('/transferCTVbetweenUsers',
             msg:'There was a problem transferring CTV between the users.'
         })
     }
-});
+}
 
 
+module.exports = {
+    getAccountBalance,
+    getUsersAccountBalance,
+    transferETH,
+    transferCTV,
+    transferCTVToUser,
+    getAllowance,
+    transferCTVbetweenUsers
+}
 
-
-
-module.exports = router;
