@@ -7,6 +7,7 @@ const { body}           =   require("express-validator");
 
 const campsController    =   require('../../controllers/blockchainControllers/campsController');
 const { validateApiSecret,isAuthenticated } =   require("../../middleware/authHelper");
+const xd = require("")
 
 require('dotenv').config();        
 
@@ -15,7 +16,7 @@ require('dotenv').config();
 
 const storage = multer.diskStorage({
     destination: function(req,file,cb){
-        cb(null,(path.join(__dirname,'../../../../../CollectiveMedia/camp')));
+        cb(null,(path.join(__dirname,'../../../../CollectiveMedia/camp')));
     },
     filename:function(req,file,cb){
         const file_name = uuidv4() +".jpg";
