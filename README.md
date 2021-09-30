@@ -21,6 +21,15 @@
 
 <hr>
 
+<h3>Tech Stack</h3>
+<p><b>Flutter</b>    - Android / IOS app</p>
+<p><b>Node.js</b>    - Backend server with MVC architecture hosted on AWS EC2 along with NGINX reverse proxy</p>
+<p><b>MongoDB</b>    - Database hosted on cloud atlas</p>
+<p><b>Blockchain</b> - Ethereum</p>
+<p><b>CTV token </b> - ERC20 token </p>
+
+<hr>
+
 <h3>Collective Screens</h3>
 
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Login.png" alt="Collective" width="40%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Register.png" alt="Collective" width="40%" />
@@ -39,4 +48,32 @@
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/SideMenu.png" alt="Collective" width="40%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Support.png" alt="Collective" width="40%" />
 
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/UserDetails.png" alt="Collective" width="40%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/UserInvestmnet.png" alt="Collective" width="40%" />
+
+<hr>
+
+<h3>How equity crowdfunding works : </h3>
+
+<img src="https://github.com/sagarparker/Collective/blob/main/assets/CollectCrowdfundFlow.png" alt="Collective" width="80%" height="60%"/>
+
+<hr>
+
+
+<h3>How collaboration works : </h3>
+
+<img src="https://github.com/sagarparker/Collective/blob/main/assets/CollectCollaborationFlow.png" alt="Collective" width="80%" height="60%"/>
+
+<hr>
+
+<h3>Future enhancement : </h3>
+
+<ul>
+<li>Migrating to a micro-service based architecture for the backend using RabbitMQ</li>
+<li>Moving all the camp images to IPFS or AWS S3 bucket</li>
+<li>Improving the transaction speeds and costs by migrating to Hedera hashgraph and implementing HTS and HSC 2.0</li> 
+</ul>
+
+<hr>
+
+<h3>Thank you for interest !!<h3>
+
 
