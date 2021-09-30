@@ -51,6 +51,12 @@
 
 <hr>
 
+<h3>High level system design</h3>
+
+<img src="https://github.com/sagarparker/Collective/blob/main/assets/systemdesign.PNG" alt="Collective" width="80%" height="60%"/>
+
+<hr>
+
 <h3>How equity crowdfunding works</h3>
 
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/CollectCrowdfundFlow.png" alt="Collective" width="80%" height="60%"/>
