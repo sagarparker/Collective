@@ -8,5 +8,5 @@
 <hr>
 
 <h3>What makes collective special?</h3>
-<h4>Collective manages crowdfunding with Smart contracts that are deployed on blockchain and provides its users a cross-platform mobile app made with flutter which makes its approach towards crowdfunding truly unique.
-</h4>
+<p>Collective manages crowdfunding with Smart contracts that are deployed on blockchain and provides its users a cross-platform mobile app made with flutter which makes its approach towards crowdfunding truly unique.
+</p>
