@@ -7,7 +7,6 @@ const { body}           =   require("express-validator");
 
 const campsController    =   require('../../controllers/blockchainControllers/campsController');
 const { validateApiSecret,isAuthenticated } =   require("../../middleware/authHelper");
-const xd = require("")
 
 require('dotenv').config();        
 
