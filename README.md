@@ -32,5 +32,11 @@
 
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/CampScreen.png" alt="Collective" width="40%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Invest.png" alt="Collective" width="40%" />
 
-<img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Angels.png" alt="Collective" width="40%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/MoreTab.png" alt="Collective" width="40%" />
+<img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Angels.png" alt="Collective" width="41%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/MoreTab.png" alt="Collective" width="40%" />
+
+<img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Collab.png" alt="Collective" width="40%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Collaborators.png" alt="Collective" width="40%" />
+
+<img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/SideMenu.png" alt="Collective" width="40%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Support.png" alt="Collective" width="40%" />
+
+<img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/UserDetails.png" alt="Collective" width="40%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/UserInvestmnet.png" alt="Collective" width="40%" />
 
