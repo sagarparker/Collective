@@ -51,20 +51,20 @@
 
 <hr>
 
-<h3>How equity crowdfunding works : </h3>
+<h3>How equity crowdfunding works</h3>
 
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/CollectCrowdfundFlow.png" alt="Collective" width="80%" height="60%"/>
 
 <hr>
 
 
-<h3>How collaboration works : </h3>
+<h3>How collaboration works </h3>
 
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/CollectCollaborationFlow.png" alt="Collective" width="80%" height="60%"/>
 
 <hr>
 
-<h3>Future enhancement : </h3>
+<h3>Future enhancement</h3>
 
 <ul>
 <li>Migrating to a micro-service based architecture for the backend using RabbitMQ</li>
