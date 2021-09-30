@@ -75,11 +75,9 @@
 <ul>
 <li>Migrating to a micro-service based architecture for the backend using RabbitMQ.</li>
 <li>Moving all the camp images to IPFS or AWS S3 bucket.</li>
-<li>Improving the transaction speeds and costs by migrating to Hedera hashgraph and implementing HTS and HSC 2.0.</li> 
+<li>Improving the transaction speeds by migrating to Hedera hashgraph and implementing HTS and HSC 2.0.</li> 
 </ul>
 
 <hr>
 
 <h3>Thank you for interest !!<h3>
-
-
