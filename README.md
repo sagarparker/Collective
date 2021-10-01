@@ -8,17 +8,26 @@
 
 <hr>
 
-<h3>Why we need Collective?</h3>
-<p>With an ever increasing entrepreneurial spirit amongst the smartest minds around the globe there is a major problem of finding fundings for their dream projects/startups. Collective allows such individuals and teams to find a <b>collective medium</b> to raise fundings and find talented people who share a common vision for their future.
+<h3>Abstract</h3>
+<p>At present, Crowdfunding source of raising funds typically for startups or projects has gained popularity with most startups resorting to the use of Crowdfunding platforms to raise funds in exchange of equity because it is relatively inexpensive and uncomplicated in nature. In the existing model, Pool of people contribute small amounts of money towards a project or cause and expect some financial returns. The call for a solution to issues related to security, investor abuse and, illegal transactions that could plague crowdfunding has lead me to investigate the implications of blockchain on Crowdfunding. Blockchain technology is a decentralized ledger, more efficient, safe and tamper-proof system of nodes in connection. Introduction of blockchain in crowdfunding will make it more reliable, transparent, trusted, decentralized, cost-efficient and convenient. A crowdfunding platform which was acting as an intermediary before will only provide the technology and its own crypto-currency which will act as a medium of transaction and exchange. I highly anticipate that this project will drive the attention of researchers to delve into the applications of blockchain technology in Crowdfunding practicality.
 </p>
 
 
 <hr>
 
-<h3>What makes Collective special?</h3>
-<p>Collective manages crowdfunding with Smart contracts that are deployed on blockchain and provides its users a cross-platform mobile app made with flutter which makes its approach towards crowdfunding truly unique.
-</p>
-
+<h3>Introduction</h3>
+<ul>
+<li>A global challenge facing start-ups is the raising of the required funds. Although there are many sources of funds available to entrepreneurs who wish to start new businesses or expand existing ones, the challenge of getting inexpensive funding at the right time still remains a challenge in the small business domain. The emergence of crowdfunding as a brainchild of crowd-sourcing provides an alternative form of funding for start-ups.
+</li>
+<br>
+  <li> Collective is an online equity crowdfunding platform managed by smart contracts on Ethereum. The platform enables start-ups and projects to raise funding in return of equity. Individual can invest a relatively small amount of money in-order to receive stake in a company at an early stage hoping to get good returns in the long-term as the startup/project grows. Along with funding, Collective also enables startups/projects to find the required talent for their projects.</li>
+<br>
+  <li>What makes Collective truly unique is its decentralized and autonomous approach towards crowdfunding using smart contract that are deployed on the Ethereum blockchain and a mobile app created using Google’s Flutter which can be used on both Android and IOS.</li>
+<br>
+<li>Startups on the platform can create camps in which normal users can purchase equity by investing CTV ( Collective token ) a ERC20 fungible token exclusive only to the Collective platform. This platform exclusive ERC20 token along with smart contracts enables Collective to tackle the issue of trust and security that plagues all the existing crowdfunding platforms.
+ </li>
+</ul>
+  
 <hr>
 
 <h3>Tech Stack</h3>
