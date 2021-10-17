@@ -29,6 +29,7 @@
     "mongoose": "^5.12.7",
     "multer": "^1.4.2",
     "nodemailer": "^6.6.3",
+    "nodemon": "^2.0.13",
     "path": "^0.12.7",
     "solc": "^0.8.7-fixed",
     "truffle-hdwallet-provider-privkey": "^0.3.0",
