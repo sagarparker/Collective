@@ -14,6 +14,9 @@ class CollabWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        SizedBox(
+          height: 8,
+        ),
         Container(
           width: MediaQuery.of(context).size.width - 40,
           height: 60,

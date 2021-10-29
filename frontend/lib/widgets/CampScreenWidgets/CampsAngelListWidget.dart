@@ -135,7 +135,7 @@ class _CampsAngelListWidgetState extends State<CampsAngelListWidget> {
                                           Theme.of(context).primaryColor,
                                       padding: EdgeInsets.all(0),
                                       content: Container(
-                                        height: 160,
+                                        height: 165,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,

@@ -15,9 +15,15 @@ import 'package:collective/screens/UsersCampScreen.dart';
 import 'package:collective/screens/UsersCollabScreen.dart';
 import 'package:collective/widgets/SplashScreenWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(MyApp());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.white,
+    systemNavigationBarDividerColor: Color.fromRGBO(240, 240, 240, 1),
+    systemNavigationBarIconBrightness: Brightness.dark,
+  ));
 }
 
 class MyApp extends StatelessWidget {

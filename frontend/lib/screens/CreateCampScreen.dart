@@ -191,7 +191,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                       ),
               ),
               Container(
-                height: 445,
+                height: 452,
                 margin: EdgeInsets.only(
                   left: 20,
                   right: 20,
@@ -201,7 +201,7 @@ class _CreateCampScreenState extends State<CreateCampScreen> {
                   child: ListView(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 20),
+                        margin: EdgeInsets.only(top: 30),
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText: 'Camp name',

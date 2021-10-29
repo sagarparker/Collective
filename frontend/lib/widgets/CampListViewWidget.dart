@@ -101,8 +101,9 @@ class CampListViewWidget extends StatelessWidget {
                             child: Text(
                               snapshot.data['details'][index]
                                   ['camp_description'],
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 15.5,
                                 color: Colors.grey[600],
                               ),
                             ),

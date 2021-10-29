@@ -128,6 +128,9 @@ class _InvestWidgetState extends State<InvestWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        SizedBox(
+          height: 8,
+        ),
         Container(
           width: MediaQuery.of(context).size.width - 40,
           height: 60,
@@ -136,7 +139,7 @@ class _InvestWidgetState extends State<InvestWidget> {
           ),
           child: Text(
             widget.snapshot.data["details"]["camp_description"],
-            textAlign: TextAlign.start,
+            textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 17,
               color: Colors.black,

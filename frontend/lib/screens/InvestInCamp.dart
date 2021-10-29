@@ -302,7 +302,7 @@ class _InvestInCampState extends State<InvestInCamp> {
                 padding: EdgeInsets.only(
                   left: 32,
                   right: 32,
-                  top: 8,
+                  top: 25,
                 ),
                 child: Image.asset(
                   'assets/images/InvestInCamp.png',
