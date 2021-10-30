@@ -139,7 +139,7 @@ class _InvestWidgetState extends State<InvestWidget> {
           ),
           child: Text(
             widget.snapshot.data["details"]["camp_description"],
-            textAlign: TextAlign.justify,
+            textAlign: TextAlign.start,
             style: TextStyle(
               fontSize: 17,
               color: Colors.black,
