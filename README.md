@@ -40,6 +40,13 @@
 
 <hr>
 
+<h3>App walkthrough video </h3>
+
+<a href="https://youtu.be/R_I_wwZToWM">https://youtu.be/R_I_wwZToWM</a>
+
+
+<hr>
+
 <h3>Collective Screens</h3>
 
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Login.png" alt="Collective" width="40%" /><img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Register.png" alt="Collective" width="40%" />
