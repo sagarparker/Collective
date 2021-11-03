@@ -42,7 +42,7 @@
 
 <h3>App walkthrough video </h3>
 
-<a href="https://youtu.be/R_I_wwZToWM">https://youtu.be/R_I_wwZToWM</a>
+<a href="https://youtu.be/dtBWU9CF_cI"> https://youtu.be/dtBWU9CF_cI </a>
 
 
 <hr>
