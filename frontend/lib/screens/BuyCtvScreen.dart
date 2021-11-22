@@ -1,6 +1,7 @@
 import 'package:collective/screens/HomeScreen.dart';
 import 'package:collective/widgets/appBarGoBack.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -22,6 +23,13 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarDividerColor: Color.fromRGBO(240, 240, 240, 1),
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ));
+    });
     super.initState();
     setToken();
   }
