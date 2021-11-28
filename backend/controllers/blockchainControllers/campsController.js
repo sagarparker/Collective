@@ -299,7 +299,11 @@ const buyEquity = async(req,res)=>{
         let bytes                =   CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
         let bytes_key            =   bytes.toString(CryptoJS.enc.Utf8).slice(2);
         let owner_private_key    =   Buffer.from(bytes_key,'hex');
-        
+
+        res.status(200).json({
+            result:true,
+            msg:`Transaction in progress this might take some time` 
+        });
 
         ///////////////////////////////////////////////////////////////
         // Transferring ETH(gas) required for the transaction to owner 
@@ -414,11 +418,6 @@ const buyEquity = async(req,res)=>{
         }
 
         console.log(`\nCTV transfered between accounts : ${amount} CTV`);
-        
-        res.status(200).json({
-            result:true,
-            msg:`CTV transfered between accounts : ${amount} CTV` 
-        })  
         
 
         /////////////////////////////////////////////
