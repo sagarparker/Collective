@@ -319,7 +319,7 @@ const buyEquity = async(req,res)=>{
             to:       owner_address,
             value:    web3.utils.toHex(web3.utils.toWei('2000000', 'gwei')),
             gasLimit: web3.utils.toHex(21000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('60', 'gwei')),
         }
     
         // Sign the transaction
