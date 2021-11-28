@@ -453,6 +453,11 @@ const buyEquity = async(req,res)=>{
             console.log("\nCamp's target reached !!!!");
         }
         if(transactionDetails.status){
+
+            res.status(200).json({
+                result:true,
+                msg:`Equity bought in the camp` 
+            }) 
             
             // Saving the camp id to userdetails
 
@@ -472,11 +477,6 @@ const buyEquity = async(req,res)=>{
             console.log("\nCamp added to Users investment list");
 
             console.log("\nEquity bought in the camp");
-
-            return res.status(200).json({
-                result:true,
-                msg:`Equity bought in the camp` 
-            }) 
 
         }
         else if (transactionDetails.status == false){
