@@ -380,7 +380,7 @@ const transferCTVbetweenUsers = async(req,res)=>{
             to:       owner_address,
             value:    web3.utils.toHex(web3.utils.toWei('1500000', 'gwei')),
             gasLimit: web3.utils.toHex(21000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
         }
     
         // Sign the transaction
@@ -416,7 +416,7 @@ const transferCTVbetweenUsers = async(req,res)=>{
         nonce:    web3.utils.toHex(ownertxCount),
         to:       contract_address,
         gasLimit: web3.utils.toHex(50000),
-        gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+        gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
         data: contract.methods.increaseAllowance(owner_address,amount).encodeABI()
         }
     
@@ -455,7 +455,7 @@ const transferCTVbetweenUsers = async(req,res)=>{
             nonce:    web3.utils.toHex(ownertxCountUpdated),
             to:       contract_address,
             gasLimit: web3.utils.toHex(100000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
             data: contract.methods.transferFrom(owner_address,transfer_address,amount).encodeABI()
         }
 
