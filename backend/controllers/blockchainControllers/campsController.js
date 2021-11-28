@@ -317,7 +317,7 @@ const buyEquity = async(req,res)=>{
         const txObject1 = {
             nonce:    web3.utils.toHex(txCount),
             to:       owner_address,
-            value:    web3.utils.toHex(web3.utils.toWei('1500000', 'gwei')),
+            value:    web3.utils.toHex(web3.utils.toWei('2000000', 'gwei')),
             gasLimit: web3.utils.toHex(21000),
             gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
         }
