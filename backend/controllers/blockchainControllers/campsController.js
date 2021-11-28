@@ -271,7 +271,6 @@ const getCampList = async(req,res)=>{
 const buyEquity = async(req,res)=>{
     try{
 
-
         //Input field validation
         
         const errors = validationResult(req);
