@@ -313,14 +313,16 @@ const buyEquity = async(req,res)=>{
 
             console.log(JSON.stringify(response.data));
 
+            res.status(200).json({
+                result:true,
+                msg:'Equity bought in the camp'
+            });
+
             if(response.data.result == true){
 
                 const txCount = await web3.eth.getTransactionCount(account_address);
                 if(!txCount){
-                    return res.status(500).json({
-                        result:false,
-                        msg:'There was a problem in transaction'
-                    })
+                    console.log('There was a problem in transaction');
                 }
                 // Build the transaction
                 const txObject = {
@@ -367,24 +369,16 @@ const buyEquity = async(req,res)=>{
                     }
     
                     console.log("\nCamp added to Users investment list");
+
+                    console.log("\nEquity bought in the camp");
     
-                    res.status(200).json({
-                        result:true,
-                        msg:'Equity bought in the camp'
-                    });
                 }
                 else if (transactionDetails.status == false){
-                    res.status(500).json({
-                        result:false,
-                        msg:'There was a problem buying equity in the camp'
-                    })
+                    console.log('There was a problem buying equity in the camp');
                 }
             }
             else{
-                res.status(500).json({
-                    result:false,
-                    msg:'There was a problem buying equity in the camp'
-                })
+                console.log('There was a problem buying equity in the camp');
             }
           })
           .catch(function (error) {
