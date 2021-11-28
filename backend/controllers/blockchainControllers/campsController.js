@@ -23,11 +23,19 @@ const web3 = new Web3(rpcURL);
 
 const Camps = require('../../build/contracts/Camps.json');
 
+const CTVToken = require('../../build/contracts/CollectiveToken.json');
+
 const contract_address = process.env.camps_contract_address;
+
+const ctv_contract_address = process.env.ctv_contract_address;
 
 const abi = Camps.abi;
 
+const ctvabi = CTVToken.abi;
+
 const contract = new web3.eth.Contract(abi,contract_address);
+
+const ctv_contract = new web3.eth.Contract(ctvabi,ctv_contract_address);
 
 
 
@@ -40,11 +48,13 @@ const contract = new web3.eth.Contract(abi,contract_address);
 
 const account_address = process.env.account_1;
 
+const account_address_1 = process.env.account_1;
+
 // Main private key - token generation
 
 const privateKey = Buffer.from(process.env.privateKey_1,'hex');
 
-
+const privateKey1 = Buffer.from(process.env.privateKey_1,'hex');
 
 const createCamp = async(req,res)=>{
     try{
@@ -280,115 +290,200 @@ const buyEquity = async(req,res)=>{
             });
         }
 
-        const angel_address     =   req.decoded.eth_address;
-        const camp_address      =   req.body.camp_address;
+        const owner_address     =   req.decoded.eth_address;
+        const transfer_address  =   req.body.camp_address;
         const amount            =   req.body.amount;
 
 
-        const buyer_private_key     =   req.decoded.eth_private_key;
-        let bytes                   =   CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
-        let bytes_key               =   bytes.toString(CryptoJS.enc.Utf8).slice(2);
-        let original_private_key    =   Buffer.from(bytes_key,'hex');
+        const buyer_private_key  =   req.decoded.eth_private_key;
+        let bytes                =   CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
+        let bytes_key            =   bytes.toString(CryptoJS.enc.Utf8).slice(2);
+        let owner_private_key    =   Buffer.from(bytes_key,'hex');
         
 
-        var data = JSON.stringify({
-            "owner_address": angel_address,
-            "owner_private_key": original_private_key,
-            "transfer_address": camp_address,
-            "amount": amount
-        });
-          
-        var config = {
-            method: 'post',
-            url: 'http://localhost:8080/api/transferCTVbetweenUsers',
-            headers: { 
-              'Content-Type': 'application/json'
-            },
-            data : data
-        };
-          
-        axios(config)
-          .then(async function (response) {
+        ///////////////////////////////////////////////////////////////
+        // Transferring ETH(gas) required for the transaction to owner 
+        ///////////////////////////////////////////////////////////////
 
-            console.log(JSON.stringify(response.data));
-
-            res.status(200).json({
-                result:true,
-                msg:'Equity bought in the camp'
-            });
-
-            if(response.data.result == true){
-
-                const txCount = await web3.eth.getTransactionCount(account_address);
-                if(!txCount){
-                    console.log('There was a problem in transaction');
-                }
-                // Build the transaction
-                const txObject = {
-                    nonce:    web3.utils.toHex(txCount),
-                    to:       contract_address,
-                    gasLimit: web3.utils.toHex(500000),
-                    gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
-                    data: contract.methods.buyEquity(angel_address,camp_address,amount).encodeABI()
-                }
-            
-                // Sign the transaction
-                const tx = new Tx(txObject,{chain:3})
-                tx.sign(privateKey)
-            
-                const serializedTx = tx.serialize()
-                const raw = '0x' + serializedTx.toString('hex')
-    
-    
-                // Broadcast the transaction
-    
-                const transactionDetails = await web3.eth.sendSignedTransaction(raw);
-                if(transactionDetails.logs.length>0){
-                    const campUpdate = await CampModel.findOneAndUpdate({address:camp_address},{targetReachedDB:true});
-                    if(!campUpdate){
-                        console.log('\nThere was a problem updating the targetReached status');
-                    }
-                    console.log("\nCamp's target reached !!!!");
-                }
-                if(transactionDetails.status){
-                    
-                    // Saving the camp id to userdetails
-
-                    const campDetails = await CampModel.findOne({address:camp_address});
-                    if(!campDetails){
-                        console.log('\nCamp not found');
-                    }
-    
-                    const userDetailsUpdate = await UserDetailsModel.findOneAndUpdate({username:req.decoded.username},{
-                        $addToSet:{camps_invested:campDetails.id}
-                    })
-    
-                    if(!userDetailsUpdate){
-                        console.log('There was a problem updating your investment list');
-                    }
-    
-                    console.log("\nCamp added to Users investment list");
-
-                    console.log("\nEquity bought in the camp");
-
-                    return "Tx completed";
-    
-                }
-                else if (transactionDetails.status == false){
-                    console.log('There was a problem buying equity in the camp');
-                }
-            }
-            else{
-                console.log('There was a problem buying equity in the camp');
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
+        const txCount = await web3.eth.getTransactionCount(account_address_1);
+        if(!txCount){
             return res.status(500).json({
                 result:false,
-                msg:'There was a problem transfering CTV'
+                msg:'There was a problem transferring ETH - gas for the transaction'
             })
-          });
+        }
+
+        // Build the transaction
+        const txObject1 = {
+            nonce:    web3.utils.toHex(txCount),
+            to:       owner_address,
+            value:    web3.utils.toHex(web3.utils.toWei('1500000', 'gwei')),
+            gasLimit: web3.utils.toHex(21000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+        }
+    
+        // Sign the transaction
+        const tx1 = new Tx(txObject1,{chain:3})
+        tx1.sign(privateKey1)
+    
+        const serializedTx1 = tx1.serialize()
+        const raw1 = '0x' + serializedTx1.toString('hex')
+    
+        // Broadcast the transaction
+        const sendTransaction = await web3.eth.sendSignedTransaction(raw1);
+        if(!sendTransaction){
+            return res.status(500).json({
+                result:false,
+                msg:'There was a problem transferring ETH - gas for the transaction'
+            })
+        }
+        console.log('\nETH transfered for the transaction');
+
+
+
+        //////////////////////////////////////////////////////////////
+        // Getting approval for the transaction
+        //////////////////////////////////////////////////////////////
+    
+        const ownertxCount = await web3.eth.getTransactionCount(owner_address);
+        console.log("Approval txCount : "+ownertxCount);
+
+        // Build the transaction
+        const txObject2 = {
+        nonce:    web3.utils.toHex(ownertxCount),
+        to:       ctv_contract_address,
+        gasLimit: web3.utils.toHex(50000),
+        gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+        data: ctv_contract.methods.increaseAllowance(owner_address,amount).encodeABI()
+        }
+    
+        // Sign the transaction
+        const tx2 = new Tx(txObject2,{chain:3})
+        tx2.sign(owner_private_key)
+    
+        const serializedTx2 = tx2.serialize()
+        const raw2 = '0x' + serializedTx2.toString('hex')
+    
+        // Broadcast the transaction
+        const approvalHash = await web3.eth.sendSignedTransaction(raw2);
+
+        if(!approvalHash){
+            return res.status(500).json({
+                result:false,
+                msg:'There was a problem getting approval for transaction'
+            })
+        }
+        
+        console.log("\nTransfer approved");
+
+
+
+        /////////////////////////////////
+        // Transfering CTV between users
+        /////////////////////////////////
+
+
+        const ownertxCountUpdated = await  web3.eth.getTransactionCount(owner_address);
+        console.log("Transfer txCount : "+ownertxCountUpdated);
+
+     
+        // Build the transaction
+        const txObject3 = {  
+            nonce:    web3.utils.toHex(ownertxCountUpdated),
+            to:       ctv_contract_address,
+            gasLimit: web3.utils.toHex(100000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+            data: ctv_contract.methods.transferFrom(owner_address,transfer_address,amount).encodeABI()
+        }
+
+        
+        // Sign the transaction2
+        const tx3 = new Tx(txObject3,{chain:3})
+        tx3.sign(owner_private_key)
+        
+        const serializedTx3 = tx3.serialize()
+        const raw3 = '0x' + serializedTx3.toString('hex')
+        
+        // Broadcast the transaction
+        const finalTransactionHash = await web3.eth.sendSignedTransaction(raw3);
+        if(!finalTransactionHash){
+            return res.status(500).json({
+                result:false,
+                msg:'There was a problem transferring CTV between users.'
+            })
+        }
+
+        console.log(`\nCTV transfered between users : ${amount} CTV`);
+        res.status(200).json({
+            result:true,
+            msg:`CTV transfered between users : ${amount} CTV` 
+        })  
+        
+
+        /////////////////////////////////////////////
+        // Making Changes to the Camps smart contract
+        /////////////////////////////////////////////
+
+        const txCount4 = await web3.eth.getTransactionCount(account_address);
+        if(!txCount4){
+            console.log('There was a problem in transaction');
+        }
+
+        // Build the transaction
+        const txObject4 = {
+            nonce:    web3.utils.toHex(txCount4),
+            to:       contract_address,
+            gasLimit: web3.utils.toHex(500000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+            data: contract.methods.buyEquity(owner_address,transfer_address,amount).encodeABI()
+        }
+    
+        // Sign the transaction
+        const tx4 = new Tx(txObject4,{chain:3})
+        tx4.sign(privateKey)
+    
+        const serializedTx4 = tx4.serialize()
+        const raw4 = '0x' + serializedTx4.toString('hex')
+
+
+        // Broadcast the transaction
+
+        const transactionDetails = await web3.eth.sendSignedTransaction(raw4);
+        if(transactionDetails.logs.length>0){
+            const campUpdate = await CampModel.findOneAndUpdate({address:transfer_address},{targetReachedDB:true});
+            if(!campUpdate){
+                console.log('\nThere was a problem updating the targetReached status');
+            }
+            console.log("\nCamp's target reached !!!!");
+        }
+        if(transactionDetails.status){
+            
+            // Saving the camp id to userdetails
+
+            const campDetails = await CampModel.findOne({address:transfer_address});
+            if(!campDetails){
+                console.log('\nCamp not found');
+            }
+
+            const userDetailsUpdate = await UserDetailsModel.findOneAndUpdate({username:req.decoded.username},{
+                $addToSet:{camps_invested:campDetails.id}
+            })
+
+            if(!userDetailsUpdate){
+                console.log('There was a problem updating your investment list');
+            }
+
+            console.log("\nCamp added to Users investment list");
+
+            console.log("\nEquity bought in the camp");
+
+            return "Tx completed";
+
+        }
+        else if (transactionDetails.status == false){
+            console.log('There was a problem buying equity in the camp');
+        }
+            
     }
     catch(err){
         console.log(err);

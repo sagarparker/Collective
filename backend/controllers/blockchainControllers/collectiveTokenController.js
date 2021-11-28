@@ -477,7 +477,7 @@ const transferCTVbetweenUsers = async(req,res)=>{
         }
 
         console.log(`\nCTV transfered between users : ${amount} CTV`);
-        res.status(200).json({
+        return res.status(200).json({
             result:true,
             msg:`CTV transfered between users : ${amount} CTV` 
         })      
