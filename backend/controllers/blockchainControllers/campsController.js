@@ -414,7 +414,12 @@ const buyEquity = async(req,res)=>{
         }
 
         console.log(`\nCTV transfered between accounts : ${amount} CTV`);
-
+        
+        res.status(200).json({
+            result:true,
+            msg:`CTV transfered between accounts : ${amount} CTV` 
+        })  
+        
 
         /////////////////////////////////////////////
         // Making Changes to the Camps smart contract
@@ -453,11 +458,6 @@ const buyEquity = async(req,res)=>{
             console.log("\nCamp's target reached !!!!");
         }
         if(transactionDetails.status){
-
-            res.status(200).json({
-                result:true,
-                msg:`Equity bought in the camp` 
-            }) 
             
             // Saving the camp id to userdetails
 
@@ -478,13 +478,11 @@ const buyEquity = async(req,res)=>{
 
             console.log("\nEquity bought in the camp");
 
+            return "Tx completed";
+
         }
         else if (transactionDetails.status == false){
             console.log('There was a problem buying equity in the camp');
-            res.status(500).json({
-                result:false,
-                msg:'There was a problem buying equity in the camp'
-            })
         }
             
     }
