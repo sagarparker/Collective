@@ -17,7 +17,7 @@ const CollabModel       =   require("../../models/collabModel");
 //Web3 and contract setup
 ///////////////////////////
 
-const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
+const rpcURL = 'https://ropsten.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 
 const web3 = new Web3(rpcURL);
 
@@ -149,7 +149,7 @@ const createCamp = async(req,res)=>{
         }
     
         // Sign the transaction
-        const tx = new Tx(txObject,{chain:42})
+        const tx = new Tx(txObject,{chain:3})
         tx.sign(privateKey)
     
         const serializedTx = tx.serialize()
@@ -332,7 +332,7 @@ const buyEquity = async(req,res)=>{
                 }
             
                 // Sign the transaction
-                const tx = new Tx(txObject,{chain:42})
+                const tx = new Tx(txObject,{chain:3})
                 tx.sign(privateKey)
             
                 const serializedTx = tx.serialize()

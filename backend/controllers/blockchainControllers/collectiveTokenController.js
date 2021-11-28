@@ -8,7 +8,7 @@ require('dotenv').config();
 //Web3 and contract setup
 ///////////////////////////
 
-const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
+const rpcURL = 'https://ropsten.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 
 const web3 = new Web3(rpcURL);
 
@@ -140,7 +140,7 @@ const transferETH = async(req,res)=>{
         }
     
         // Sign the transaction
-        const tx = new Tx(txObject,{chain:42})
+        const tx = new Tx(txObject,{chain:3})
         tx.sign(privateKey1)
     
         const serializedTx = tx.serialize()
@@ -202,7 +202,7 @@ const transferCTV = async(req,res)=>{
         }
     
         // Sign the transaction
-        const tx = new Tx(txObject,{chain:42})
+        const tx = new Tx(txObject,{chain:3})
         tx.sign(privateKey1)
     
         const serializedTx = tx.serialize()
@@ -264,7 +264,7 @@ const transferCTVToUser = async(req,res)=>{
         }
     
         // Sign the transaction
-        const tx = new Tx(txObject,{chain:42})
+        const tx = new Tx(txObject,{chain:3})
         tx.sign(privateKey1)
     
         const serializedTx = tx.serialize()
@@ -384,7 +384,7 @@ const transferCTVbetweenUsers = async(req,res)=>{
         }
     
         // Sign the transaction
-        const tx1 = new Tx(txObject1,{chain:42})
+        const tx1 = new Tx(txObject1,{chain:3})
         tx1.sign(privateKey1)
     
         const serializedTx1 = tx1.serialize()
@@ -421,7 +421,7 @@ const transferCTVbetweenUsers = async(req,res)=>{
         }
     
         // Sign the transaction
-        const tx2 = new Tx(txObject2,{chain:42})
+        const tx2 = new Tx(txObject2,{chain:3})
         tx2.sign(owner_private_key)
     
         const serializedTx2 = tx2.serialize()
@@ -461,7 +461,7 @@ const transferCTVbetweenUsers = async(req,res)=>{
 
         
         // Sign the transaction2
-        const tx3 = new Tx(txObject3,{chain:42})
+        const tx3 = new Tx(txObject3,{chain:3})
         tx3.sign(owner_private_key)
         
         const serializedTx3 = tx3.serialize()

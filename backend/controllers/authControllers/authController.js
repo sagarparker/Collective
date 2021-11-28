@@ -10,7 +10,7 @@ const {generateToken}       =   require("../../middleware/authHelper");
 
 require('dotenv').config();
 
-const rpcURL = 'https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
+const rpcURL = 'https://ropsten.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
 
 const web3 = new Web3(rpcURL);
 

@@ -6704,6 +6704,26 @@
     "version": "0.8.0+commit.c7dfd78e.Emscripten.clang"
   },
   "networks": {
+    "3": {
+      "events": {
+        "0xa13ac8def81f33998d29b46ff52805497ccd12bc15d76006d7ec0e5982f93efc": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_camp",
+              "type": "address"
+            }
+          ],
+          "name": "targetReachedForCamp",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xE4B033d285Dcc120875d4BD6C99fca4349F649cf",
+      "transactionHash": "0x252853876a0be4743b0460fc140cec10e430130a4652538818f71d96f1e81899"
+    },
     "42": {
       "events": {
         "0x5632677722513346181a87628b856d0101ecaa631036f77d14d1f3c17542f8d3": {
@@ -6759,7 +6779,7 @@
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2021-09-21T05:10:20.265Z",
+  "updatedAt": "2021-11-28T12:57:19.884Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

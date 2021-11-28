@@ -11,17 +11,18 @@ module.exports = {
      port: 7545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     },
-    kovan: {
+    ropsten: {
       provider: function() {
         return new HDWalletProvider(
           privateKeys.split(','),
-          `https://kovan.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39`// Url to an Ethereum Node
+          `https://ropsten.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39`// Url to an Ethereum Node
         )
       },
-      gas:10000000,
-      gasPrice:5000000000,
-      network_id: 42,
-      networkCheckTimeout: 999999
+      network_id: 3,
+      gas: 5500000,     
+      confirmations: 2,    
+      timeoutBlocks: 200, 
+      skipDryRun: true
     }
  
   },
