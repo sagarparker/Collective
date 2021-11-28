@@ -319,7 +319,7 @@ const buyEquity = async(req,res)=>{
             to:       owner_address,
             value:    web3.utils.toHex(web3.utils.toWei('1500000', 'gwei')),
             gasLimit: web3.utils.toHex(21000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('100', 'gwei')),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
         }
     
         // Sign the transaction
@@ -353,7 +353,7 @@ const buyEquity = async(req,res)=>{
         nonce:    web3.utils.toHex(ownertxCount),
         to:       ctv_contract_address,
         gasLimit: web3.utils.toHex(50000),
-        gasPrice: web3.utils.toHex(web3.utils.toWei('100', 'gwei')),
+        gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
         data: ctv_contract.methods.increaseAllowance(owner_address,amount).encodeABI()
         }
     
@@ -392,7 +392,7 @@ const buyEquity = async(req,res)=>{
             nonce:    web3.utils.toHex(ownertxCountUpdated),
             to:       ctv_contract_address,
             gasLimit: web3.utils.toHex(100000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('100', 'gwei')),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
             data: ctv_contract.methods.transferFrom(owner_address,transfer_address,amount).encodeABI()
         }
 
@@ -435,7 +435,7 @@ const buyEquity = async(req,res)=>{
             nonce:    web3.utils.toHex(txCount4),
             to:       contract_address,
             gasLimit: web3.utils.toHex(500000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('100', 'gwei')),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
             data: contract.methods.buyEquity(owner_address,transfer_address,amount).encodeABI()
         }
     
