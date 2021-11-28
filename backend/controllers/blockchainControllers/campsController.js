@@ -144,7 +144,7 @@ const createCamp = async(req,res)=>{
             nonce:    web3.utils.toHex(txCount),
             to:       contract_address,
             gasLimit: web3.utils.toHex(500000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
             data: contract.methods.createCamp(ethAccount.address,camp_target,camp_equity).encodeABI()
         }
     
@@ -327,7 +327,7 @@ const buyEquity = async(req,res)=>{
                     nonce:    web3.utils.toHex(txCount),
                     to:       contract_address,
                     gasLimit: web3.utils.toHex(500000),
-                    gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
+                    gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
                     data: contract.methods.buyEquity(angel_address,camp_address,amount).encodeABI()
                 }
             

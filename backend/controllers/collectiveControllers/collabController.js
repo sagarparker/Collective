@@ -276,7 +276,7 @@ const acceptUsersRequest = async(req,res)=>{
             nonce:    web3.utils.toHex(txCount),
             to:       contract_address,
             gasLimit: web3.utils.toHex(500000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('1', 'gwei')),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
             data: contract.methods.collab(col_address,camp_address,collab_title,collab_amount).encodeABI()
         }
     
