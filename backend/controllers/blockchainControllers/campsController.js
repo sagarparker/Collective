@@ -371,6 +371,8 @@ const buyEquity = async(req,res)=>{
                     console.log("\nCamp added to Users investment list");
 
                     console.log("\nEquity bought in the camp");
+
+                    return "Tx completed";
     
                 }
                 else if (transactionDetails.status == false){
