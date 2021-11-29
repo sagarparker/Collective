@@ -91,11 +91,8 @@ const withdrawAmount = async (req,res)=>{
           }
         })
         .catch(function (error) {
+          console.log("Failed to withdraw amount!");
           console.log(error);
-          return res.status(500).json({
-            msg:"Failed to withdraw amount!",
-            result:false,
-          });
         });
       
 
