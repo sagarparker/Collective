@@ -27,7 +27,7 @@ class _BuyCtvScreenState extends State<BuyCtvScreen> {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
         systemNavigationBarDividerColor: Color.fromRGBO(240, 240, 240, 1),
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: Brightness.light,
       ));
     });
     super.initState();

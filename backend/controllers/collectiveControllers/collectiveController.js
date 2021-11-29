@@ -58,6 +58,10 @@ const withdrawAmount = async (req,res)=>{
         let bytes_key = bytes.toString(CryptoJS.enc.Utf8).slice(2);
         let original_private_key = Buffer.from(bytes_key,'hex');
 
+        res.status(200).json({
+          msg:"Amount withdrawal in-progress",
+          result:true,
+        })
 
 
         var data = JSON.stringify({
@@ -80,16 +84,10 @@ const withdrawAmount = async (req,res)=>{
         .then(async function (response) {
           const userData = await CampModel.findOneAndUpdate({address:owner_address},{amountWithdrawn:true});
           if(userData){
-            res.status(200).json({
-              msg:"Amount withdrawal successful",
-              result:true,
-            })
+            console.log("Amount withdrawal successful");
           }
           else{
-            res.status(404).json({
-              error:"Camp doesnt exits!",
-              result:false
-            })
+            console.log("Camp doesnt exits!");
           }
         })
         .catch(function (error) {

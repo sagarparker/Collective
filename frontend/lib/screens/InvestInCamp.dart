@@ -83,7 +83,7 @@ class _InvestInCampState extends State<InvestInCamp> {
                   bottom: 30,
                 ),
                 child: Text(
-                  'Transaction in progress, this might take some time ...',
+                  'Transaction in progress',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
@@ -103,13 +103,14 @@ class _InvestInCampState extends State<InvestInCamp> {
       (data) {
         if (data['result'] == true) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          Navigator.of(context).pop();
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              duration: Duration(seconds: 10),
               backgroundColor: Theme.of(context).primaryColor,
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(30),
               content: Text(
-                "Investment successful",
+                "Transaction in progress, this might take around 1-2 minutes ...",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 17,
