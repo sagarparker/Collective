@@ -1,3 +1,6 @@
+const Tx        =   require('ethereumjs-tx').Transaction;
+const Web3      =   require('web3');
+const moment    =   require('moment-timezone');
 const CryptoJS  = require("crypto-js");
 const axios     = require("axios");
 const nodemailer = require('nodemailer');
@@ -7,6 +10,35 @@ const UserDetailsModel  = require("../../models/userDetailsModel");
 
 const { validationResult } = require("express-validator");
 require('dotenv').config();
+
+
+///////////////////////////
+//Web3 and contract setup
+///////////////////////////
+
+const rpcURL = 'https://ropsten.infura.io/v3/7a0de82adffe468d8f3c1e2183b37c39';
+
+const web3 = new Web3(rpcURL);
+
+const CTVToken = require('../../build/contracts/CollectiveToken.json');
+
+const ctv_contract_address = process.env.ctv_contract_address;
+
+const ctvabi = CTVToken.abi;
+
+const ctv_contract = new web3.eth.Contract(ctvabi,ctv_contract_address);
+
+////////////////////////////////////
+// Account addresses & Private keys
+////////////////////////////////////
+
+//Main account with which contract is deployed
+
+const account_address_1 = process.env.account_1;
+
+// Main private key - token generation
+
+const privateKey1 = Buffer.from(process.env.privateKey_1,'hex');
 
 
 const getUserDetails = async (req,res)=>{
