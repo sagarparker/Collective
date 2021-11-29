@@ -49,51 +49,142 @@ const withdrawAmount = async (req,res)=>{
         }
 
         const owner_address     =   req.body.owner_address;
-        const owner_private_key =   req.body.owner_private_key;
+        const camp_private_key =   req.body.owner_private_key;
         const transfer_address  =   req.decoded.eth_address;
         const amount            =   req.body.amount;
 
-        const buyer_private_key =   owner_private_key;
-        let bytes  = CryptoJS.AES.decrypt(buyer_private_key, process.env.master_key);
+
+        let bytes  = CryptoJS.AES.decrypt(camp_private_key, process.env.master_key);
         let bytes_key = bytes.toString(CryptoJS.enc.Utf8).slice(2);
-        let original_private_key = Buffer.from(bytes_key,'hex');
+        let owner_private_key = Buffer.from(bytes_key,'hex');
 
         res.status(200).json({
           msg:"Amount withdrawal in-progress",
           result:true,
-        })
+        });
+
+        ///////////////////////////////////////////////////////////////
+        // Transferring ETH(gas) required for the transaction to owner 
+        ///////////////////////////////////////////////////////////////
+
+        const txCount = await web3.eth.getTransactionCount(account_address_1);
+        if(!txCount){
+            return res.status(500).json({
+                result:false,
+                msg:'There was a problem transferring ETH - gas for the transaction'
+            })
+        }
+
+        // Build the transaction
+        const txObject1 = {
+            nonce:    web3.utils.toHex(txCount),
+            to:       owner_address,
+            value:    web3.utils.toHex(web3.utils.toWei('2000000', 'gwei')),
+            gasLimit: web3.utils.toHex(21000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('60', 'gwei')),
+        }
+    
+        // Sign the transaction
+        const tx1 = new Tx(txObject1,{chain:3})
+        tx1.sign(privateKey1)
+    
+        const serializedTx1 = tx1.serialize()
+        const raw1 = '0x' + serializedTx1.toString('hex')
+    
+        // Broadcast the transaction
+        const sendTransaction = await web3.eth.sendSignedTransaction(raw1);
+        if(!sendTransaction){
+            return res.status(500).json({
+                result:false,
+                msg:'There was a problem transferring ETH - gas for the transaction'
+            })
+        }
+        console.log('\nETH transfered for the transaction');
 
 
-        var data = JSON.stringify({
-          "owner_address": owner_address,
-          "owner_private_key": original_private_key,
-          "transfer_address": transfer_address,
-          "amount": amount
-        });
+
+        //////////////////////////////////////////////////////////////
+        // Getting approval for the transaction
+        //////////////////////////////////////////////////////////////
+    
+        const ownertxCount = await web3.eth.getTransactionCount(owner_address);
+        console.log("Approval txCount : "+ownertxCount);
+
+        // Build the transaction
+        const txObject2 = {
+        nonce:    web3.utils.toHex(ownertxCount),
+        to:       ctv_contract_address,
+        gasLimit: web3.utils.toHex(50000),
+        gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+        data: ctv_contract.methods.increaseAllowance(owner_address,amount).encodeABI()
+        }
+    
+        // Sign the transaction
+        const tx2 = new Tx(txObject2,{chain:3})
+        tx2.sign(owner_private_key)
+    
+        const serializedTx2 = tx2.serialize()
+        const raw2 = '0x' + serializedTx2.toString('hex')
+    
+        // Broadcast the transaction
+        const approvalHash = await web3.eth.sendSignedTransaction(raw2);
+
+        if(!approvalHash){
+            return res.status(500).json({
+                result:false,
+                msg:'There was a problem getting approval for transaction'
+            })
+        }
         
-        var config = {
-          method: 'post',
-          url: 'http://localhost:8080/api/transferCTVbetweenUsers',
-          headers: { 
-            'Content-Type': 'application/json'
-          },
-          data : data
-        };
+        console.log("\nTransfer approved");
+
+
+
+        /////////////////////////////////
+        // Transfering CTV between users
+        /////////////////////////////////
+
+
+        const ownertxCountUpdated = await  web3.eth.getTransactionCount(owner_address);
+        console.log("Transfer txCount : "+ownertxCountUpdated);
+
+     
+        // Build the transaction
+        const txObject3 = {  
+            nonce:    web3.utils.toHex(ownertxCountUpdated),
+            to:       ctv_contract_address,
+            gasLimit: web3.utils.toHex(100000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+            data: ctv_contract.methods.transferFrom(owner_address,transfer_address,amount).encodeABI()
+        }
+
         
-        axios(config)
-        .then(async function (response) {
-          const userData = await CampModel.findOneAndUpdate({address:owner_address},{amountWithdrawn:true});
-          if(userData){
-            console.log("Amount withdrawal successful");
-          }
-          else{
-            console.log("Camp doesnt exits!");
-          }
-        })
-        .catch(function (error) {
-          console.log("Failed to withdraw amount!");
-          console.log(error);
-        });
+        // Sign the transaction2
+        const tx3 = new Tx(txObject3,{chain:3})
+        tx3.sign(owner_private_key)
+        
+        const serializedTx3 = tx3.serialize()
+        const raw3 = '0x' + serializedTx3.toString('hex')
+        
+        // Broadcast the transaction
+        const finalTransactionHash = await web3.eth.sendSignedTransaction(raw3);
+        if(!finalTransactionHash){
+            return res.status(500).json({
+                result:false,
+                msg:'There was a problem transferring CTV between users.'
+            })
+        }
+
+        console.log(`\nCTV transfered between accounts : ${amount} CTV`);
+        
+        const userData = await CampModel.findOneAndUpdate({address:owner_address},{amountWithdrawn:true});
+        if(userData){
+          console.log("Amount withdrawal successful");
+        }
+        else{
+          console.log("Camp doesnt exits!");
+        }
+
       
 
     }catch(err){
