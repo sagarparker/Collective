@@ -53,6 +53,9 @@ const getAccountBalance = async(req,res)=>{
 
         const ctvBalance = await contract.methods.balanceOf(req.body.account_address).call();
         const ethBalance = await web3.eth.getBalance(req.body.account_address);
+        const estGasPrice = await web3.eth.getGasPrice()*2;
+        console.log(estGasPrice);
+
 
         if(!ctvBalance || !ethBalance){
             return res.status(500).json({
@@ -122,6 +125,7 @@ const transferETH = async(req,res)=>{
 
         const transfer_address = req.body.transfer_address;
         const amount    =   req.body.amount.toString();
+        const estGasPrice = await web3.eth.getGasPrice()*2;
 
         const txCount = await web3.eth.getTransactionCount(account_address_1);
         if(!txCount){
@@ -136,7 +140,7 @@ const transferETH = async(req,res)=>{
             to:       transfer_address,
             value:    web3.utils.toHex(web3.utils.toWei(amount, 'gwei')),
             gasLimit: web3.utils.toHex(21000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+            gasPrice: web3.utils.toHex(estGasPrice),
         }
     
         // Sign the transaction
@@ -184,6 +188,7 @@ const transferCTV = async(req,res)=>{
 
         const transfer_address = req.body.transfer_address;
         const amount    =   req.body.amount;
+        const estGasPrice = await web3.eth.getGasPrice()*2;
 
         const txCount = await web3.eth.getTransactionCount(account_address_1);
         if(!txCount){
@@ -196,8 +201,8 @@ const transferCTV = async(req,res)=>{
         const txObject = {
             nonce:    web3.utils.toHex(txCount),
             to:       contract_address,
-            gasLimit: web3.utils.toHex(500000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+            gasLimit: web3.utils.toHex(5500000),
+            gasPrice: web3.utils.toHex(estGasPrice),
             data: contract.methods.transfer(transfer_address,amount).encodeABI()
         }
     
@@ -246,6 +251,8 @@ const transferCTVToUser = async(req,res)=>{
 
         const transfer_address = req.decoded.eth_address;
         const amount    =   req.body.amount;
+        const estGasPrice = await web3.eth.getGasPrice()*2;
+
 
         const txCount = await web3.eth.getTransactionCount(account_address_1);
         if(!txCount){
@@ -259,7 +266,7 @@ const transferCTVToUser = async(req,res)=>{
             nonce:    web3.utils.toHex(txCount),
             to:       contract_address,
             gasLimit: web3.utils.toHex(500000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+            gasPrice: web3.utils.toHex(estGasPrice),
             data: contract.methods.transfer(transfer_address,amount).encodeABI()
         }
     
@@ -344,6 +351,7 @@ const getAllowance  =   async(req,res)=>{
 // 3. Send the amount to the transfer address from the CTV owner address
 
 
+
 const transferCTVbetweenUsers = async(req,res)=>{
     try{
         //Input field validation
@@ -358,6 +366,8 @@ const transferCTVbetweenUsers = async(req,res)=>{
         const owner_private_key =   Buffer.from(req.body.owner_private_key,'hex');
         const transfer_address  =   req.body.transfer_address;
         const amount            =   req.body.amount;
+        const estGasPrice = await web3.eth.getGasPrice()*2;
+
 
 
 
@@ -379,8 +389,8 @@ const transferCTVbetweenUsers = async(req,res)=>{
             nonce:    web3.utils.toHex(txCount),
             to:       owner_address,
             value:    web3.utils.toHex(web3.utils.toWei('1500000', 'gwei')),
-            gasLimit: web3.utils.toHex(21000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+            gasLimit: web3.utils.toHex(500000),
+            gasPrice: web3.utils.toHex(estGasPrice),
         }
     
         // Sign the transaction
@@ -415,8 +425,8 @@ const transferCTVbetweenUsers = async(req,res)=>{
         const txObject2 = {
         nonce:    web3.utils.toHex(ownertxCount),
         to:       contract_address,
-        gasLimit: web3.utils.toHex(50000),
-        gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+        gasLimit: web3.utils.toHex(500000),
+        gasPrice: web3.utils.toHex(estGasPrice),
         data: contract.methods.increaseAllowance(owner_address,amount).encodeABI()
         }
     
@@ -454,8 +464,8 @@ const transferCTVbetweenUsers = async(req,res)=>{
         const txObject3 = {  
             nonce:    web3.utils.toHex(ownertxCountUpdated),
             to:       contract_address,
-            gasLimit: web3.utils.toHex(100000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+            gasLimit: web3.utils.toHex(500000),
+            gasPrice: web3.utils.toHex(estGasPrice),
             data: contract.methods.transferFrom(owner_address,transfer_address,amount).encodeABI()
         }
 

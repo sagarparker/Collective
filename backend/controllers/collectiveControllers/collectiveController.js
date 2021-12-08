@@ -89,6 +89,7 @@ const withdrawAmount = async (req,res)=>{
         let bytes  = CryptoJS.AES.decrypt(camp_private_key, process.env.master_key);
         let bytes_key = bytes.toString(CryptoJS.enc.Utf8).slice(2);
         let owner_private_key = Buffer.from(bytes_key,'hex');
+        const estGasPrice = await web3.eth.getGasPrice()*2;
 
         res.status(200).json({
           msg:"Amount withdrawal in-progress",
@@ -112,8 +113,8 @@ const withdrawAmount = async (req,res)=>{
             nonce:    web3.utils.toHex(txCount),
             to:       owner_address,
             value:    web3.utils.toHex(web3.utils.toWei('2000000', 'gwei')),
-            gasLimit: web3.utils.toHex(21000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('60', 'gwei')),
+            gasLimit: web3.utils.toHex(500000),
+            gasPrice: web3.utils.toHex(estGasPrice),
         }
     
         // Sign the transaction
@@ -147,7 +148,7 @@ const withdrawAmount = async (req,res)=>{
         nonce:    web3.utils.toHex(ownertxCount),
         to:       ctv_contract_address,
         gasLimit: web3.utils.toHex(50000),
-        gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+        gasPrice: web3.utils.toHex(estGasPrice),
         data: ctv_contract.methods.increaseAllowance(owner_address,amount).encodeABI()
         }
     
@@ -186,7 +187,7 @@ const withdrawAmount = async (req,res)=>{
             nonce:    web3.utils.toHex(ownertxCountUpdated),
             to:       ctv_contract_address,
             gasLimit: web3.utils.toHex(100000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+            gasPrice: web3.utils.toHex(estGasPrice),
             data: ctv_contract.methods.transferFrom(owner_address,transfer_address,amount).encodeABI()
         }
 

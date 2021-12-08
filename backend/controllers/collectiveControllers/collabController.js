@@ -270,13 +270,15 @@ const acceptUsersRequest = async(req,res)=>{
             collab_amount 
         } = req.body;
 
+        const estGasPrice = await web3.eth.getGasPrice()*2;
+
         // Build the transaction
         
         const txObject = {
             nonce:    web3.utils.toHex(txCount),
             to:       contract_address,
             gasLimit: web3.utils.toHex(500000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+            gasPrice: web3.utils.toHex(estGasPrice),
             data: contract.methods.collab(col_address,camp_address,collab_title,collab_amount).encodeABI()
         }
     

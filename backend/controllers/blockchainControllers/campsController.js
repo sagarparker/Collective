@@ -111,6 +111,8 @@ const createCamp = async(req,res)=>{
         const camp_description  =   req.body.camp_description;
         const long_description  =   req.body.long_description;
         const category          =   req.body.category
+        const estGasPrice       =   await web3.eth.getGasPrice()*2;
+
 
 
         // Checking if the camp name already exists
@@ -154,7 +156,7 @@ const createCamp = async(req,res)=>{
             nonce:    web3.utils.toHex(txCount),
             to:       contract_address,
             gasLimit: web3.utils.toHex(500000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+            gasPrice: web3.utils.toHex(estGasPrice),
             data: contract.methods.createCamp(ethAccount.address,camp_target,camp_equity).encodeABI()
         }
     
@@ -278,6 +280,18 @@ const getCampList = async(req,res)=>{
 }
 
 
+////////////////////
+/// BUY EQUITY API
+///////////////////
+
+/// How the API works
+
+// 1. Start with sending required ETH (gas) from the master account to CTV owner account
+// 2. Approve the transaction amount
+// 3. Send the amount to the transfer address from the CTV owner address
+// 4. Update the Camps SC
+
+
 const buyEquity = async(req,res)=>{
     try{
 
@@ -293,6 +307,8 @@ const buyEquity = async(req,res)=>{
         const owner_address     =   req.decoded.eth_address;
         const transfer_address  =   req.body.camp_address;
         const amount            =   req.body.amount;
+        const estGasPrice       =   await web3.eth.getGasPrice()*2;
+
 
 
         const buyer_private_key  =   req.decoded.eth_private_key;
@@ -322,8 +338,8 @@ const buyEquity = async(req,res)=>{
             nonce:    web3.utils.toHex(txCount),
             to:       owner_address,
             value:    web3.utils.toHex(web3.utils.toWei('2000000', 'gwei')),
-            gasLimit: web3.utils.toHex(21000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('60', 'gwei')),
+            gasLimit: web3.utils.toHex(500000),
+            gasPrice: web3.utils.toHex(estGasPrice),
         }
     
         // Sign the transaction
@@ -356,8 +372,8 @@ const buyEquity = async(req,res)=>{
         const txObject2 = {
         nonce:    web3.utils.toHex(ownertxCount),
         to:       ctv_contract_address,
-        gasLimit: web3.utils.toHex(50000),
-        gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+        gasLimit: web3.utils.toHex(500000),
+        gasPrice: web3.utils.toHex(estGasPrice),
         data: ctv_contract.methods.increaseAllowance(owner_address,amount).encodeABI()
         }
     
@@ -396,7 +412,7 @@ const buyEquity = async(req,res)=>{
             nonce:    web3.utils.toHex(ownertxCountUpdated),
             to:       ctv_contract_address,
             gasLimit: web3.utils.toHex(100000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+            gasPrice: web3.utils.toHex(estGasPrice),
             data: ctv_contract.methods.transferFrom(owner_address,transfer_address,amount).encodeABI()
         }
 
@@ -434,7 +450,7 @@ const buyEquity = async(req,res)=>{
             nonce:    web3.utils.toHex(txCount4),
             to:       contract_address,
             gasLimit: web3.utils.toHex(500000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+            gasPrice: web3.utils.toHex(estGasPrice),
             data: contract.methods.buyEquity(owner_address,transfer_address,amount).encodeABI()
         }
     
