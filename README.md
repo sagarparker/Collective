@@ -9,7 +9,7 @@
 <hr>
 
 <h3>Abstract</h3>
-<p>At present, Crowdfunding source of raising funds typically for startups or projects has gained popularity with most startups resorting to the use of Crowdfunding platforms to raise funds in exchange of equity because it is relatively inexpensive and uncomplicated in nature. In the existing model, Pool of people contribute small amounts of money towards a project or cause and expect some financial returns. The call for a solution to issues related to security, investor abuse and, illegal transactions that could plague crowdfunding has lead me to investigate the implications of blockchain on Crowdfunding.
+<p>At present, Crowdfunding source of raising funds typically for startups or projects has gained popularity with most startups resorting to the use of Crowdfunding platforms to raise funds in exchange of equity because it is relatively inexpensive and uncomplicated in nature. In the existing model, Pool of people contribute small amounts of money towards a project or cause and expect some financial returns. The call for a solution to issues related to security, investor abuse and, illegal transactions that could plague crowdfunding has lead me to investigate the implications of blockchain in Crowdfunding.
 </p>
 
 
