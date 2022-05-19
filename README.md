@@ -1,5 +1,7 @@
 <h2>Collective</h2>
 
+<h3>Polygon web3 #BUIDLIT hackathon prize pool winner.</h3>
+
 
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Cover.png" alt="Collective" width="100%" height="60%"/>
 
