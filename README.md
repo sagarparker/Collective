@@ -1,8 +1,5 @@
 <h2>Collective</h2>
 
-<h3>Polygon web3 #BUIDLIT hackathon prize pool winner.</h3>
-
-
 <img src="https://github.com/sagarparker/Collective/blob/main/assets/ScreenShots/Cover.png" alt="Collective" width="100%" height="60%"/>
 
 <h3>An equity crowdfunding app managed with smart contracts that allows users to invest in projects with crypto in return of equity.</h3>
